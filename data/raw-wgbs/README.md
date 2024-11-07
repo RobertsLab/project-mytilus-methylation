@@ -9,6 +9,19 @@ Data can be downloaded from:
 
 Download all files and corresponding checksums with the following:
 
+1.
+
+```bash
+wget \
+--recursive \
+--level=1 \
+--no-directories \
+--accept "[0-9]M*.fastq.gz,[0-9]M*.fastq.gz.md5sum" \
+https://owl.fish.washington.edu/nightingales/M_trossulus/
+```
+
+2.
+
 ```bash
 wget https://owl.fish.washington.edu/nightingales/M_trossulus/105M_1.fastq.gz
 wget https://owl.fish.washington.edu/nightingales/M_trossulus/105M_1.fastq.gz.md5sum
