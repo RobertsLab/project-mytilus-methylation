@@ -54,9 +54,10 @@ echo "#### Assign Variables ####"
 echo ""
 
 echo "# Data directories"
-echo 'export output_dir_top=../output/00.10-trimming-fastp-FastQC-MultiQC'
-echo 'export raw_reads_dir="../data/raw-wgbs"'
-echo 'export raw_reads_url="https://owl.fish.washington.edu/nightingales/E5-coral-time-series/30-1047560508/"'
+echo 'export repo_dir="/gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation"'
+echo 'export output_dir_top="${repo_dir}/output/00.10-trimming-fastp-FastQC-MultiQC"'
+echo 'export raw_reads_dir="${repo_dir}/data/raw-wgbs"'
+echo 'export raw_reads_url="https://owl.fish.washington.edu/nightingales/M_trossulus/"'
 echo 'export trimmed_fastqs_dir=${output_dir_top}/trimmed-fastqs'
 echo 'export trimmed_fastqc_dir=${output_dir_top}/trimmed-fastqc'
 echo ""
@@ -168,9 +169,11 @@ done
 # Create list of fastq files used in analysis
 # Create MD5 checksum for reference
 if [ ! -f "${output_dir_top}"/raw-fastq-checksums.md5 ]; then
-for fastq in *.gz
-  do
-    md5sum ${fastq} >> "${output_dir_top}"/raw-fastq-checksums.md5
+  for fastq in *.gz
+    do
+      echo "${fastq}"
+      echo ""
+      md5sum "${fastq}" >>"${output_dir_top}"/raw-fastq-checksums.md5
   done
 fi
 
@@ -180,7 +183,9 @@ for index in "${!fastq_array_R1[@]}"
 do
   R1_sample_name=$(echo "${R1_names_array[index]}")
   R2_sample_name=$(echo "${R2_names_array[index]}")
-  ${fastp} \
+  echo "${R1_sample_name}"
+  echo ""
+  fastp \
   --in1 ${fastq_array_R1[index]} \
   --in2 ${fastq_array_R2[index]} \
   --detect_adapter_for_pe \
