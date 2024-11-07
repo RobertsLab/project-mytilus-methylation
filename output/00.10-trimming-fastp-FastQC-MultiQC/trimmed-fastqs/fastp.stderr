@@ -1,0 +1,1176 @@
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 92976446
+total bases: 14039443346
+Q20 bases: 13749507158(97.9348%)
+Q30 bases: 13239362279(94.3012%)
+
+Read2 before filtering:
+total reads: 92976446
+total bases: 14039443346
+Q20 bases: 13727547689(97.7784%)
+Q30 bases: 13232682059(94.2536%)
+
+Read1 after filtering:
+total reads: 92046634
+total bases: 11872420674
+Q20 bases: 11645789102(98.0911%)
+Q30 bases: 11236841565(94.6466%)
+
+Read2 after filtering:
+total reads: 92046634
+total bases: 11885456424
+Q20 bases: 11657935651(98.0857%)
+Q30 bases: 11247934562(94.6361%)
+
+Filtering result:
+reads passed filter: 184093268
+reads failed due to low quality: 1732396
+reads failed due to too many N: 44018
+reads failed due to too short: 83210
+reads with adapter trimmed: 37312441
+bases trimmed due to adapters: 365638981
+
+Duplication rate: 6.48344%
+
+Insert size peak (evaluated by paired-end reads): 187
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/105M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/105M.fastp-trim.report.html
+
+fastp --in1 105M_1.fastq.gz --in2 105M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/105M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/105M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/105M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/105M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 220 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 88285661
+total bases: 13331134811
+Q20 bases: 13060431619(97.9694%)
+Q30 bases: 12598762583(94.5063%)
+
+Read2 before filtering:
+total reads: 88285661
+total bases: 13331134811
+Q20 bases: 13041494074(97.8273%)
+Q30 bases: 12587297889(94.4203%)
+
+Read1 after filtering:
+total reads: 87376764
+total bases: 11297830795
+Q20 bases: 11086617689(98.1305%)
+Q30 bases: 10716373603(94.8534%)
+
+Read2 after filtering:
+total reads: 87376764
+total bases: 11308647713
+Q20 bases: 11094746579(98.1085%)
+Q30 bases: 10716340756(94.7624%)
+
+Filtering result:
+reads passed filter: 174753528
+reads failed due to low quality: 1706350
+reads failed due to too many N: 41350
+reads failed due to too short: 70094
+reads with adapter trimmed: 29551345
+bases trimmed due to adapters: 292051932
+
+Duplication rate: 9.597%
+
+Insert size peak (evaluated by paired-end reads): 189
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/106M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/106M.fastp-trim.report.html
+
+fastp --in1 106M_1.fastq.gz --in2 106M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/106M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/106M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/106M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/106M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 204 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 94606480
+total bases: 14285578480
+Q20 bases: 13994044252(97.9592%)
+Q30 bases: 13491254963(94.4397%)
+
+Read2 before filtering:
+total reads: 94606480
+total bases: 14285578480
+Q20 bases: 13972738029(97.8101%)
+Q30 bases: 13482687228(94.3797%)
+
+Read1 after filtering:
+total reads: 93644807
+total bases: 12083308377
+Q20 bases: 11857191727(98.1287%)
+Q30 bases: 11454339478(94.7947%)
+
+Read2 after filtering:
+total reads: 93644807
+total bases: 12096764614
+Q20 bases: 11868419176(98.1123%)
+Q30 bases: 11462213675(94.7544%)
+
+Filtering result:
+reads passed filter: 187289614
+reads failed due to low quality: 1786750
+reads failed due to too many N: 45440
+reads failed due to too short: 91156
+reads with adapter trimmed: 35019878
+bases trimmed due to adapters: 362408174
+
+Duplication rate: 8.08397%
+
+Insert size peak (evaluated by paired-end reads): 184
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/107M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/107M.fastp-trim.report.html
+
+fastp --in1 107M_1.fastq.gz --in2 107M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/107M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/107M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/107M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/107M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 220 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 93271100
+total bases: 14083936100
+Q20 bases: 13790970810(97.9199%)
+Q30 bases: 13272715295(94.2401%)
+
+Read2 before filtering:
+total reads: 93271100
+total bases: 14083936100
+Q20 bases: 13770243973(97.7727%)
+Q30 bases: 13268515380(94.2103%)
+
+Read1 after filtering:
+total reads: 92317454
+total bases: 11938398229
+Q20 bases: 11708907065(98.0777%)
+Q30 bases: 11291944272(94.5851%)
+
+Read2 after filtering:
+total reads: 92317454
+total bases: 11950120989
+Q20 bases: 11716221230(98.0427%)
+Q30 bases: 11295943241(94.5258%)
+
+Filtering result:
+reads passed filter: 184634908
+reads failed due to low quality: 1789070
+reads failed due to too many N: 45030
+reads failed due to too short: 73192
+reads with adapter trimmed: 31028905
+bases trimmed due to adapters: 304505537
+
+Duplication rate: 7.69938%
+
+Insert size peak (evaluated by paired-end reads): 188
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/109M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/109M.fastp-trim.report.html
+
+fastp --in1 109M_1.fastq.gz --in2 109M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/109M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/109M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/109M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/109M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 219 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 108112211
+total bases: 16324943861
+Q20 bases: 15992519062(97.9637%)
+Q30 bases: 15409212899(94.3906%)
+
+Read2 before filtering:
+total reads: 108112211
+total bases: 16324943861
+Q20 bases: 15968049015(97.8138%)
+Q30 bases: 15414643502(94.4239%)
+
+Read1 after filtering:
+total reads: 107036137
+total bases: 13742585622
+Q20 bases: 13486567018(98.137%)
+Q30 bases: 13022218264(94.7581%)
+
+Read2 after filtering:
+total reads: 107036137
+total bases: 13761255663
+Q20 bases: 13511298749(98.1836%)
+Q30 bases: 13062931695(94.9254%)
+
+Filtering result:
+reads passed filter: 214072274
+reads failed due to low quality: 1979626
+reads failed due to too many N: 53332
+reads failed due to too short: 119190
+reads with adapter trimmed: 49686779
+bases trimmed due to adapters: 549752361
+
+Duplication rate: 7.69416%
+
+Insert size peak (evaluated by paired-end reads): 178
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/239M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/239M.fastp-trim.report.html
+
+fastp --in1 239M_1.fastq.gz --in2 239M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/239M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/239M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/239M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/239M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 250 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 88519096
+total bases: 13366383496
+Q20 bases: 13095619683(97.9743%)
+Q30 bases: 12624534079(94.4499%)
+
+Read2 before filtering:
+total reads: 88519096
+total bases: 13366383496
+Q20 bases: 13066766072(97.7584%)
+Q30 bases: 12602849410(94.2877%)
+
+Read1 after filtering:
+total reads: 87578771
+total bases: 11272164345
+Q20 bases: 11065517911(98.1668%)
+Q30 bases: 10692242456(94.8553%)
+
+Read2 after filtering:
+total reads: 87578771
+total bases: 11283606609
+Q20 bases: 11070516168(98.1115%)
+Q30 bases: 10690447216(94.7432%)
+
+Filtering result:
+reads passed filter: 175157542
+reads failed due to low quality: 1777914
+reads failed due to too many N: 44534
+reads failed due to too short: 58202
+reads with adapter trimmed: 41113028
+bases trimmed due to adapters: 395182650
+
+Duplication rate: 6.24453%
+
+Insert size peak (evaluated by paired-end reads): 185
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/240M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/240M.fastp-trim.report.html
+
+fastp --in1 240M_1.fastq.gz --in2 240M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/240M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/240M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/240M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/240M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 208 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 87063380
+total bases: 13146570380
+Q20 bases: 12885318541(98.0128%)
+Q30 bases: 12423030271(94.4964%)
+
+Read2 before filtering:
+total reads: 87063380
+total bases: 13146570380
+Q20 bases: 12869362708(97.8914%)
+Q30 bases: 12426463213(94.5225%)
+
+Read1 after filtering:
+total reads: 86216365
+total bases: 11115083586
+Q20 bases: 10912923069(98.1812%)
+Q30 bases: 10542726017(94.8506%)
+
+Read2 after filtering:
+total reads: 86216365
+total bases: 11125290194
+Q20 bases: 10923846921(98.1893%)
+Q30 bases: 10558917971(94.9091%)
+
+Filtering result:
+reads passed filter: 172432730
+reads failed due to low quality: 1593512
+reads failed due to too many N: 43840
+reads failed due to too short: 56678
+reads with adapter trimmed: 39193340
+bases trimmed due to adapters: 353450994
+
+Duplication rate: 6.12164%
+
+Insert size peak (evaluated by paired-end reads): 187
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/241M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/241M.fastp-trim.report.html
+
+fastp --in1 241M_1.fastq.gz --in2 241M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/241M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/241M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/241M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/241M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 205 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 86793768
+total bases: 13105858968
+Q20 bases: 12849507751(98.044%)
+Q30 bases: 12406397188(94.663%)
+
+Read2 before filtering:
+total reads: 86793768
+total bases: 13105858968
+Q20 bases: 12837094923(97.9493%)
+Q30 bases: 12424825118(94.8036%)
+
+Read1 after filtering:
+total reads: 85898735
+total bases: 11015921621
+Q20 bases: 10821715770(98.237%)
+Q30 bases: 10471937947(95.0618%)
+
+Read2 after filtering:
+total reads: 85898735
+total bases: 11025949272
+Q20 bases: 10841444264(98.3266%)
+Q30 bases: 10509264911(95.3139%)
+
+Filtering result:
+reads passed filter: 171797470
+reads failed due to low quality: 1699016
+reads failed due to too many N: 45162
+reads failed due to too short: 45888
+reads with adapter trimmed: 54911828
+bases trimmed due to adapters: 468588498
+
+Duplication rate: 5.21912%
+
+Insert size peak (evaluated by paired-end reads): 173
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/242M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/242M.fastp-trim.report.html
+
+fastp --in1 242M_1.fastq.gz --in2 242M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/242M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/242M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/242M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/242M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 204 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 97006834
+total bases: 14648031934
+Q20 bases: 14350135333(97.9663%)
+Q30 bases: 13824470100(94.3777%)
+
+Read2 before filtering:
+total reads: 97006834
+total bases: 14648031934
+Q20 bases: 14339851118(97.8961%)
+Q30 bases: 13856677869(94.5975%)
+
+Read1 after filtering:
+total reads: 96042449
+total bases: 12363194411
+Q20 bases: 12132746567(98.136%)
+Q30 bases: 11710439891(94.7202%)
+
+Read2 after filtering:
+total reads: 96042449
+total bases: 12377406168
+Q20 bases: 12157491363(98.2233%)
+Q30 bases: 11762631472(95.0331%)
+
+Filtering result:
+reads passed filter: 192084898
+reads failed due to low quality: 1792032
+reads failed due to too many N: 45792
+reads failed due to too short: 90946
+reads with adapter trimmed: 41401231
+bases trimmed due to adapters: 430160499
+
+Duplication rate: 6.59791%
+
+Insert size peak (evaluated by paired-end reads): 181
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/269M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/269M.fastp-trim.report.html
+
+fastp --in1 269M_1.fastq.gz --in2 269M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/269M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/269M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/269M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/269M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 225 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 100010641
+total bases: 15101606791
+Q20 bases: 14799560524(97.9999%)
+Q30 bases: 14273365377(94.5155%)
+
+Read2 before filtering:
+total reads: 100010641
+total bases: 15101606791
+Q20 bases: 14780827020(97.8759%)
+Q30 bases: 14284150597(94.587%)
+
+Read1 after filtering:
+total reads: 99002878
+total bases: 12726664896
+Q20 bases: 12496373148(98.1905%)
+Q30 bases: 12077433072(94.8986%)
+
+Read2 after filtering:
+total reads: 99002878
+total bases: 12742613412
+Q20 bases: 12516427918(98.225%)
+Q30 bases: 12113140594(95.0601%)
+
+Filtering result:
+reads passed filter: 198005756
+reads failed due to low quality: 1863042
+reads failed due to too many N: 45836
+reads failed due to too short: 106648
+reads with adapter trimmed: 44686931
+bases trimmed due to adapters: 478524238
+
+Duplication rate: 7.07693%
+
+Insert size peak (evaluated by paired-end reads): 179
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/270M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/270M.fastp-trim.report.html
+
+fastp --in1 270M_1.fastq.gz --in2 270M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/270M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/270M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/270M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/270M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 232 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 91576586
+total bases: 13828064486
+Q20 bases: 13540317436(97.9191%)
+Q30 bases: 13039859074(94.3%)
+
+Read2 before filtering:
+total reads: 91576586
+total bases: 13828064486
+Q20 bases: 13503303421(97.6514%)
+Q30 bases: 12995571908(93.9797%)
+
+Read1 after filtering:
+total reads: 90544317
+total bases: 11658447041
+Q20 bases: 11439956075(98.1259%)
+Q30 bases: 11044743012(94.736%)
+
+Read2 after filtering:
+total reads: 90544317
+total bases: 11672682467
+Q20 bases: 11438524072(97.994%)
+Q30 bases: 11020676969(94.4143%)
+
+Filtering result:
+reads passed filter: 181088634
+reads failed due to low quality: 1923558
+reads failed due to too many N: 44416
+reads failed due to too short: 96564
+reads with adapter trimmed: 37730772
+bases trimmed due to adapters: 399385879
+
+Duplication rate: 7.33313%
+
+Insert size peak (evaluated by paired-end reads): 181
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/271M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/271M.fastp-trim.report.html
+
+fastp --in1 271M_1.fastq.gz --in2 271M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/271M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/271M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/271M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/271M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 215 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 90421884
+total bases: 13653704484
+Q20 bases: 13366736310(97.8982%)
+Q30 bases: 12854514586(94.1467%)
+
+Read2 before filtering:
+total reads: 90421884
+total bases: 13653704484
+Q20 bases: 13344441984(97.735%)
+Q30 bases: 12849027242(94.1065%)
+
+Read1 after filtering:
+total reads: 89521685
+total bases: 11539313411
+Q20 bases: 11314710401(98.0536%)
+Q30 bases: 10903025471(94.4859%)
+
+Read2 after filtering:
+total reads: 89521685
+total bases: 11551736555
+Q20 bases: 11322915114(98.0192%)
+Q30 bases: 10911062446(94.4539%)
+
+Filtering result:
+reads passed filter: 179043370
+reads failed due to low quality: 1674012
+reads failed due to too many N: 43896
+reads failed due to too short: 82490
+reads with adapter trimmed: 36546893
+bases trimmed due to adapters: 370513448
+
+Duplication rate: 6.88597%
+
+Insert size peak (evaluated by paired-end reads): 183
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/272M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/272M.fastp-trim.report.html
+
+fastp --in1 272M_1.fastq.gz --in2 272M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/272M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/272M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/272M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/272M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 213 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 94269102
+total bases: 14234634402
+Q20 bases: 13945190350(97.9666%)
+Q30 bases: 13435440185(94.3856%)
+
+Read2 before filtering:
+total reads: 94269102
+total bases: 14234634402
+Q20 bases: 13935600983(97.8993%)
+Q30 bases: 13467098233(94.608%)
+
+Read1 after filtering:
+total reads: 93353347
+total bases: 12009692170
+Q20 bases: 11785225596(98.131%)
+Q30 bases: 11377716531(94.7378%)
+
+Read2 after filtering:
+total reads: 93353347
+total bases: 12024025197
+Q20 bases: 11811450024(98.2321%)
+Q30 bases: 11430003025(95.0597%)
+
+Filtering result:
+reads passed filter: 186706694
+reads failed due to low quality: 1705444
+reads failed due to too many N: 46070
+reads failed due to too short: 79996
+reads with adapter trimmed: 44234568
+bases trimmed due to adapters: 432013213
+
+Duplication rate: 6.17706%
+
+Insert size peak (evaluated by paired-end reads): 186
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/69M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/69M.fastp-trim.report.html
+
+fastp --in1 69M_1.fastq.gz --in2 69M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/69M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/69M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/69M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/69M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 221 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 94386082
+total bases: 14252298382
+Q20 bases: 13958710305(97.9401%)
+Q30 bases: 13452322189(94.387%)
+
+Read2 before filtering:
+total reads: 94386082
+total bases: 14252298382
+Q20 bases: 13929425070(97.7346%)
+Q30 bases: 13426388700(94.2051%)
+
+Read1 after filtering:
+total reads: 93344927
+total bases: 12030548388
+Q20 bases: 11806888582(98.1409%)
+Q30 bases: 11406404316(94.812%)
+
+Read2 after filtering:
+total reads: 93344927
+total bases: 12042381029
+Q20 bases: 11810328127(98.073%)
+Q30 bases: 11395895817(94.6316%)
+
+Filtering result:
+reads passed filter: 186689854
+reads failed due to low quality: 1972156
+reads failed due to too many N: 46158
+reads failed due to too short: 63996
+reads with adapter trimmed: 40848649
+bases trimmed due to adapters: 389288869
+
+Duplication rate: 6.82069%
+
+Insert size peak (evaluated by paired-end reads): 189
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/70M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/70M.fastp-trim.report.html
+
+fastp --in1 70M_1.fastq.gz --in2 70M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/70M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/70M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/70M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/70M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 222 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 90830281
+total bases: 13715372431
+Q20 bases: 13444707291(98.0266%)
+Q30 bases: 12977283963(94.6185%)
+
+Read2 before filtering:
+total reads: 90830281
+total bases: 13715372431
+Q20 bases: 13429565816(97.9162%)
+Q30 bases: 12985447752(94.6781%)
+
+Read1 after filtering:
+total reads: 89919803
+total bases: 11620914755
+Q20 bases: 11410739859(98.1914%)
+Q30 bases: 11036514321(94.9711%)
+
+Read2 after filtering:
+total reads: 89919803
+total bases: 11631015181
+Q20 bases: 11422961425(98.2112%)
+Q30 bases: 11054605319(95.0442%)
+
+Filtering result:
+reads passed filter: 179839606
+reads failed due to low quality: 1720632
+reads failed due to too many N: 46150
+reads failed due to too short: 54174
+reads with adapter trimmed: 34008935
+bases trimmed due to adapters: 311879999
+
+Duplication rate: 7.29008%
+
+Insert size peak (evaluated by paired-end reads): 185
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/71M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/71M.fastp-trim.report.html
+
+fastp --in1 71M_1.fastq.gz --in2 71M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/71M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/71M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/71M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/71M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 211 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 92276951
+total bases: 13933819601
+Q20 bases: 13655845311(98.005%)
+Q30 bases: 13178968356(94.5826%)
+
+Read2 before filtering:
+total reads: 92276951
+total bases: 13933819601
+Q20 bases: 13627122408(97.7989%)
+Q30 bases: 13149932549(94.3742%)
+
+Read1 after filtering:
+total reads: 91280527
+total bases: 11802972959
+Q20 bases: 11588372674(98.1818%)
+Q30 bases: 11208349095(94.9621%)
+
+Read2 after filtering:
+total reads: 91280527
+total bases: 11813157640
+Q20 bases: 11589357430(98.1055%)
+Q30 bases: 11193505780(94.7546%)
+
+Filtering result:
+reads passed filter: 182561054
+reads failed due to low quality: 1890306
+reads failed due to too many N: 44698
+reads failed due to too short: 57844
+reads with adapter trimmed: 33070772
+bases trimmed due to adapters: 304338758
+
+Duplication rate: 7.90738%
+
+Insert size peak (evaluated by paired-end reads): 187
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/72M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/72M.fastp-trim.report.html
+
+fastp --in1 72M_1.fastq.gz --in2 72M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/72M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/72M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/72M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/72M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 215 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 98070870
+total bases: 14808701370
+Q20 bases: 14496150612(97.8894%)
+Q30 bases: 13954588483(94.2324%)
+
+Read2 before filtering:
+total reads: 98070870
+total bases: 14808701370
+Q20 bases: 14478880129(97.7728%)
+Q30 bases: 13960643060(94.2732%)
+
+Read1 after filtering:
+total reads: 97080726
+total bases: 12546807008
+Q20 bases: 12302138516(98.05%)
+Q30 bases: 11867750247(94.5878%)
+
+Read2 after filtering:
+total reads: 97080726
+total bases: 12557844245
+Q20 bases: 12315783841(98.0724%)
+Q30 bases: 11884530894(94.6383%)
+
+Filtering result:
+reads passed filter: 194161452
+reads failed due to low quality: 1877684
+reads failed due to too many N: 42386
+reads failed due to too short: 60218
+reads with adapter trimmed: 36246442
+bases trimmed due to adapters: 335972796
+
+Duplication rate: 7.76697%
+
+Insert size peak (evaluated by paired-end reads): 189
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/78M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/78M.fastp-trim.report.html
+
+fastp --in1 78M_1.fastq.gz --in2 78M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/78M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/78M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/78M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/78M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 230 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 89087341
+total bases: 13452188491
+Q20 bases: 13168749520(97.893%)
+Q30 bases: 12664349703(94.1434%)
+
+Read2 before filtering:
+total reads: 89087341
+total bases: 13452188491
+Q20 bases: 13146974661(97.7311%)
+Q30 bases: 12656669920(94.0863%)
+
+Read1 after filtering:
+total reads: 88168089
+total bases: 11388069615
+Q20 bases: 11167212143(98.0606%)
+Q30 bases: 10762511930(94.5069%)
+
+Read2 after filtering:
+total reads: 88168089
+total bases: 11399764471
+Q20 bases: 11172878600(98.0097%)
+Q30 bases: 10763505607(94.4187%)
+
+Filtering result:
+reads passed filter: 176336178
+reads failed due to low quality: 1724120
+reads failed due to too many N: 43794
+reads failed due to too short: 70590
+reads with adapter trimmed: 33326387
+bases trimmed due to adapters: 317992357
+
+Duplication rate: 6.33854%
+
+Insert size peak (evaluated by paired-end reads): 184
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/79M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/79M.fastp-trim.report.html
+
+fastp --in1 79M_1.fastq.gz --in2 79M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/79M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/79M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/79M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/79M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 211 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 92793428
+total bases: 14011807628
+Q20 bases: 13724352626(97.9485%)
+Q30 bases: 13222919820(94.3698%)
+
+Read2 before filtering:
+total reads: 92793428
+total bases: 14011807628
+Q20 bases: 13709510076(97.8426%)
+Q30 bases: 13234026068(94.4491%)
+
+Read1 after filtering:
+total reads: 91833544
+total bases: 11854541248
+Q20 bases: 11632312806(98.1254%)
+Q30 bases: 11231326504(94.7428%)
+
+Read2 after filtering:
+total reads: 91833544
+total bases: 11865974307
+Q20 bases: 11645116419(98.1387%)
+Q30 bases: 11250404912(94.8123%)
+
+Filtering result:
+reads passed filter: 183667088
+reads failed due to low quality: 1806962
+reads failed due to too many N: 45298
+reads failed due to too short: 67508
+reads with adapter trimmed: 36662100
+bases trimmed due to adapters: 345650094
+
+Duplication rate: 6.96333%
+
+Insert size peak (evaluated by paired-end reads): 182
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/80M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/80M.fastp-trim.report.html
+
+fastp --in1 80M_1.fastq.gz --in2 80M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/80M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/80M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/80M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/80M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 218 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 91400337
+total bases: 13801450887
+Q20 bases: 13517248110(97.9408%)
+Q30 bases: 13018496236(94.327%)
+
+Read2 before filtering:
+total reads: 91400337
+total bases: 13801450887
+Q20 bases: 13494196985(97.7738%)
+Q30 bases: 13006497300(94.2401%)
+
+Read1 after filtering:
+total reads: 90494064
+total bases: 11696822492
+Q20 bases: 11474077334(98.0957%)
+Q30 bases: 11072222250(94.6601%)
+
+Read2 after filtering:
+total reads: 90494064
+total bases: 11707532819
+Q20 bases: 11480576135(98.0614%)
+Q30 bases: 11075666996(94.6029%)
+
+Filtering result:
+reads passed filter: 180988128
+reads failed due to low quality: 1705394
+reads failed due to too many N: 44674
+reads failed due to too short: 62478
+reads with adapter trimmed: 34053088
+bases trimmed due to adapters: 310388942
+
+Duplication rate: 7.01426%
+
+Insert size peak (evaluated by paired-end reads): 189
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/81M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/81M.fastp-trim.report.html
+
+fastp --in1 81M_1.fastq.gz --in2 81M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/81M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/81M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/81M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/81M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 215 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 93182201
+total bases: 14070512351
+Q20 bases: 13792908878(98.0271%)
+Q30 bases: 13302440306(94.5413%)
+
+Read2 before filtering:
+total reads: 93182201
+total bases: 14070512351
+Q20 bases: 13773476170(97.8889%)
+Q30 bases: 13295711425(94.4934%)
+
+Read1 after filtering:
+total reads: 92301777
+total bases: 11902413906
+Q20 bases: 11685764233(98.1798%)
+Q30 bases: 11292027987(94.8717%)
+
+Read2 after filtering:
+total reads: 92301777
+total bases: 11913366852
+Q20 bases: 11696232312(98.1774%)
+Q30 bases: 11305053732(94.8939%)
+
+Filtering result:
+reads passed filter: 184603554
+reads failed due to low quality: 1655018
+reads failed due to too many N: 46360
+reads failed due to too short: 59470
+reads with adapter trimmed: 42156171
+bases trimmed due to adapters: 372452225
+
+Duplication rate: 6.68715%
+
+Insert size peak (evaluated by paired-end reads): 186
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/92M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/92M.fastp-trim.report.html
+
+fastp --in1 92M_1.fastq.gz --in2 92M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/92M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/92M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/92M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/92M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 218 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 92132115
+total bases: 13911949365
+Q20 bases: 13636052192(98.0168%)
+Q30 bases: 13161157658(94.6033%)
+
+Read2 before filtering:
+total reads: 92132115
+total bases: 13911949365
+Q20 bases: 13618660215(97.8918%)
+Q30 bases: 13157920601(94.58%)
+
+Read1 after filtering:
+total reads: 91219204
+total bases: 11773412482
+Q20 bases: 11558474359(98.1744%)
+Q30 bases: 11178096243(94.9436%)
+
+Read2 after filtering:
+total reads: 91219204
+total bases: 11785776638
+Q20 bases: 11572752888(98.1925%)
+Q30 bases: 11194775252(94.9855%)
+
+Filtering result:
+reads passed filter: 182438408
+reads failed due to low quality: 1706856
+reads failed due to too many N: 45270
+reads failed due to too short: 73696
+reads with adapter trimmed: 35155727
+bases trimmed due to adapters: 346368858
+
+Duplication rate: 8.14455%
+
+Insert size peak (evaluated by paired-end reads): 187
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/93M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/93M.fastp-trim.report.html
+
+fastp --in1 93M_1.fastq.gz --in2 93M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/93M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/93M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/93M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/93M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 214 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 95548745
+total bases: 14427860495
+Q20 bases: 14136745429(97.9823%)
+Q30 bases: 13641656758(94.5508%)
+
+Read2 before filtering:
+total reads: 95548745
+total bases: 14427860495
+Q20 bases: 14119988207(97.8661%)
+Q30 bases: 13647382699(94.5905%)
+
+Read1 after filtering:
+total reads: 94561401
+total bases: 12171559157
+Q20 bases: 11948870363(98.1704%)
+Q30 bases: 11554967668(94.9342%)
+
+Read2 after filtering:
+total reads: 94561401
+total bases: 12187075534
+Q20 bases: 11968421233(98.2059%)
+Q30 bases: 11581822922(95.0337%)
+
+Filtering result:
+reads passed filter: 189122802
+reads failed due to low quality: 1823676
+reads failed due to too many N: 45190
+reads failed due to too short: 105822
+reads with adapter trimmed: 40524071
+bases trimmed due to adapters: 425462795
+
+Duplication rate: 7.41306%
+
+Insert size peak (evaluated by paired-end reads): 188
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/94M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/94M.fastp-trim.report.html
+
+fastp --in1 94M_1.fastq.gz --in2 94M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/94M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/94M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/94M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/94M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 223 seconds
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+WARNING: fastp uses up to 16 threads although you specified 50
+Read1 before filtering:
+total reads: 86152958
+total bases: 13009096658
+Q20 bases: 12739160673(97.925%)
+Q30 bases: 12270358637(94.3214%)
+
+Read2 before filtering:
+total reads: 86152958
+total bases: 13009096658
+Q20 bases: 12703763794(97.6529%)
+Q30 bases: 12223781484(93.9633%)
+
+Read1 after filtering:
+total reads: 85285639
+total bases: 11005986307
+Q20 bases: 10794997667(98.083%)
+Q30 bases: 10419374772(94.6701%)
+
+Read2 after filtering:
+total reads: 85285639
+total bases: 11017416523
+Q20 bases: 10792648674(97.9599%)
+Q30 bases: 10392319947(94.3263%)
+
+Filtering result:
+reads passed filter: 170571278
+reads failed due to low quality: 1633012
+reads failed due to too many N: 35746
+reads failed due to too short: 65880
+reads with adapter trimmed: 32541944
+bases trimmed due to adapters: 327020113
+
+Duplication rate: 7.6267%
+
+Insert size peak (evaluated by paired-end reads): 186
+
+JSON report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/95M.fastp-trim.report.json
+HTML report: /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/95M.fastp-trim.report.html
+
+fastp --in1 95M_1.fastq.gz --in2 95M_2.fastq.gz --detect_adapter_for_pe --trim_front1 20 --trim_front2 20 --thread 50 --html /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/95M.fastp-trim.report.html --json /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/95M.fastp-trim.report.json --out1 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/95M_R1.fastp-trim.fq.gz --out2 /gscratch/scrubbed/samwhite/gitrepos/project-mytilus-methylation/output/00.10-trimming-fastp-FastQC-MultiQC/trimmed-fastqs/95M_R2.fastp-trim.fq.gz 
+fastp v0.23.4, time used: 205 seconds
