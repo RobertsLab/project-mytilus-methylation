@@ -171,8 +171,6 @@ done
 if [ ! -f "${output_dir_top}"/raw-fastq-checksums.md5 ]; then
   for fastq in *.gz
     do
-      echo "${fastq}"
-      echo ""
       md5sum "${fastq}" >>"${output_dir_top}"/raw-fastq-checksums.md5
   done
 fi
@@ -211,8 +209,6 @@ done
 # Load bash variables into memory
 source .bashvars
 
-# Make output directory if it doesn't exist
-mkdir --parents "${trimmed_fastqc_dir}"
 
 ############ RUN FASTQC ############
 
@@ -228,7 +224,7 @@ echo ""
 
 # Run FastQC
 ### NOTE: Do NOT quote raw_fastqc_list
-${programs_array[fastqc]} \
+fastqc \
 --threads ${threads} \
 --outdir ${trimmed_fastqs_dir} \
 --quiet \
@@ -243,7 +239,7 @@ echo ""
 echo "Beginning MultiQC on trimmed FastQC..."
 echo ""
 
-${programs_array[multiqc]} ${trimmed_fastqs_dir} -o ${trimmed_fastqs_dir}
+multiqc ${trimmed_fastqs_dir} -o ${trimmed_fastqs_dir}
 
 echo ""
 echo "MultiQC on trimmed FastQs complete."
