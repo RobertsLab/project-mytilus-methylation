@@ -12,4 +12,5 @@
 
 data/raw*
 output/01*
+code/*fastq
 
