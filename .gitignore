@@ -10,3 +10,6 @@
 *.bashvars
 .DS_Store
 
+data/raw*
+output/01*
+
