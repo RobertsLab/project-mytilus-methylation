@@ -1,0 +1,12 @@
+*.bam
+*.fq.gz
+*.fastq.gz
+*.sam
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.ht2
+*.bashvars
+.DS_Store
+
