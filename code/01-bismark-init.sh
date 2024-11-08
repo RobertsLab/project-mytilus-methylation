@@ -1,20 +1,4 @@
----
-title: "01-bismark-init"
-output: github_document
-date: "2024-11-07"
-author: Steven Roberts
----
-
-Raw files ../data/raw-wgbs
-
-
-Indexed prepped genome: ../output/01-bismark-init
-
-
-
-# align
-
-```{bash}
+#!/bin/bash
 # Set variables
 reads_dir="../data/raw-wgbs/"
 #bismark_dir="/path/to/bismark/"
@@ -43,7 +27,7 @@ for file in ${reads_dir}*_1.fastq.gz; do
     # Run Bismark and redirect stdout and stderr
     bismark \
     -genome ${genome_folder} \
-    -p 30 \
+    -p 8 \
     -score_min L,0,-0.6 \
     --non_directional \
     -1 ${reads_dir}${sample_name}_1.fastq.gz \
@@ -61,6 +45,3 @@ for file in ${reads_dir}*_1.fastq.gz; do
         break
     fi
 done
-```
-
-
