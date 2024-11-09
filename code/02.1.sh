@@ -1,19 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 # Set directories and files
-reads_dir="/gscratch/scrubbed/sr320/github/project-mytilus-methylation/data/raw-wgbs/"
+reads_dir="data/raw-wgbs/"
 #bismark_dir="/path/to/bismark/"
 #bowtie2_dir="/path/to/bowtie2/"
-genome_folder="/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/01-bismark-init/"
-output_dir="/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/02-bismark-klone-array/"
-checkpoint_file="/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/02-bismark-klone-array/completed_samples.log"
+genome_folder="output/01-bismark-init/"
+output_dir="output/02-bismark-klone-array/"
+checkpoint_file="output/02-bismark-klone-array/completed_samples.log"
 
 # Create the checkpoint file if it doesn't exist
 touch ${checkpoint_file}
 
 # Get the list of sample files and corresponding sample names
 files=(${reads_dir}*_1.fastq.gz)
-file=${files[$SLURM_ARRAY_TASK_ID]}
-sample_name=$(basename "$file" _1.fastq.gz)
+file="${files[$SLURM_ARRAY_TASK_ID]}"
+sample_name=$(basename "$file" "_1.fastq.gz")
 
 # Check if the sample has already been processed
 if grep -q "^${sample_name}$" ${checkpoint_file}; then
