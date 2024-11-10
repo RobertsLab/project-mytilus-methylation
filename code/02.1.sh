@@ -1,11 +1,9 @@
 #!/bin/bash
 # Set directories and files
-reads_dir="data/raw-wgbs/"
-#bismark_dir="/path/to/bismark/"
-#bowtie2_dir="/path/to/bowtie2/"
-genome_folder="output/01-bismark-init/"
-output_dir="output/02-bismark-klone-array/"
-checkpoint_file="output/02-bismark-klone-array/completed_samples.log"
+reads_dir="../../data/raw-wgbs/"
+genome_folder="../01-bismark-init/"
+output_dir="."
+checkpoint_file="completed_samples.log"
 
 # Create the checkpoint file if it doesn't exist
 touch ${checkpoint_file}
@@ -31,6 +29,7 @@ bismark \
     -p 30 \
     -score_min L,0,-0.6 \
     --non_directional \
+    -u 10000 \
     -1 ${reads_dir}${sample_name}_1.fastq.gz \
     -2 ${reads_dir}${sample_name}_2.fastq.gz \
     -o ${output_dir} \
