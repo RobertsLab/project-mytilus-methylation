@@ -10,7 +10,7 @@
 #SBATCH --cpus-per-task=30                # Number of CPU cores per task
 #SBATCH --array=0-47                      # Array range (adjust based on the number of samples)
 #SBATCH --mem=100G                         # Memory per node
-#SBATCH --chdir=/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/02-bismark-klone-array
+#SBATCH --chdir=/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/03-bismark-klone-array
 
 
 
@@ -23,4 +23,4 @@ apptainer exec \
 --bind /mmfs1/home/ \
 --bind /mmfs1/gscratch/ \
 /gscratch/srlab/sr320/srlab-bioinformatics-container-586bf21.sif \
-../../code/02.1.sh
+../../code/03.1.sh

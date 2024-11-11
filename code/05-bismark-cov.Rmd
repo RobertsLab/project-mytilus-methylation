@@ -1,0 +1,22 @@
+---
+title: "05-bismark-cov"
+output: html_document
+date: "2024-11-11"
+---
+
+Taking the `-u 10000` bismark run (04)
+
+and getting coverage file with
+
+
+```{bash}
+find ../output/04-bismark-pipeline/*deduplicated.bismark.cov.gz \
+| xargs basename -s _bismark_bt2.deduplicated.bismark.cov.gz \
+| xargs -I{} coverage2cytosine \
+--genome_folder ${genome_folder} \
+-o {} \
+--merge_CpG \
+--zero_based \
+{}_trimmed_bismark_bt2.deduplicated.bismark.cov.gz
+```
+
