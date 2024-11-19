@@ -1,0 +1,7 @@
+
+Total number of alignments analysed in 80M_1_bismark_bt2_pe.bam:	4794
+Total number duplicated alignments removed:	313 (6.53%)
+Duplicated alignments were found at:	286 different position(s)
+
+Total count of deduplicated leftover sequences: 4481 (93.47% of total)
+

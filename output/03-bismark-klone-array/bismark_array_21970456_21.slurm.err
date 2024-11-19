@@ -1,0 +1,1 @@
+FATAL:   container creation failed: mount hook function failure: mount /proc/self/fd/3->/var/lib/apptainer/mnt/session/rootfs error: while mounting image /proc/self/fd/3: squashfuse_ll failed to mount /var/lib/apptainer/mnt/session/rootfs in 10s

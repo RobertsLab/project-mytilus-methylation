@@ -1,0 +1,7 @@
+
+Total number of alignments analysed in 107M_1_bismark_bt2_pe.deduplicated.bam:	4353
+Total number duplicated alignments removed:	0 (0.00%)
+Duplicated alignments were found at:	0 different position(s)
+
+Total count of deduplicated leftover sequences: 4353 (100.00% of total)
+

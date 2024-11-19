@@ -1,0 +1,71 @@
+Processing paired-end Bismark output file(s) (SAM format):
+105M_1_bismark_bt2_pe.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>105M_1_bismark_bt2_pe.bam<< for signs of file truncation...
+Captured error message: '[main_samview] fail to read the header from "105M_1_bismark_bt2_pe.bam".'
+
+[ERROR] The file appears to be truncated, please ensure that there were no errors while copying the file!!! Exiting...
+
+Processing paired-end Bismark output file(s) (SAM format):
+107M_1_bismark_bt2_pe.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>107M_1_bismark_bt2_pe.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 107M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Total number of alignments analysed in 107M_1_bismark_bt2_pe.bam:	4683
+Total number duplicated alignments removed:	330 (7.05%)
+Duplicated alignments were found at:	300 different position(s)
+
+Total count of deduplicated leftover sequences: 4353 (92.95% of total)
+
+Processing paired-end Bismark output file(s) (SAM format):
+239M_1_bismark_bt2_pe.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>239M_1_bismark_bt2_pe.bam<< for signs of file truncation...
+Captured error message: '[main_samview] fail to read the header from "239M_1_bismark_bt2_pe.bam".'
+
+[ERROR] The file appears to be truncated, please ensure that there were no errors while copying the file!!! Exiting...
+
+
+ *** Bismark methylation extractor version v0.24.2 ***
+
+Trying to determine the type of mapping from the SAM header line of file 107M_1_bismark_bt2_pe.deduplicated.bam
+[main_samview] fail to read the header from "107M_1_bismark_bt2_pe.deduplicated.bam".
+Core usage currently set to more than 20 threads. Let's see how this goes... (set value: 28)
+
+Summarising Bismark methylation extractor parameters:
+===============================================================
+Number of cores to be used: 28
+Strand-specific outputs will be skipped. Separate output files for cytosines in CpG, CHG and CHH context will be generated
+Merge CHG and CHH context to non-CpG context specified
+Output will be written to the current directory ('/mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/04-bismark-pipeline')
+
+
+Summarising bedGraph parameters:
+===============================================================
+Generating additional output in bedGraph and coverage format
+bedGraph format:	<Chromosome> <Start Position> <End Position> <Methylation Percentage>
+coverage format:	<Chromosome> <Start Position> <End Position> <Methylation Percentage> <count methylated> <count non-methylated>
+
+Using a cutoff of 1 read(s) to report cytosine positions
+Reporting and sorting cytosine methylation information in CpG context only (default)
+The bedGraph UNIX sort command will use the following memory setting:	'75%'. Temporary directory used for sorting is the output directory
+
+Checking file >>107M_1_bismark_bt2_pe.deduplicated.bam<< for signs of file truncation...
+Captured error message: '[main_samview] fail to read the header from "107M_1_bismark_bt2_pe.deduplicated.bam".'
+
+[ERROR] The file appears to be truncated, please ensure that there were no errors while copying the file!!! Exiting...
+

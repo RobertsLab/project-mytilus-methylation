@@ -1,0 +1,10 @@
+find: '*.bam': No such file or directory
+basename: missing operand
+Try 'basename --help' for more information.
+
+ *** Bismark methylation extractor version v0.24.2 ***
+
+Trying to determine the type of mapping from the SAM header line of file *deduplicated.bam
+
+[FATAL ERROR]:	File >>*deduplicated.bam<< did not exist. Please re-specify file names and try again...
+

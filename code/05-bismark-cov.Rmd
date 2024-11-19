@@ -10,13 +10,70 @@ and getting coverage file with
 
 
 ```{bash}
+gunzip ../output/04-bismark-pipeline/*deduplicated.bismark.cov.gz
+```
+
+```{bash}
+gzip ../output/04-bismark-pipeline/*deduplicated.bismark.cov
+```
+
+
+```{bash}
 find ../output/04-bismark-pipeline/*deduplicated.bismark.cov.gz \
-| xargs basename -s _bismark_bt2.deduplicated.bismark.cov.gz \
+| xargs basename -s _1_bismark_bt2_pe.deduplicated.bismark.cov.gz \
 | xargs -I{} coverage2cytosine \
---genome_folder ${genome_folder} \
--o {} \
+--genome_folder ../output/01-bismark-init/ \
+-o ../output/05-bismark-cov/{} \
 --merge_CpG \
 --zero_based \
-{}_trimmed_bismark_bt2.deduplicated.bismark.cov.gz
+../output/04-bismark-pipeline/{}_1_bismark_bt2_pe.deduplicated.bismark.cov.gz \
+> ../output/05-bismark-cov/stdout.log 2> ../output/05-bismark-cov/stderr.log
+```
+
+```{bash}
+find ../output/04-bismark-pipeline/*deduplicated.bismark.cov.gz \
+-exec sh -c 'gunzip "{}" && gzip "${0%.gz}"' {} \;
+```
+
+
+```{bash}
+find ../output/04-bismark-pipeline/*deduplicated.bismark.cov.gz \
+| sed 's|.*/||; s/_bismark_bt2_pe.deduplicated.bismark.cov.gz$//' \
+| xargs -I{} sh -c 'coverage2cytosine \
+    --genome_folder ../output/01-bismark-init/ \
+    -o ../output/05-bismark-cov/{}.CpG_report.txt \
+    --merge_CpG \
+    --zero_based \
+    ../output/04-bismark-pipeline/{}_bismark_bt2_pe.deduplicated.bismark.cov.gz' \
+    > ../output/05-bismark-cov/stdout.log 2> ../output/05-bismark-cov/stderr.log
+```
+
+---
+
+
+try something else
+
+```{bash}
+#dedup
+
+find ../output/01-bismark-init/*.bam | \
+xargs basename -s .bam | \
+xargs -I{} deduplicate_bismark \
+--bam \
+--paired \
+../ouput/01-bismark-init/{}.bam \
+> ../output/05-bismark-cov/test
+```
+
+# extract 
+
+bismark_methylation_extractor \
+--bedGraph \
+--counts \
+--comprehensive \
+--merge_non_CpG \
+--multicore 28 \
+--buffer_size 75% \
+*deduplicated.bam
 ```
 

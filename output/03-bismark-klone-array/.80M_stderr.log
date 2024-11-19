@@ -1,0 +1,68 @@
+Bowtie 2 seems to be working fine (tested command 'bowtie2 --version' [2.5.4])
+Output format is BAM (default)
+Alignments will be written out in BAM format. Samtools found here: '/srlab/programs/samtools-1.20/samtools'
+Reference genome folder provided is ../01-bismark-init/	(absolute path is '/mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/01-bismark-init/)'
+FastQ format assumed (by default)
+Attention: early reports suggested that high values of -p  to have diminishing returns. Please test different values using a small subset of data for your hardware setting.
+Each Bowtie 2 instance is going to be run with 8 threads. Please monitor performance closely and tune down if necessary!
+
+Input files to be analysed (in current folder '/mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/03-bismark-klone-array'):
+../../data/raw-wgbs/80M_1.fastq.gz
+../../data/raw-wgbs/80M_2.fastq.gz
+Library was specified to be not strand-specific (non-directional), therefore alignments to all four possible bisulfite strands (OT, CTOT, OB and CTOB) will be reported
+Output will be written into the directory: /mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/03-bismark-klone-array/
+Setting parallelization to single-threaded (default)
+
+Summary of all aligner options:	-q --score-min L,0,-0.6 -p 8 --reorder --ignore-quals --no-mixed --no-discordant --dovetail --maxins 500
+Current working directory is: /mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/03-bismark-klone-array
+
+Now reading in and storing sequence information of the genome specified in: /mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/01-bismark-init/
+
+Single-core mode: setting pid to 1
+
+Paired-end alignments will be performed
+=======================================
+
+The provided filenames for paired-end alignments are ../../data/raw-wgbs/80M_1.fastq.gz and ../../data/raw-wgbs/80M_2.fastq.gz
+Input files are in FastQ format
+Writing a C -> T converted version of the input file 80M_1.fastq.gz to 80M_1.fastq.gz_C_to_T.fastq
+Writing a G -> A converted version of the input file 80M_1.fastq.gz to 80M_1.fastq.gz_G_to_A.fastq
+
+Created C -> T as well as G -> A converted versions of the FastQ file 80M_1.fastq.gz (92793428 sequences in total)
+
+Writing a C -> T converted version of the input file 80M_2.fastq.gz to 80M_2.fastq.gz_C_to_T.fastq
+Writing a G -> A converted version of the input file 80M_2.fastq.gz to 80M_2.fastq.gz_G_to_A.fastq
+
+Created C -> T as well as G -> A converted versions of the FastQ file 80M_2.fastq.gz (92793428 sequences in total)
+
+Input files are 80M_1.fastq.gz_C_to_T.fastq and 80M_1.fastq.gz_G_to_A.fastq and 80M_2.fastq.gz_C_to_T.fastq and 80M_2.fastq.gz_G_to_A.fastq (FastQ)
+Now running 4 individual instances of Bowtie 2 against the bisulfite genome of /mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/01-bismark-init/ with the specified options: -q --score-min L,0,-0.6 -p 8 --reorder --ignore-quals --no-mixed --no-discordant --dovetail --maxins 500
+
+Now starting a Bowtie 2 paired-end alignment for CTread1GAread2CTgenome (reading in sequences from 80M_1.fastq.gz_C_to_T.fastq and 80M_2.fastq.gz_G_to_A.fastq, with the options: -q --score-min L,0,-0.6 -p 8 --reorder --ignore-quals --no-mixed --no-discordant --dovetail --maxins 500 --norc))
+Found first alignment:
+LH00469:254:22HGFVLT4:2:1101:1397:1014_1:N:0:AGCACTTC+ACGTCCAA/1	77	*	0	0	*	*	0	0	ATATTTGATTAAGTTGTTTGTTTTTTATGGTTTTTAAATTAAATTTATATAAAGTAATTTATATTAAATTAATTGAAATATTAAATTGTAATAAAAATATATTGTAGTAAAAATATATTTATTAAATTGATTAAAATAATTAATAATGTAT	IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII9IIIII9II-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII9IIIIIIIIIIIIIIIIIIIIIIIIII-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII9	YT:Z:UP
+LH00469:254:22HGFVLT4:2:1101:1397:1014_2:N:0:AGCACTTC+ACGTCCAA/2	141	*	0	0	*	*	0	0	AAAAAAAAATACATTATTAATTATTTTAATCAATTTAATAAATATATTTTTACTACAATATATTTTTATTACAATTTAATATTTCAATTAATTTAATATAAATTACTTTATATAAATTTAATTTAAAAACCATAAAAAACAAACAACTTAA	I9III9IIIIIIIIIIIIIIIIIIIIIIII-I9III9IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII-9IIIIIIIII99IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII	YT:Z:UP
+Now starting a Bowtie 2 paired-end alignment for GAread1CTread2GAgenome (reading in sequences from 80M_1.fastq.gz_G_to_A.fastq and 80M_2.fastq.gz_C_to_T.fastq, with the options: -q --score-min L,0,-0.6 -p 8 --reorder --ignore-quals --no-mixed --no-discordant --dovetail --maxins 500 --norc))
+Found first alignment:
+LH00469:254:22HGFVLT4:2:1101:1397:1014_1:N:0:AGCACTTC+ACGTCCAA/1	77	*	0	0	*	*	0	0	ATATTTAATTAAATTATTTATTTTTTATAATTTTTAAATTAAATTTATATAAAATAATTTATATTAAATTAATTAAAATATTAAATTATAATAAAAATATATTATAATAAAAATATATTTATTAAATTAATTAAAATAATTAATAATATAC	IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII9IIIII9II-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII9IIIIIIIIIIIIIIIIIIIIIIIIII-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII9	YT:Z:UP
+LH00469:254:22HGFVLT4:2:1101:1397:1014_2:N:0:AGCACTTC+ACGTCCAA/2	141	*	0	0	*	*	0	0	GGGAGGGAGTATATTATTAATTATTTTAATTAATTTAATAAATATATTTTTATTATAATATATTTTTATTATAATTTAATATTTTAATTAATTTAATATAAATTATTTTATATAAATTTAATTTAAAAATTATAAAAAATAAATAATTTAA	I9III9IIIIIIIIIIIIIIIIIIIIIIII-I9III9IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII-9IIIIIIIII99IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII	YT:Z:UP
+Now starting a Bowtie 2 paired-end alignment for GAread1CTread2CTgenome (reading in sequences from 80M_1.fastq.gz_G_to_A.fastq and 80M_2.fastq.gz_C_to_T.fastq, with the options: -q --score-min L,0,-0.6 -p 8 --reorder --ignore-quals --no-mixed --no-discordant --dovetail --maxins 500 --nofw))
+Found first alignment:
+LH00469:254:22HGFVLT4:2:1101:1397:1014_1:N:0:AGCACTTC+ACGTCCAA/1	77	*	0	0	*	*	0	0	ATATTTAATTAAATTATTTATTTTTTATAATTTTTAAATTAAATTTATATAAAATAATTTATATTAAATTAATTAAAATATTAAATTATAATAAAAATATATTATAATAAAAATATATTTATTAAATTAATTAAAATAATTAATAATATAC	IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII9IIIII9II-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII9IIIIIIIIIIIIIIIIIIIIIIIIII-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII9	YT:Z:UP
+LH00469:254:22HGFVLT4:2:1101:1397:1014_2:N:0:AGCACTTC+ACGTCCAA/2	141	*	0	0	*	*	0	0	GGGAGGGAGTATATTATTAATTATTTTAATTAATTTAATAAATATATTTTTATTATAATATATTTTTATTATAATTTAATATTTTAATTAATTTAATATAAATTATTTTATATAAATTTAATTTAAAAATTATAAAAAATAAATAATTTAA	I9III9IIIIIIIIIIIIIIIIIIIIIIII-I9III9IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII-9IIIIIIIII99IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII	YT:Z:UP
+Now starting a Bowtie 2 paired-end alignment for CTread1GAread2GAgenome (reading in sequences from 80M_1.fastq.gz_C_to_T.fastq and 80M_2.fastq.gz_G_to_A.fastq, with the options: -q --score-min L,0,-0.6 -p 8 --reorder --ignore-quals --no-mixed --no-discordant --dovetail --maxins 500 --nofw))
+Found first alignment:
+LH00469:254:22HGFVLT4:2:1101:1397:1014_1:N:0:AGCACTTC+ACGTCCAA/1	83	NC_086375.1_GA_converted	75639756	8	145M2I4M	=	75639748	-157	ATACATTATTAATTATTTTAATCAATTTAATAAATATATTTTTACTACAATATATTTTTATTACAATTTAATATTTCAATTAATTTAATATAAATTACTTTATATAAATTTAATTTAAAAACCATAAAAAACAAACAACTTAATCAAATAT	9IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII-IIIIIIIIIIIIIIIIIIIIIIIIII9IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII-II9IIIII9IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII	AS:i:-47	XN:i:0	XM:i:6	XO:i:1	XG:i:2	NM:i:8	MD:Z:0C8C27C59A33T16A0	YS:i:-54	YT:Z:CP
+LH00469:254:22HGFVLT4:2:1101:1397:1014_2:N:0:AGCACTTC+ACGTCCAA/2	163	NC_086375.1_GA_converted	75639748	8	151M	=	75639756	157	AAAAAAAAATACATTATTAATTATTTTAATCAATTTAATAAATATATTTTTACTACAATATATTTTTATTACAATTTAATATTTCAATTAATTTAATATAAATTACTTTATATAAATTTAATTTAAAAACCATAAAAAACAAACAACTTAA	I9III9IIIIIIIIIIIIIIIIIIIIIIII-I9III9IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII-9IIIIIIIII99IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII	AS:i:-54	XN:i:0	XM:i:9	XO:i:0	XG:i:0	NM:i:9	MD:Z:1T1T1T1C0C8C27C59A33T11	YS:i:-47	YT:Z:CP
+
+>>> Writing bisulfite mapping results to 80M_1_bismark_bt2_pe.bam <<<
+
+
+Reading in the sequence files ../../data/raw-wgbs/80M_1.fastq.gz and ../../data/raw-wgbs/80M_2.fastq.gz
+Processed 1000000 sequence pairs so far
+Chromosomal sequence could not be extracted for	LH00469:254:22HGFVLT4:2:1111:5815:25304_1:N:0:AGCACTTC+ACGTCCAA	NW_026963743.1	1
+Processed 2000000 sequence pairs so far
+(ERR): bowtie2-align exited with value 141
+(ERR): bowtie2-align exited with value 141
+(ERR): bowtie2-align exited with value 141
+(ERR): bowtie2-align exited with value 141

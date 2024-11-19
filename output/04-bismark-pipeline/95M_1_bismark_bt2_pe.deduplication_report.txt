@@ -1,0 +1,7 @@
+
+Total number of alignments analysed in 95M_1_bismark_bt2_pe.bam:	4779
+Total number duplicated alignments removed:	320 (6.70%)
+Duplicated alignments were found at:	292 different position(s)
+
+Total count of deduplicated leftover sequences: 4459 (93.30% of total)
+

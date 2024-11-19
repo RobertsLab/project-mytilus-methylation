@@ -1,0 +1,4 @@
+Bismark report for: ../../data/raw-wgbs/109M_1.fastq.gz and ../../data/raw-wgbs/109M_2.fastq.gz (version: v0.24.2)
+Bismark was run with Bowtie 2 against the bisulfite genome of /mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/01-bismark-init/ with the specified options: -q --score-min L,0,-0.6 -p 8 --reorder --ignore-quals --no-mixed --no-discordant --dovetail --maxins 500
+Option '--non_directional' specified: alignments to all strands were being performed (OT, OB, CTOT, CTOB)
+

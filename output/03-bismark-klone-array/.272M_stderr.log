@@ -1,0 +1,39 @@
+Bowtie 2 seems to be working fine (tested command 'bowtie2 --version' [2.5.4])
+Output format is BAM (default)
+Alignments will be written out in BAM format. Samtools found here: '/srlab/programs/samtools-1.20/samtools'
+Reference genome folder provided is ../01-bismark-init/	(absolute path is '/mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/01-bismark-init/)'
+FastQ format assumed (by default)
+Attention: early reports suggested that high values of -p  to have diminishing returns. Please test different values using a small subset of data for your hardware setting.
+Each Bowtie 2 instance is going to be run with 8 threads. Please monitor performance closely and tune down if necessary!
+
+Input files to be analysed (in current folder '/mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/03-bismark-klone-array'):
+../../data/raw-wgbs/272M_1.fastq.gz
+../../data/raw-wgbs/272M_2.fastq.gz
+Library was specified to be not strand-specific (non-directional), therefore alignments to all four possible bisulfite strands (OT, CTOT, OB and CTOB) will be reported
+Output will be written into the directory: /mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/03-bismark-klone-array/
+Setting parallelization to single-threaded (default)
+
+Summary of all aligner options:	-q --score-min L,0,-0.6 -p 8 --reorder --ignore-quals --no-mixed --no-discordant --dovetail --maxins 500
+Current working directory is: /mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/03-bismark-klone-array
+
+Now reading in and storing sequence information of the genome specified in: /mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/01-bismark-init/
+
+Single-core mode: setting pid to 1
+
+Paired-end alignments will be performed
+=======================================
+
+The provided filenames for paired-end alignments are ../../data/raw-wgbs/272M_1.fastq.gz and ../../data/raw-wgbs/272M_2.fastq.gz
+Input files are in FastQ format
+Writing a C -> T converted version of the input file 272M_1.fastq.gz to 272M_1.fastq.gz_C_to_T.fastq
+Writing a G -> A converted version of the input file 272M_1.fastq.gz to 272M_1.fastq.gz_G_to_A.fastq
+
+Created C -> T as well as G -> A converted versions of the FastQ file 272M_1.fastq.gz (90421884 sequences in total)
+
+Writing a C -> T converted version of the input file 272M_2.fastq.gz to 272M_2.fastq.gz_C_to_T.fastq
+Writing a G -> A converted version of the input file 272M_2.fastq.gz to 272M_2.fastq.gz_G_to_A.fastq
+
+Created C -> T as well as G -> A converted versions of the FastQ file 272M_2.fastq.gz (90421884 sequences in total)
+
+Failed to close filehandle Disk quota exceeded
+Warning: unable to close filehandle properly: Disk quota exceeded, <IN> line 723375072 during global destruction.

@@ -1,0 +1,967 @@
+Processing paired-end Bismark output file(s) (SAM format):
+105M_1_bismark_bt2_pe.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>105M_1_bismark_bt2_pe.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Total number of alignments analysed in 105M_1_bismark_bt2_pe.bam:	4864
+Total number duplicated alignments removed:	290 (5.96%)
+Duplicated alignments were found at:	264 different position(s)
+
+Total count of deduplicated leftover sequences: 4574 (94.04% of total)
+
+Processing paired-end Bismark output file(s) (SAM format):
+105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>105M_1_bismark_bt2_pe.deduplicated.bam<< for signs of file truncation...
+Captured error message: '[main_samview] fail to read the header from "105M_1_bismark_bt2_pe.deduplicated.bam".'
+
+[ERROR] The file appears to be truncated, please ensure that there were no errors while copying the file!!! Exiting...
+
+Processing paired-end Bismark output file(s) (SAM format):
+105M_1_bismark_bt2_pe.deduplicated.deduplicated.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>105M_1_bismark_bt2_pe.deduplicated.deduplicated.bam<< for signs of file truncation...
+Captured error message: '[main_samview] fail to read the header from "105M_1_bismark_bt2_pe.deduplicated.deduplicated.bam".'
+
+[ERROR] The file appears to be truncated, please ensure that there were no errors while copying the file!!! Exiting...
+
+Processing paired-end Bismark output file(s) (SAM format):
+105M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>105M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 105M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.deduplicated.bam
+
+
+Total number of alignments analysed in 105M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.bam:	4574
+Total number duplicated alignments removed:	0 (0.00%)
+Duplicated alignments were found at:	0 different position(s)
+
+Total count of deduplicated leftover sequences: 4574 (100.00% of total)
+
+Processing paired-end Bismark output file(s) (SAM format):
+105M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.deduplicated.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>105M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.deduplicated.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 105M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.deduplicated.deduplicated.bam
+
+
+Total number of alignments analysed in 105M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.deduplicated.bam:	4574
+Total number duplicated alignments removed:	0 (0.00%)
+Duplicated alignments were found at:	0 different position(s)
+
+Total count of deduplicated leftover sequences: 4574 (100.00% of total)
+
+Processing paired-end Bismark output file(s) (SAM format):
+106M_1_bismark_bt2_pe.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>106M_1_bismark_bt2_pe.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 106M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Total number of alignments analysed in 106M_1_bismark_bt2_pe.bam:	4749
+Total number duplicated alignments removed:	374 (7.88%)
+Duplicated alignments were found at:	336 different position(s)
+
+Total count of deduplicated leftover sequences: 4375 (92.12% of total)
+
+Processing paired-end Bismark output file(s) (SAM format):
+106M_1_bismark_bt2_pe.deduplicated.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>106M_1_bismark_bt2_pe.deduplicated.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 106M_1_bismark_bt2_pe.deduplicated.deduplicated.bam
+
+
+Total number of alignments analysed in 106M_1_bismark_bt2_pe.deduplicated.bam:	4375
+Total number duplicated alignments removed:	0 (0.00%)
+Duplicated alignments were found at:	0 different position(s)
+
+Total count of deduplicated leftover sequences: 4375 (100.00% of total)
+
+Processing paired-end Bismark output file(s) (SAM format):
+107M_1_bismark_bt2_pe.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>107M_1_bismark_bt2_pe.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 107M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Total number of alignments analysed in 107M_1_bismark_bt2_pe.bam:	4683
+Total number duplicated alignments removed:	330 (7.05%)
+Duplicated alignments were found at:	300 different position(s)
+
+Total count of deduplicated leftover sequences: 4353 (92.95% of total)
+
+Processing paired-end Bismark output file(s) (SAM format):
+107M_1_bismark_bt2_pe.deduplicated.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>107M_1_bismark_bt2_pe.deduplicated.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 107M_1_bismark_bt2_pe.deduplicated.deduplicated.bam
+
+
+Total number of alignments analysed in 107M_1_bismark_bt2_pe.deduplicated.bam:	4353
+Total number duplicated alignments removed:	0 (0.00%)
+Duplicated alignments were found at:	0 different position(s)
+
+Total count of deduplicated leftover sequences: 4353 (100.00% of total)
+
+Processing paired-end Bismark output file(s) (SAM format):
+107M_1_bismark_bt2_pe.deduplicated.deduplicated.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>107M_1_bismark_bt2_pe.deduplicated.deduplicated.bam<< for signs of file truncation...
+Captured error message: '[main_samview] fail to read the header from "107M_1_bismark_bt2_pe.deduplicated.deduplicated.bam".'
+
+[ERROR] The file appears to be truncated, please ensure that there were no errors while copying the file!!! Exiting...
+
+Processing paired-end Bismark output file(s) (SAM format):
+107M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>107M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 107M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.deduplicated.bam
+
+
+Total number of alignments analysed in 107M_1_bismark_bt2_pe.deduplicated.deduplicated.deduplicated.bam:	4353
+Total number duplicated alignments removed:	0 (0.00%)
+Duplicated alignments were found at:	0 different position(s)
+
+Total count of deduplicated leftover sequences: 4353 (100.00% of total)
+
+Processing paired-end Bismark output file(s) (SAM format):
+239M_1_bismark_bt2_pe.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>239M_1_bismark_bt2_pe.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 239M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Total number of alignments analysed in 239M_1_bismark_bt2_pe.bam:	4744
+Total number duplicated alignments removed:	315 (6.64%)
+Duplicated alignments were found at:	284 different position(s)
+
+Total count of deduplicated leftover sequences: 4429 (93.36% of total)
+
+Processing paired-end Bismark output file(s) (SAM format):
+239M_1_bismark_bt2_pe.deduplicated.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>239M_1_bismark_bt2_pe.deduplicated.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 239M_1_bismark_bt2_pe.deduplicated.deduplicated.bam
+
+[main_samview] fail to read the header from "239M_1_bismark_bt2_pe.deduplicated.bam".
+
+Total number of alignments analysed in 239M_1_bismark_bt2_pe.deduplicated.bam:	0
+Total number duplicated alignments removed:	0 (N/A%)
+Duplicated alignments were found at:	0 different position(s)
+
+Total count of deduplicated leftover sequences: 0 (N/A% of total)
+
+[main_samview] fail to read the header from "-".
+Failed to close output filehandle: 
+Processing paired-end Bismark output file(s) (SAM format):
+270M_1_bismark_bt2_pe.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>270M_1_bismark_bt2_pe.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 270M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Total number of alignments analysed in 270M_1_bismark_bt2_pe.bam:	4693
+Total number duplicated alignments removed:	355 (7.56%)
+Duplicated alignments were found at:	326 different position(s)
+
+Total count of deduplicated leftover sequences: 4338 (92.44% of total)
+
+Processing paired-end Bismark output file(s) (SAM format):
+270M_1_bismark_bt2_pe.deduplicated.bam
+
+
+If there are several alignments to a single position in the genome the first alignment will be chosen. Since the input files are not in any way sorted this is a near-enough random selection of reads.
+
+Checking file >>270M_1_bismark_bt2_pe.deduplicated.bam<< for signs of file truncation...
+
+
+...passed!
+Output file is: 270M_1_bismark_bt2_pe.deduplicated.deduplicated.bam
+
+[E::bgzf_read] Read block operation failed with error 4 after 0 of 4 bytes
+samtools view: error reading file "270M_1_bismark_bt2_pe.deduplicated.bam"
+samtools view: error closing "270M_1_bismark_bt2_pe.deduplicated.bam": -1
+Use of uninitialized value $_ in split at /srlab/programs/Bismark-0.24.2/deduplicate_bismark line 364, <IN> line 6882.
+Use of uninitialized value $cigar_2 in pattern match (m//) at /srlab/programs/Bismark-0.24.2/deduplicate_bismark line 369, <IN> line 6882.
+Use of uninitialized value $cigar_2 in split at /srlab/programs/Bismark-0.24.2/deduplicate_bismark line 374, <IN> line 6882.
+Use of uninitialized value $cigar_2 in split at /srlab/programs/Bismark-0.24.2/deduplicate_bismark line 375, <IN> line 6882.
+Use of uninitialized value $_ in string at /srlab/programs/Bismark-0.24.2/deduplicate_bismark line 471, <IN> line 6882.
+
+Total number of alignments analysed in 270M_1_bismark_bt2_pe.deduplicated.bam:	3168
+Total number duplicated alignments removed:	0 (0.00%)
+Duplicated alignments were found at:	0 different position(s)
+
+Total count of deduplicated leftover sequences: 3168 (100.00% of total)
+
+
+ *** Bismark methylation extractor version v0.24.2 ***
+
+Trying to determine the type of mapping from the SAM header line of file 105M_1_bismark_bt2_pe.deduplicated.bam
+Treating file(s) as paired-end data (as extracted from @PG line)
+
+Setting option '--no_overlap' since this is (normally) the right thing to do for paired-end data
+
+Core usage currently set to more than 20 threads. Let's see how this goes... (set value: 28)
+
+Summarising Bismark methylation extractor parameters:
+===============================================================
+Bismark paired-end SAM format specified (default)
+Number of cores to be used: 28
+Strand-specific outputs will be skipped. Separate output files for cytosines in CpG, CHG and CHH context will be generated
+Merge CHG and CHH context to non-CpG context specified
+Output will be written to the current directory ('/mmfs1/gscratch/scrubbed/sr320/github/project-mytilus-methylation/output/04-bismark-pipeline')
+
+
+Summarising bedGraph parameters:
+===============================================================
+Generating additional output in bedGraph and coverage format
+bedGraph format:	<Chromosome> <Start Position> <End Position> <Methylation Percentage>
+coverage format:	<Chromosome> <Start Position> <End Position> <Methylation Percentage> <count methylated> <count non-methylated>
+
+Using a cutoff of 1 read(s) to report cytosine positions
+Reporting and sorting cytosine methylation information in CpG context only (default)
+The bedGraph UNIX sort command will use the following memory setting:	'75%'. Temporary directory used for sorting is the output directory
+
+Checking file >>105M_1_bismark_bt2_pe.deduplicated.bam<< for signs of file truncation...
+
+...passed!
+Writing result file containing methylation information for C in CpG context to CpG_context_105M_1_bismark_bt2_pe.deduplicated.txt
+Writing result file containing methylation information for C in any other context to Non_CpG_context_105M_1_bismark_bt2_pe.deduplicated.txt
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+Now reading in Bismark result file 105M_1_bismark_bt2_pe.deduplicated.bam
+
+skipping SAM header line:	@HD	VN:1.0	SO:unsorted
+skipping SAM header line:	@SQ	SN:NC_086373.1	LN:113486924
+skipping SAM header line:	@SQ	SN:NC_086374.1	LN:103707636
+skipping SAM header line:	@SQ	SN:NC_086375.1	LN:94312406
+skipping SAM header line:	@SQ	SN:NC_086376.1	LN:96324366
+skipping SAM header line:	@SQ	SN:NC_086377.1	LN:88129055
+skipping SAM header line:	@SQ	SN:NC_086378.1	LN:91445414
+skipping SAM header line:	@SQ	SN:NC_086379.1	LN:85406108
+skipping SAM header line:	@SQ	SN:NC_086380.1	LN:80675551
+skipping SAM header line:	@SQ	SN:NC_086381.1	LN:82295107
+skipping SAM header line:	@SQ	SN:NC_086382.1	LN:78455819
+skipping SAM header line:	@SQ	SN:NC_086383.1	LN:71253669
+skipping SAM header line:	@SQ	SN:NC_086384.1	LN:60198110
+skipping SAM header line:	@SQ	SN:NC_086385.1	LN:63222996
+skipping SAM header line:	@SQ	SN:NC_086386.1	LN:81773519
+skipping SAM header line:	@SQ	SN:NW_026963290.1	LN:8139973
+skipping SAM header line:	@SQ	SN:NW_026963291.1	LN:22515
+skipping SAM header line:	@SQ	SN:NW_026963292.1	LN:5553665
+skipping SAM header line:	@SQ	SN:NW_026963293.1	LN:500000
+skipping SAM header line:	@SQ	SN:NW_026963294.1	LN:5965364
+skipping SAM header line:	@SQ	SN:NW_026963295.1	LN:6074899
+skipping SAM header line:	@SQ	SN:NW_026963296.1	LN:3628579
+skipping SAM header line:	@SQ	SN:NW_026963297.1	LN:3444836
+skipping SAM header line:	@SQ	SN:NW_026963298.1	LN:2989614
+skipping SAM header line:	@SQ	SN:NW_026963299.1	LN:250000
+skipping SAM header line:	@SQ	SN:NW_026963300.1	LN:356632
+skipping SAM header line:	@SQ	SN:NW_026963301.1	LN:4334515
+skipping SAM header line:	@SQ	SN:NW_026963302.1	LN:4076163
+skipping SAM header line:	@SQ	SN:NW_026963303.1	LN:250000
+skipping SAM header line:	@SQ	SN:NW_026963304.1	LN:4603332
+skipping SAM header line:	@SQ	SN:NW_026963305.1	LN:1250000
+skipping SAM header line:	@SQ	SN:NW_026963306.1	LN:121029
+skipping SAM header line:	@SQ	SN:NW_026963307.1	LN:125000
+skipping SAM header line:	@SQ	SN:NW_026963308.1	LN:418548
+skipping SAM header line:	@SQ	SN:NW_026963309.1	LN:710015
+skipping SAM header line:	@SQ	SN:NW_026963310.1	LN:3670610
+skipping SAM header line:	@SQ	SN:NW_026963311.1	LN:1420456
+skipping SAM header line:	@SQ	SN:NW_026963312.1	LN:1013396
+skipping SAM header line:	@SQ	SN:NW_026963313.1	LN:825963
+skipping SAM header line:	@SQ	SN:NW_026963314.1	LN:2737876
+skipping SAM header line:	@SQ	SN:NW_026963315.1	LN:4066460
+skipping SAM header line:	@SQ	SN:NW_026963316.1	LN:450949
+skipping SAM header line:	@SQ	SN:NW_026963317.1	LN:4467411
+skipping SAM header line:	@SQ	SN:NW_026963318.1	LN:3454087
+skipping SAM header line:	@SQ	SN:NW_026963319.1	LN:250000
+skipping SAM header line:	@SQ	SN:NW_026963320.1	LN:175774
+skipping SAM header line:	@SQ	SN:NW_026963321.1	LN:741490
+skipping SAM header line:	@SQ	SN:NW_026963322.1	LN:899002
+skipping SAM header line:	@SQ	SN:NW_026963323.1	LN:961498
+skipping SAM header line:	@SQ	SN:NW_026963324.1	LN:293216
+skipping SAM header line:	@SQ	SN:NW_026963325.1	LN:26743
+skipping SAM header line:	@SQ	SN:NW_026963326.1	LN:30845
+skipping SAM header line:	@SQ	SN:NW_026963327.1	LN:35643
+skipping SAM header line:	@SQ	SN:NW_026963328.1	LN:31473
+skipping SAM header line:	@SQ	SN:NW_026963329.1	LN:267817
+skipping SAM header line:	@SQ	SN:NW_026963330.1	LN:38397
+skipping SAM header line:	@SQ	SN:NW_026963331.1	LN:73781
+skipping SAM header line:	@SQ	SN:NW_026963332.1	LN:1260917
+skipping SAM header line:	@SQ	SN:NW_026963333.1	LN:250000
+skipping SAM header line:	@SQ	SN:NW_026963334.1	LN:25388
+skipping SAM header line:	@SQ	SN:NW_026963335.1	LN:565390
+skipping SAM header line:	@SQ	SN:NW_026963336.1	LN:26109
+skipping SAM header line:	@SQ	SN:NW_026963337.1	LN:659095
+skipping SAM header line:	@SQ	SN:NW_026963338.1	LN:357655
+skipping SAM header line:	@SQ	SN:NW_026963339.1	LN:277346
+skipping SAM header line:	@SQ	SN:NW_026963340.1	LN:4220937
+skipping SAM header line:	@SQ	SN:NW_026963341.1	LN:122847
+skipping SAM header line:	@SQ	SN:NW_026963342.1	LN:58283
+skipping SAM header line:	@SQ	SN:NW_026963343.1	LN:556242
+skipping SAM header line:	@SQ	SN:NW_026963344.1	LN:203489
+skipping SAM header line:	@SQ	SN:NW_026963345.1	LN:224476
+skipping SAM header line:	@SQ	SN:NW_026963346.1	LN:651063
+skipping SAM header line:	@SQ	SN:NW_026963347.1	LN:1227606
+skipping SAM header line:	@SQ	SN:NW_026963348.1	LN:21803
+skipping SAM header line:	@SQ	SN:NW_026963349.1	LN:40271
+skipping SAM header line:	@SQ	SN:NW_026963350.1	LN:1415666
+skipping SAM header line:	@SQ	SN:NW_026963351.1	LN:17622
+skipping SAM header line:	@SQ	SN:NW_026963352.1	LN:337009
+skipping SAM header line:	@SQ	SN:NW_026963353.1	LN:20381
+skipping SAM header line:	@SQ	SN:NW_026963354.1	LN:394918
+skipping SAM header line:	@SQ	SN:NW_026963355.1	LN:24539
+skipping SAM header line:	@SQ	SN:NW_026963356.1	LN:34117
+skipping SAM header line:	@SQ	SN:NW_026963357.1	LN:666514
+skipping SAM header line:	@SQ	SN:NW_026963358.1	LN:27938
+skipping SAM header line:	@SQ	SN:NW_026963359.1	LN:23142
+skipping SAM header line:	@SQ	SN:NW_026963360.1	LN:21876
+skipping SAM header line:	@SQ	SN:NW_026963361.1	LN:21893
+skipping SAM header line:	@SQ	SN:NW_026963362.1	LN:29136
+skipping SAM header line:	@SQ	SN:NW_026963363.1	LN:419011
+skipping SAM header line:	@SQ	SN:NW_026963364.1	LN:60149
+skipping SAM header line:	@SQ	SN:NW_026963365.1	LN:61440
+skipping SAM header line:	@SQ	SN:NW_026963366.1	LN:26902
+skipping SAM header line:	@SQ	SN:NW_026963367.1	LN:51097
+skipping SAM header line:	@SQ	SN:NW_026963368.1	LN:77113
+skipping SAM header line:	@SQ	SN:NW_026963369.1	LN:121069
+skipping SAM header line:	@SQ	SN:NW_026963370.1	LN:866335
+skipping SAM header line:	@SQ	SN:NW_026963371.1	LN:332943
+skipping SAM header line:	@SQ	SN:NW_026963372.1	LN:501245
+skipping SAM header line:	@SQ	SN:NW_026963373.1	LN:41944
+skipping SAM header line:	@SQ	SN:NW_026963374.1	LN:73985
+skipping SAM header line:	@SQ	SN:NW_026963375.1	LN:53741
+skipping SAM header line:	@SQ	SN:NW_026963376.1	LN:53927
+skipping SAM header line:	@SQ	SN:NW_026963377.1	LN:15328
+skipping SAM header line:	@SQ	SN:NW_026963378.1	LN:612846
+skipping SAM header line:	@SQ	SN:NW_026963379.1	LN:30276
+skipping SAM header line:	@SQ	SN:NW_026963380.1	LN:20427
+skipping SAM header line:	@SQ	SN:NW_026963381.1	LN:25540
+skipping SAM header line:	@SQ	SN:NW_026963382.1	LN:58265
+skipping SAM header line:	@SQ	SN:NW_026963383.1	LN:25711
+skipping SAM header line:	@SQ	SN:NW_026963384.1	LN:18896
+skipping SAM header line:	@SQ	SN:NW_026963385.1	LN:34901
+skipping SAM header line:	@SQ	SN:NW_026963386.1	LN:25234
+skipping SAM header line:	@SQ	SN:NW_026963387.1	LN:66105
+skipping SAM header line:	@SQ	SN:NW_026963388.1	LN:30312
+skipping SAM header line:	@SQ	SN:NW_026963389.1	LN:32428
+skipping SAM header line:	@SQ	SN:NW_026963390.1	LN:25381
+skipping SAM header line:	@SQ	SN:NW_026963391.1	LN:26017
+skipping SAM header line:	@SQ	SN:NW_026963392.1	LN:25685
+skipping SAM header line:	@SQ	SN:NW_026963393.1	LN:19274
+skipping SAM header line:	@SQ	SN:NW_026963394.1	LN:27950
+skipping SAM header line:	@SQ	SN:NW_026963395.1	LN:45255
+skipping SAM header line:	@SQ	SN:NW_026963396.1	LN:63704
+skipping SAM header line:	@SQ	SN:NW_026963397.1	LN:22806
+skipping SAM header line:	@SQ	SN:NW_026963398.1	LN:24645
+skipping SAM header line:	@SQ	SN:NW_026963399.1	LN:50812
+skipping SAM header line:	@SQ	SN:NW_026963400.1	LN:70378
+skipping SAM header line:	@SQ	SN:NW_026963401.1	LN:21165
+skipping SAM header line:	@SQ	SN:NW_026963402.1	LN:95337
+skipping SAM header line:	@SQ	SN:NW_026963403.1	LN:32744
+skipping SAM header line:	@SQ	SN:NW_026963404.1	LN:32390
+skipping SAM header line:	@SQ	SN:NW_026963405.1	LN:20760
+skipping SAM header line:	@SQ	SN:NW_026963406.1	LN:17091
+skipping SAM header line:	@SQ	SN:NW_026963407.1	LN:25441
+skipping SAM header line:	@SQ	SN:NW_026963408.1	LN:32110
+skipping SAM header line:	@SQ	SN:NW_026963409.1	LN:25245
+skipping SAM header line:	@SQ	SN:NW_026963410.1	LN:26685
+skipping SAM header line:	@SQ	SN:NW_026963411.1	LN:26243
+skipping SAM header line:	@SQ	SN:NW_026963412.1	LN:23891
+skipping SAM header line:	@SQ	SN:NW_026963413.1	LN:32257
+skipping SAM header line:	@SQ	SN:NW_026963414.1	LN:35770
+skipping SAM header line:	@SQ	SN:NW_026963415.1	LN:28815
+skipping SAM header line:	@SQ	SN:NW_026963416.1	LN:33904
+skipping SAM header line:	@SQ	SN:NW_026963417.1	LN:59749
+skipping SAM header line:	@SQ	SN:NW_026963418.1	LN:81418
+skipping SAM header line:	@SQ	SN:NW_026963419.1	LN:107657
+skipping SAM header line:	@SQ	SN:NW_026963420.1	LN:30761
+skipping SAM header line:	@SQ	SN:NW_026963421.1	LN:23947
+skipping SAM header line:	@SQ	SN:NW_026963422.1	LN:18164
+skipping SAM header line:	@SQ	SN:NW_026963423.1	LN:25693
+skipping SAM header line:	@SQ	SN:NW_026963424.1	LN:91214
+skipping SAM header line:	@SQ	SN:NW_026963425.1	LN:28588
+skipping SAM header line:	@SQ	SN:NW_026963426.1	LN:22706
+skipping SAM header line:	@SQ	SN:NW_026963427.1	LN:31282
+skipping SAM header line:	@SQ	SN:NW_026963428.1	LN:29918
+skipping SAM header line:	@SQ	SN:NW_026963429.1	LN:18537
+skipping SAM header line:	@SQ	SN:NW_026963430.1	LN:19656
+skipping SAM header line:	@SQ	SN:NW_026963431.1	LN:24459
+skipping SAM header line:	@SQ	SN:NW_026963432.1	LN:22327
+skipping SAM header line:	@SQ	SN:NW_026963433.1	LN:105369
+skipping SAM header line:	@SQ	SN:NW_026963434.1	LN:26908
+skipping SAM header line:	@SQ	SN:NW_026963435.1	LN:28497
+skipping SAM header line:	@SQ	SN:NW_026963436.1	LN:36282
+skipping SAM header line:	@SQ	SN:NW_026963437.1	LN:23739
+skipping SAM header line:	@SQ	SN:NW_026963438.1	LN:24630
+skipping SAM header line:	@SQ	SN:NW_026963439.1	LN:34452
+skipping SAM header line:	@SQ	SN:NW_026963440.1	LN:33196
+skipping SAM header line:	@SQ	SN:NW_026963441.1	LN:21370
+skipping SAM header line:	@SQ	SN:NW_026963442.1	LN:20837
+skipping SAM header line:	@SQ	SN:NW_026963443.1	LN:56464
+skipping SAM header line:	@SQ	SN:NW_026963444.1	LN:22596
+skipping SAM header line:	@SQ	SN:NW_026963445.1	LN:89992
+skipping SAM header line:	@SQ	SN:NW_026963446.1	LN:20471
+skipping SAM header line:	@SQ	SN:NW_026963447.1	LN:25005
+skipping SAM header line:	@SQ	SN:NW_026963448.1	LN:22800
+skipping SAM header line:	@SQ	SN:NW_026963449.1	LN:48946
+skipping SAM header line:	@SQ	SN:NW_026963450.1	LN:23621
+skipping SAM header line:	@SQ	SN:NW_026963451.1	LN:69983
+skipping SAM header line:	@SQ	SN:NW_026963452.1	LN:26246
+skipping SAM header line:	@SQ	SN:NW_026963453.1	LN:73232
+skipping SAM header line:	@SQ	SN:NW_026963454.1	LN:23625
+skipping SAM header line:	@SQ	SN:NW_026963455.1	LN:21431
+skipping SAM header line:	@SQ	SN:NW_026963456.1	LN:20408
+skipping SAM header line:	@SQ	SN:NW_026963457.1	LN:23150
+skipping SAM header line:	@SQ	SN:NW_026963458.1	LN:20814
+skipping SAM header line:	@SQ	SN:NW_026963459.1	LN:33799
+skipping SAM header line:	@SQ	SN:NW_026963460.1	LN:22951
+skipping SAM header line:	@SQ	SN:NW_026963461.1	LN:39207
+skipping SAM header line:	@SQ	SN:NW_026963462.1	LN:16320
+skipping SAM header line:	@SQ	SN:NW_026963463.1	LN:19723
+skipping SAM header line:	@SQ	SN:NW_026963464.1	LN:19884
+skipping SAM header line:	@SQ	SN:NW_026963465.1	LN:17047
+skipping SAM header line:	@SQ	SN:NW_026963466.1	LN:28987
+skipping SAM header line:	@SQ	SN:NW_026963467.1	LN:26703
+skipping SAM header line:	@SQ	SN:NW_026963468.1	LN:27006
+skipping SAM header line:	@SQ	SN:NW_026963469.1	LN:21377
+skipping SAM header line:	@SQ	SN:NW_026963470.1	LN:31960
+skipping SAM header line:	@SQ	SN:NW_026963471.1	LN:89899
+skipping SAM header line:	@SQ	SN:NW_026963472.1	LN:52362
+skipping SAM header line:	@SQ	SN:NW_026963473.1	LN:46928
+skipping SAM header line:	@SQ	SN:NW_026963474.1	LN:24695
+skipping SAM header line:	@SQ	SN:NW_026963475.1	LN:38188
+skipping SAM header line:	@SQ	SN:NW_026963476.1	LN:22631
+skipping SAM header line:	@SQ	SN:NW_026963477.1	LN:17795
+skipping SAM header line:	@SQ	SN:NW_026963478.1	LN:20901
+skipping SAM header line:	@SQ	SN:NW_026963479.1	LN:26325
+skipping SAM header line:	@SQ	SN:NW_026963480.1	LN:22825
+skipping SAM header line:	@SQ	SN:NW_026963481.1	LN:23040
+skipping SAM header line:	@SQ	SN:NW_026963482.1	LN:21352
+skipping SAM header line:	@SQ	SN:NW_026963483.1	LN:19517
+skipping SAM header line:	@SQ	SN:NW_026963484.1	LN:43699
+skipping SAM header line:	@SQ	SN:NW_026963485.1	LN:14016
+skipping SAM header line:	@SQ	SN:NW_026963486.1	LN:13954
+skipping SAM header line:	@SQ	SN:NW_026963487.1	LN:25855
+skipping SAM header line:	@SQ	SN:NW_026963488.1	LN:21550
+skipping SAM header line:	@SQ	SN:NW_026963489.1	LN:33800
+skipping SAM header line:	@SQ	SN:NW_026963490.1	LN:20306
+skipping SAM header line:	@SQ	SN:NW_026963491.1	LN:32733
+skipping SAM header line:	@SQ	SN:NW_026963492.1	LN:41996
+skipping SAM header line:	@SQ	SN:NW_026963493.1	LN:27834
+skipping SAM header line:	@SQ	SN:NW_026963494.1	LN:23165
+skipping SAM header line:	@SQ	SN:NW_026963495.1	LN:21648
+skipping SAM header line:	@SQ	SN:NW_026963496.1	LN:27514
+skipping SAM header line:	@SQ	SN:NW_026963497.1	LN:22988
+skipping SAM header line:	@SQ	SN:NW_026963498.1	LN:27759
+skipping SAM header line:	@SQ	SN:NW_026963499.1	LN:31922
+skipping SAM header line:	@SQ	SN:NW_026963500.1	LN:55274
+skipping SAM header line:	@SQ	SN:NW_026963501.1	LN:19548
+skipping SAM header line:	@SQ	SN:NW_026963502.1	LN:19545
+skipping SAM header line:	@SQ	SN:NW_026963503.1	LN:31769
+skipping SAM header line:	@SQ	SN:NW_026963504.1	LN:20921
+skipping SAM header line:	@SQ	SN:NW_026963505.1	LN:26440
+skipping SAM header line:	@SQ	SN:NW_026963506.1	LN:36130
+skipping SAM header line:	@SQ	SN:NW_026963507.1	LN:50233
+skipping SAM header line:	@SQ	SN:NW_026963508.1	LN:37121
+skipping SAM header line:	@SQ	SN:NW_026963509.1	LN:15802
+skipping SAM header line:	@SQ	SN:NW_026963510.1	LN:21446
+skipping SAM header line:	@SQ	SN:NW_026963511.1	LN:16917
+skipping SAM header line:	@SQ	SN:NW_026963512.1	LN:24391
+skipping SAM header line:	@SQ	SN:NW_026963513.1	LN:19462
+skipping SAM header line:	@SQ	SN:NW_026963514.1	LN:24066
+skipping SAM header line:	@SQ	SN:NW_026963515.1	LN:17459
+skipping SAM header line:	@SQ	SN:NW_026963516.1	LN:18652
+skipping SAM header line:	@SQ	SN:NW_026963517.1	LN:8618
+skipping SAM header line:	@SQ	SN:NW_026963518.1	LN:20873
+skipping SAM header line:	@SQ	SN:NW_026963519.1	LN:32632
+skipping SAM header line:	@SQ	SN:NW_026963520.1	LN:36645
+skipping SAM header line:	@SQ	SN:NW_026963521.1	LN:23952
+skipping SAM header line:	@SQ	SN:NW_026963522.1	LN:22556
+skipping SAM header line:	@SQ	SN:NW_026963523.1	LN:15718
+skipping SAM header line:	@SQ	SN:NW_026963524.1	LN:50340
+skipping SAM header line:	@SQ	SN:NW_026963525.1	LN:23212
+skipping SAM header line:	@SQ	SN:NW_026963526.1	LN:18080
+skipping SAM header line:	@SQ	SN:NW_026963527.1	LN:24976
+skipping SAM header line:	@SQ	SN:NW_026963528.1	LN:20932
+skipping SAM header line:	@SQ	SN:NW_026963529.1	LN:20070
+skipping SAM header line:	@SQ	SN:NW_026963530.1	LN:43040
+skipping SAM header line:	@SQ	SN:NW_026963531.1	LN:22373
+skipping SAM header line:	@SQ	SN:NW_026963532.1	LN:21610
+skipping SAM header line:	@SQ	SN:NW_026963533.1	LN:25225
+skipping SAM header line:	@SQ	SN:NW_026963534.1	LN:22597
+skipping SAM header line:	@SQ	SN:NW_026963535.1	LN:18239
+skipping SAM header line:	@SQ	SN:NW_026963536.1	LN:19511
+skipping SAM header line:	@SQ	SN:NW_026963537.1	LN:25744
+skipping SAM header line:	@SQ	SN:NW_026963538.1	LN:33248
+skipping SAM header line:	@SQ	SN:NW_026963539.1	LN:16194
+skipping SAM header line:	@SQ	SN:NW_026963540.1	LN:29982
+skipping SAM header line:	@SQ	SN:NW_026963541.1	LN:38121
+skipping SAM header line:	@SQ	SN:NW_026963542.1	LN:23886
+skipping SAM header line:	@SQ	SN:NW_026963543.1	LN:22120
+skipping SAM header line:	@SQ	SN:NW_026963544.1	LN:40706
+skipping SAM header line:	@SQ	SN:NW_026963545.1	LN:22511
+skipping SAM header line:	@SQ	SN:NW_026963546.1	LN:29792
+skipping SAM header line:	@SQ	SN:NW_026963547.1	LN:15422
+skipping SAM header line:	@SQ	SN:NW_026963548.1	LN:28602
+skipping SAM header line:	@SQ	SN:NW_026963549.1	LN:29363
+skipping SAM header line:	@SQ	SN:NW_026963550.1	LN:42899
+skipping SAM header line:	@SQ	SN:NW_026963551.1	LN:28569
+skipping SAM header line:	@SQ	SN:NW_026963552.1	LN:47249
+skipping SAM header line:	@SQ	SN:NW_026963553.1	LN:40295
+skipping SAM header line:	@SQ	SN:NW_026963554.1	LN:23298
+skipping SAM header line:	@SQ	SN:NW_026963555.1	LN:17778
+skipping SAM header line:	@SQ	SN:NW_026963556.1	LN:40663
+skipping SAM header line:	@SQ	SN:NW_026963557.1	LN:19240
+skipping SAM header line:	@SQ	SN:NW_026963558.1	LN:53464
+skipping SAM header line:	@SQ	SN:NW_026963559.1	LN:20496
+skipping SAM header line:	@SQ	SN:NW_026963560.1	LN:18775
+skipping SAM header line:	@SQ	SN:NW_026963561.1	LN:22720
+skipping SAM header line:	@SQ	SN:NW_026963562.1	LN:29987
+skipping SAM header line:	@SQ	SN:NW_026963563.1	LN:17061
+skipping SAM header line:	@SQ	SN:NW_026963564.1	LN:19136
+skipping SAM header line:	@SQ	SN:NW_026963565.1	LN:18594
+skipping SAM header line:	@SQ	SN:NW_026963566.1	LN:21889
+skipping SAM header line:	@SQ	SN:NW_026963567.1	LN:42002
+skipping SAM header line:	@SQ	SN:NW_026963568.1	LN:28438
+skipping SAM header line:	@SQ	SN:NW_026963569.1	LN:27574
+skipping SAM header line:	@SQ	SN:NW_026963570.1	LN:26209
+skipping SAM header line:	@SQ	SN:NW_026963571.1	LN:32307
+skipping SAM header line:	@SQ	SN:NW_026963572.1	LN:23566
+skipping SAM header line:	@SQ	SN:NW_026963573.1	LN:20539
+skipping SAM header line:	@SQ	SN:NW_026963574.1	LN:19425
+skipping SAM header line:	@SQ	SN:NW_026963575.1	LN:32111
+skipping SAM header line:	@SQ	SN:NW_026963576.1	LN:34506
+skipping SAM header line:	@SQ	SN:NW_026963577.1	LN:20176
+skipping SAM header line:	@SQ	SN:NW_026963578.1	LN:24377
+skipping SAM header line:	@SQ	SN:NW_026963579.1	LN:55969
+skipping SAM header line:	@SQ	SN:NW_026963580.1	LN:27671
+skipping SAM header line:	@SQ	SN:NW_026963581.1	LN:24138
+skipping SAM header line:	@SQ	SN:NW_026963582.1	LN:97536
+skipping SAM header line:	@SQ	SN:NW_026963583.1	LN:63607
+skipping SAM header line:	@SQ	SN:NW_026963584.1	LN:34460
+skipping SAM header line:	@SQ	SN:NW_026963585.1	LN:49376
+skipping SAM header line:	@SQ	SN:NW_026963586.1	LN:27685
+skipping SAM header line:	@SQ	SN:NW_026963587.1	LN:24514
+skipping SAM header line:	@SQ	SN:NW_026963588.1	LN:48354
+skipping SAM header line:	@SQ	SN:NW_026963589.1	LN:26316
+skipping SAM header line:	@SQ	SN:NW_026963590.1	LN:22686
+skipping SAM header line:	@SQ	SN:NW_026963591.1	LN:23266
+skipping SAM header line:	@SQ	SN:NW_026963592.1	LN:19131
+skipping SAM header line:	@SQ	SN:NW_026963593.1	LN:17046
+skipping SAM header line:	@SQ	SN:NW_026963594.1	LN:23204
+skipping SAM header line:	@SQ	SN:NW_026963595.1	LN:23624
+skipping SAM header line:	@SQ	SN:NW_026963596.1	LN:19410
+skipping SAM header line:	@SQ	SN:NW_026963597.1	LN:4560
+skipping SAM header line:	@SQ	SN:NW_026963598.1	LN:29441
+skipping SAM header line:	@SQ	SN:NW_026963599.1	LN:40152
+skipping SAM header line:	@SQ	SN:NW_026963600.1	LN:21122
+skipping SAM header line:	@SQ	SN:NW_026963601.1	LN:36140
+skipping SAM header line:	@SQ	SN:NW_026963602.1	LN:18515
+skipping SAM header line:	@SQ	SN:NW_026963603.1	LN:20142
+skipping SAM header line:	@SQ	SN:NW_026963604.1	LN:25383
+skipping SAM header line:	@SQ	SN:NW_026963605.1	LN:28494
+skipping SAM header line:	@SQ	SN:NW_026963606.1	LN:18177
+skipping SAM header line:	@SQ	SN:NW_026963607.1	LN:18627
+skipping SAM header line:	@SQ	SN:NW_026963608.1	LN:22139
+skipping SAM header line:	@SQ	SN:NW_026963609.1	LN:25457
+skipping SAM header line:	@SQ	SN:NW_026963610.1	LN:20696
+skipping SAM header line:	@SQ	SN:NW_026963611.1	LN:20121
+skipping SAM header line:	@SQ	SN:NW_026963612.1	LN:23855
+skipping SAM header line:	@SQ	SN:NW_026963613.1	LN:19683
+skipping SAM header line:	@SQ	SN:NW_026963614.1	LN:17735
+skipping SAM header line:	@SQ	SN:NW_026963615.1	LN:24639
+skipping SAM header line:	@SQ	SN:NW_026963616.1	LN:36520
+skipping SAM header line:	@SQ	SN:NW_026963617.1	LN:29370
+skipping SAM header line:	@SQ	SN:NW_026963618.1	LN:25732
+skipping SAM header line:	@SQ	SN:NW_026963619.1	LN:23735
+skipping SAM header line:	@SQ	SN:NW_026963620.1	LN:21397
+skipping SAM header line:	@SQ	SN:NW_026963621.1	LN:21572
+skipping SAM header line:	@SQ	SN:NW_026963622.1	LN:25321
+skipping SAM header line:	@SQ	SN:NW_026963623.1	LN:18363
+skipping SAM header line:	@SQ	SN:NW_026963624.1	LN:20416
+skipping SAM header line:	@SQ	SN:NW_026963625.1	LN:20064
+skipping SAM header line:	@SQ	SN:NW_026963626.1	LN:37124
+skipping SAM header line:	@SQ	SN:NW_026963627.1	LN:23433
+skipping SAM header line:	@SQ	SN:NW_026963628.1	LN:24267
+skipping SAM header line:	@SQ	SN:NW_026963629.1	LN:25181
+skipping SAM header line:	@SQ	SN:NW_026963630.1	LN:20211
+skipping SAM header line:	@SQ	SN:NW_026963631.1	LN:26376
+skipping SAM header line:	@SQ	SN:NW_026963632.1	LN:20626
+skipping SAM header line:	@SQ	SN:NW_026963633.1	LN:32619
+skipping SAM header line:	@SQ	SN:NW_026963634.1	LN:21163
+skipping SAM header line:	@SQ	SN:NW_026963635.1	LN:18606
+skipping SAM header line:	@SQ	SN:NW_026963636.1	LN:18842
+skipping SAM header line:	@SQ	SN:NW_026963637.1	LN:25787
+skipping SAM header line:	@SQ	SN:NW_026963638.1	LN:21305
+skipping SAM header line:	@SQ	SN:NW_026963639.1	LN:24239
+skipping SAM header line:	@SQ	SN:NW_026963640.1	LN:24465
+skipping SAM header line:	@SQ	SN:NW_026963641.1	LN:26936
+skipping SAM header line:	@SQ	SN:NW_026963642.1	LN:22173
+skipping SAM header line:	@SQ	SN:NW_026963643.1	LN:33930
+skipping SAM header line:	@SQ	SN:NW_026963644.1	LN:30601
+skipping SAM header line:	@SQ	SN:NW_026963645.1	LN:27131
+skipping SAM header line:	@SQ	SN:NW_026963646.1	LN:21725
+skipping SAM header line:	@SQ	SN:NW_026963647.1	LN:17559
+skipping SAM header line:	@SQ	SN:NW_026963648.1	LN:26423
+skipping SAM header line:	@SQ	SN:NW_026963649.1	LN:23991
+skipping SAM header line:	@SQ	SN:NW_026963650.1	LN:21075
+skipping SAM header line:	@SQ	SN:NW_026963651.1	LN:37035
+skipping SAM header line:	@SQ	SN:NW_026963652.1	LN:20328
+skipping SAM header line:	@SQ	SN:NW_026963653.1	LN:17920
+skipping SAM header line:	@SQ	SN:NW_026963654.1	LN:25257
+skipping SAM header line:	@SQ	SN:NW_026963655.1	LN:21611
+skipping SAM header line:	@SQ	SN:NW_026963656.1	LN:31880
+skipping SAM header line:	@SQ	SN:NW_026963657.1	LN:17971
+skipping SAM header line:	@SQ	SN:NW_026963658.1	LN:17181
+skipping SAM header line:	@SQ	SN:NW_026963659.1	LN:21841
+skipping SAM header line:	@SQ	SN:NW_026963660.1	LN:48676
+skipping SAM header line:	@SQ	SN:NW_026963661.1	LN:19775
+skipping SAM header line:	@SQ	SN:NW_026963662.1	LN:35568
+skipping SAM header line:	@SQ	SN:NW_026963663.1	LN:21947
+skipping SAM header line:	@SQ	SN:NW_026963664.1	LN:24250
+skipping SAM header line:	@SQ	SN:NW_026963665.1	LN:21491
+skipping SAM header line:	@SQ	SN:NW_026963666.1	LN:22260
+skipping SAM header line:	@SQ	SN:NW_026963667.1	LN:28403
+skipping SAM header line:	@SQ	SN:NW_026963668.1	LN:19543
+skipping SAM header line:	@SQ	SN:NW_026963669.1	LN:59060
+skipping SAM header line:	@SQ	SN:NW_026963670.1	LN:23088
+skipping SAM header line:	@SQ	SN:NW_026963671.1	LN:25210
+skipping SAM header line:	@SQ	SN:NW_026963672.1	LN:29503
+skipping SAM header line:	@SQ	SN:NW_026963673.1	LN:26257
+skipping SAM header line:	@SQ	SN:NW_026963674.1	LN:22982
+skipping SAM header line:	@SQ	SN:NW_026963675.1	LN:20127
+skipping SAM header line:	@SQ	SN:NW_026963676.1	LN:21567
+skipping SAM header line:	@SQ	SN:NW_026963677.1	LN:25240
+skipping SAM header line:	@SQ	SN:NW_026963678.1	LN:25959
+skipping SAM header line:	@SQ	SN:NW_026963679.1	LN:23464
+skipping SAM header line:	@SQ	SN:NW_026963680.1	LN:23133
+skipping SAM header line:	@SQ	SN:NW_026963681.1	LN:22873
+skipping SAM header line:	@SQ	SN:NW_026963682.1	LN:27482
+skipping SAM header line:	@SQ	SN:NW_026963683.1	LN:23835
+skipping SAM header line:	@SQ	SN:NW_026963684.1	LN:18595
+skipping SAM header line:	@SQ	SN:NW_026963685.1	LN:25677
+skipping SAM header line:	@SQ	SN:NW_026963686.1	LN:25352
+skipping SAM header line:	@SQ	SN:NW_026963687.1	LN:26654
+skipping SAM header line:	@SQ	SN:NW_026963688.1	LN:16682
+skipping SAM header line:	@SQ	SN:NW_026963689.1	LN:43634
+skipping SAM header line:	@SQ	SN:NW_026963690.1	LN:20473
+skipping SAM header line:	@SQ	SN:NW_026963691.1	LN:24782
+skipping SAM header line:	@SQ	SN:NW_026963692.1	LN:27429
+skipping SAM header line:	@SQ	SN:NW_026963693.1	LN:22023
+skipping SAM header line:	@SQ	SN:NW_026963694.1	LN:22432
+skipping SAM header line:	@SQ	SN:NW_026963695.1	LN:27801
+skipping SAM header line:	@SQ	SN:NW_026963696.1	LN:89040
+skipping SAM header line:	@SQ	SN:NW_026963697.1	LN:29127
+skipping SAM header line:	@SQ	SN:NW_026963698.1	LN:22758
+skipping SAM header line:	@SQ	SN:NW_026963699.1	LN:21265
+skipping SAM header line:	@SQ	SN:NW_026963700.1	LN:32610
+skipping SAM header line:	@SQ	SN:NW_026963701.1	LN:40879
+skipping SAM header line:	@SQ	SN:NW_026963702.1	LN:25242
+skipping SAM header line:	@SQ	SN:NW_026963703.1	LN:27008
+skipping SAM header line:	@SQ	SN:NW_026963704.1	LN:21375
+skipping SAM header line:	@SQ	SN:NW_026963705.1	LN:33180
+skipping SAM header line:	@SQ	SN:NW_026963706.1	LN:26193
+skipping SAM header line:	@SQ	SN:NW_026963707.1	LN:21669
+skipping SAM header line:	@SQ	SN:NW_026963708.1	LN:25618
+skipping SAM header line:	@SQ	SN:NW_026963709.1	LN:25056
+skipping SAM header line:	@SQ	SN:NW_026963710.1	LN:22608
+skipping SAM header line:	@SQ	SN:NW_026963711.1	LN:23115
+skipping SAM header line:	@SQ	SN:NW_026963712.1	LN:22043
+skipping SAM header line:	@SQ	SN:NW_026963713.1	LN:25891
+skipping SAM header line:	@SQ	SN:NW_026963714.1	LN:24871
+skipping SAM header line:	@SQ	SN:NW_026963715.1	LN:22811
+skipping SAM header line:	@SQ	SN:NW_026963716.1	LN:38945
+skipping SAM header line:	@SQ	SN:NW_026963717.1	LN:35514
+skipping SAM header line:	@SQ	SN:NW_026963718.1	LN:21356
+skipping SAM header line:	@SQ	SN:NW_026963719.1	LN:28341
+skipping SAM header line:	@SQ	SN:NW_026963720.1	LN:20602
+skipping SAM header line:	@SQ	SN:NW_026963721.1	LN:20995
+skipping SAM header line:	@SQ	SN:NW_026963722.1	LN:21623
+skipping SAM header line:	@SQ	SN:NW_026963723.1	LN:22869
+skipping SAM header line:	@SQ	SN:NW_026963724.1	LN:22118
+skipping SAM header line:	@SQ	SN:NW_026963725.1	LN:27787
+skipping SAM header line:	@SQ	SN:NW_026963726.1	LN:28118
+skipping SAM header line:	@SQ	SN:NW_026963727.1	LN:22374
+skipping SAM header line:	@SQ	SN:NW_026963728.1	LN:26688
+skipping SAM header line:	@SQ	SN:NW_026963729.1	LN:18680
+skipping SAM header line:	@SQ	SN:NW_026963730.1	LN:26877
+skipping SAM header line:	@SQ	SN:NW_026963731.1	LN:22152
+skipping SAM header line:	@SQ	SN:NW_026963732.1	LN:21122
+skipping SAM header line:	@SQ	SN:NW_026963733.1	LN:30669
+skipping SAM header line:	@SQ	SN:NW_026963734.1	LN:21233
+skipping SAM header line:	@SQ	SN:NW_026963735.1	LN:20919
+skipping SAM header line:	@SQ	SN:NW_026963736.1	LN:26026
+skipping SAM header line:	@SQ	SN:NW_026963737.1	LN:15473
+skipping SAM header line:	@SQ	SN:NW_026963738.1	LN:23824
+skipping SAM header line:	@SQ	SN:NW_026963739.1	LN:19804
+skipping SAM header line:	@SQ	SN:NW_026963740.1	LN:17713
+skipping SAM header line:	@SQ	SN:NW_026963741.1	LN:20707
+skipping SAM header line:	@SQ	SN:NW_026963742.1	LN:18963
+skipping SAM header line:	@SQ	SN:NW_026963743.1	LN:21370
+skipping SAM header line:	@SQ	SN:NW_026963744.1	LN:22821
+skipping SAM header line:	@SQ	SN:NW_026963745.1	LN:20669
+skipping SAM header line:	@SQ	SN:NW_026963746.1	LN:25286
+skipping SAM header line:	@SQ	SN:NW_026963747.1	LN:21276
+skipping SAM header line:	@SQ	SN:NW_026963748.1	LN:22489
+skipping SAM header line:	@SQ	SN:NW_026963749.1	LN:18369
+skipping SAM header line:	@SQ	SN:NW_026963750.1	LN:22802
+skipping SAM header line:	@SQ	SN:NW_026963751.1	LN:24575
+skipping SAM header line:	@SQ	SN:NW_026963752.1	LN:23655
+skipping SAM header line:	@SQ	SN:NW_026963753.1	LN:26162
+skipping SAM header line:	@SQ	SN:NW_026963754.1	LN:23060
+skipping SAM header line:	@SQ	SN:NW_026963755.1	LN:23954
+skipping SAM header line:	@SQ	SN:NW_026963756.1	LN:21792
+skipping SAM header line:	@SQ	SN:NW_026963757.1	LN:32711
+skipping SAM header line:	@SQ	SN:NW_026963758.1	LN:26150
+skipping SAM header line:	@SQ	SN:NW_026963759.1	LN:24511
+skipping SAM header line:	@SQ	SN:NW_026963760.1	LN:21863
+skipping SAM header line:	@SQ	SN:NW_026963761.1	LN:29603
+skipping SAM header line:	@SQ	SN:NW_026963762.1	LN:14940
+skipping SAM header line:	@SQ	SN:NW_026963763.1	LN:20415
+skipping SAM header line:	@SQ	SN:NW_026963764.1	LN:28644
+skipping SAM header line:	@SQ	SN:NW_026963765.1	LN:26859
+skipping SAM header line:	@SQ	SN:NW_026963766.1	LN:21572
+skipping SAM header line:	@SQ	SN:NW_026963767.1	LN:11867
+skipping SAM header line:	@SQ	SN:NW_026963768.1	LN:22422
+skipping SAM header line:	@SQ	SN:NW_026963769.1	LN:19132
+skipping SAM header line:	@SQ	SN:NW_026963770.1	LN:17338
+skipping SAM header line:	@SQ	SN:NW_026963771.1	LN:24159
+skipping SAM header line:	@SQ	SN:NW_026963772.1	LN:22295
+skipping SAM header line:	@SQ	SN:NW_026963773.1	LN:15046
+skipping SAM header line:	@SQ	SN:NW_026963774.1	LN:18598
+skipping SAM header line:	@SQ	SN:NW_026963775.1	LN:22167
+skipping SAM header line:	@SQ	SN:NW_026963776.1	LN:16973
+skipping SAM header line:	@SQ	SN:NW_026963777.1	LN:18602
+skipping SAM header line:	@SQ	SN:NW_026963778.1	LN:24241
+skipping SAM header line:	@SQ	SN:NW_026963779.1	LN:27924
+skipping SAM header line:	@SQ	SN:NW_026963780.1	LN:25424
+skipping SAM header line:	@SQ	SN:NW_026963781.1	LN:28413
+skipping SAM header line:	@SQ	SN:NW_026963782.1	LN:20838
+skipping SAM header line:	@SQ	SN:NW_026963783.1	LN:22467
+skipping SAM header line:	@SQ	SN:NW_026963784.1	LN:25012
+skipping SAM header line:	@SQ	SN:NW_026963785.1	LN:13181
+skipping SAM header line:	@SQ	SN:NW_026963786.1	LN:18105
+skipping SAM header line:	@SQ	SN:NW_026963787.1	LN:18769
+skipping SAM header line:	@SQ	SN:NW_026963788.1	LN:21775
+skipping SAM header line:	@SQ	SN:NW_026963789.1	LN:26327
+skipping SAM header line:	@SQ	SN:NW_026963790.1	LN:14514
+skipping SAM header line:	@SQ	SN:NW_026963791.1	LN:20050
+skipping SAM header line:	@SQ	SN:NW_026963792.1	LN:18784
+skipping SAM header line:	@SQ	SN:NW_026963793.1	LN:20749
+skipping SAM header line:	@SQ	SN:NW_026963794.1	LN:13251
+skipping SAM header line:	@SQ	SN:NW_026963795.1	LN:20766
+skipping SAM header line:	@SQ	SN:NW_026963796.1	LN:23492
+skipping SAM header line:	@SQ	SN:NW_026963797.1	LN:20235
+skipping SAM header line:	@SQ	SN:NW_026963798.1	LN:13457
+skipping SAM header line:	@SQ	SN:NW_026963799.1	LN:17957
+skipping SAM header line:	@SQ	SN:NW_026963800.1	LN:22384
+skipping SAM header line:	@SQ	SN:NW_026963801.1	LN:31865
+skipping SAM header line:	@SQ	SN:NW_026963802.1	LN:24022
+skipping SAM header line:	@SQ	SN:NW_026963803.1	LN:26219
+skipping SAM header line:	@SQ	SN:NW_026963804.1	LN:24043
+skipping SAM header line:	@SQ	SN:NW_026963805.1	LN:28961
+skipping SAM header line:	@SQ	SN:NW_026963806.1	LN:14045
+skipping SAM header line:	@SQ	SN:NW_026963807.1	LN:15082
+skipping SAM header line:	@SQ	SN:NW_026963808.1	LN:24314
+skipping SAM header line:	@SQ	SN:NW_026963809.1	LN:20441
+skipping SAM header line:	@SQ	SN:NW_026963810.1	LN:10923
+skipping SAM header line:	@SQ	SN:NW_026963811.1	LN:26407
+skipping SAM header line:	@SQ	SN:NW_026963812.1	LN:14166
+skipping SAM header line:	@SQ	SN:NW_026963813.1	LN:10138
+skipping SAM header line:	@SQ	SN:NW_026963814.1	LN:8703
+skipping SAM header line:	@SQ	SN:NW_026963815.1	LN:16400
+skipping SAM header line:	@SQ	SN:NC_007687.1	LN:18652
+skipping SAM header line:	@PG	ID:Bismark	VN:v0.24.2	CL:"bismark -genome ../01-bismark-init/ -p 8 -u 10000 -score_min L,0,-0.6 --non_directional -1 ../../data/raw-wgbs/105M_1.fastq.gz -2 ../../data/raw-wgbs/105M_2.fastq.gz -o ."
+skipping SAM header line:	@PG	ID:samtools	PN:samtools	PP:Bismark	VN:1.20	CL:/srlab/programs/samtools-1.20/samtools view -bSh -
+skipping SAM header line:	@PG	ID:samtools.1	PN:samtools	PP:samtools	VN:1.20	CL:/srlab/programs/samtools-1.20/samtools view -h --threads 1 105M_1_bismark_bt2_pe.bam
+skipping SAM header line:	@PG	ID:samtools.2	PN:samtools	PP:samtools.1	VN:1.20	CL:/srlab/programs/samtools-1.20/samtools view -bS --threads 1 -
+skipping SAM header line:	@PG	ID:samtools.3	PN:samtools	PP:samtools.2	VN:1.20	CL:/srlab/programs/samtools-1.20/samtools view -h 105M_1_bismark_bt2_pe.deduplicated.bam
+Now waiting for all child processes to complete
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+Finished processing child process. Exiting..
+
+Merging individual splitting reports into overall report: '105M_1_bismark_bt2_pe.deduplicated_splitting_report.txt'
+Merging from these individual files:
+No such file or directory at /srlab/programs/Bismark-0.24.2/bismark_methylation_extractor line 459, <IR> line 36.
