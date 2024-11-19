@@ -15,3 +15,5 @@ output/01*
 code/*fastq
 output/02*
 output/04-bismark-klone-array/*bam
+output/07*
+output/06-bismark-pipeline/*bam
