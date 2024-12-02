@@ -86,7 +86,7 @@ cat .bashvars
 
 Reads are downloaded from <https://owl.fish.washington.edu/nightingales/M_trossulus/>
 
-```{bash download-raw-reads, engine='bash', eval=TRUE}
+```{bash download-raw-reads, engine='bash', eval=FALSE}
 # Load bash variables into memory
 source .bashvars
 
@@ -107,8 +107,6 @@ wget \
 --accept "[0-9]M*.fastq.gz,[0-9]M*.fastq.gz.md5sum" \
 ${raw_reads_url}
 
-
-ls -lh "${raw_reads_dir}"
 ```
 
 ## Verify raw read checksums
@@ -128,7 +126,7 @@ done
 
 # FastQC/MultiQC on raw reads
 
-```{bash raw-fastqc-multiqc, engine='bash', eval=TRUE}
+```{bash raw-fastqc-multiqc, engine='bash', eval=FALSE}
 # Load bash variables into memory
 source .bashvars
 
