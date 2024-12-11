@@ -9,8 +9,12 @@
 *.ht2
 *.bashvars
 .DS_Store
+data/*fa
+data/ncbi_dataset/data*
+data/ncbi*zip
 
-data/raw*
+data/Bisulfite_Genome/*
+data/*fq.gz
 output/01*
 code/*fastq
 output/02*
