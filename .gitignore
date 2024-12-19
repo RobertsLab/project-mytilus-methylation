@@ -15,7 +15,7 @@ data/ncbi*zip
 
 data/Bisulfite_Genome/*
 data/*fq.gz
-output/01*
+
 code/*fastq
 output/02*
 output/04-bismark-klone-array/*bam
