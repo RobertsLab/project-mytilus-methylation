@@ -97,6 +97,21 @@ myobj_all = processBismarkAln(location = analysisFiles,
    treatment = c("HC", "HC", "HC", "HC", "AP", "AP", "AP", "AP", "BS", "BS", "BS", "BS", "EB", "EB", "EB", "EB", "SA", "SA", "SA", "SA", "SC", "SC", "SC"))
 ```
 
+or 
+
+```{r, eval = FALSE}
+myobj_23 = processBismarkAln(location = analysisFiles, sample.id = list("105M", "106M", "107M", "109M", "239M", "240M", "241M", "242M", "269M", "270M", "271M", "272M", "69M", "70M", "71M", "72M", "78M", "79M", "80M", "81M", "92M", "94M", "95M"), assembly = "Mt", read.context="CpG", mincov=2, treatment = c(0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1))
+```
+
+
+
+
+```{r, eval = FALSE}
+
+library(methylKit)
+
+myobj_23 = processBismarkAln(location = analysisFiles, sample.id = list("105M", "106M", "107M", "109M", "239M", "240M", "241M", "242M", "269M", "270M", "271M", "272M", "69M", "70M", "71M", "72M", "78M", "79M", "80M", "81M", "92M", "94M", "95M"), assembly = "Mt", read.context="CpG", mincov=2, treatment = c("HC", "HC", "HC", "HC", "AP", "AP", "AP", "AP", "BS", "BS", "BS", "BS", "EB", "EB", "EB", "EB", "SA", "SA", "SA", "SA", "SC", "SC", "SC"))
+```
 
 
 ```{r}
