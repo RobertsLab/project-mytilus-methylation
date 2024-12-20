@@ -1,0 +1,190 @@
+---
+title: "10- Methylkit"
+author:Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE, }
+library(knitr)
+library(tidyverse)
+library(kableExtra)
+library(DESeq2)
+library(pheatmap)
+library(RColorBrewer)
+library(data.table)
+library(DT)
+library(Biostrings)
+library(methylKit)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,         # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+)
+```
+
+```{r}
+# Define the directory path
+directory_path <- "/output/09-meth-quant"
+
+# Define the file names
+file_names <- c(
+  "105M_pe.deduplicated.sorted.bam",
+  "106M_pe.deduplicated.sorted.bam",
+  "107M_pe.deduplicated.sorted.bam",
+  "109M_pe.deduplicated.sorted.bam",
+  "239M_pe.deduplicated.sorted.bam",
+  "240M_pe.deduplicated.sorted.bam",
+  "241M_pe.deduplicated.sorted.bam",
+  "242M_pe.deduplicated.sorted.bam",
+  "269M_pe.deduplicated.sorted.bam",
+  "270M_pe.deduplicated.sorted.bam",
+  "271M_pe.deduplicated.sorted.bam",
+  "272M_pe.deduplicated.sorted.bam",
+  "69M_pe.deduplicated.sorted.bam",
+  "70M_pe.deduplicated.sorted.bam",
+  "71M_pe.deduplicated.sorted.bam",
+  "72M_pe.deduplicated.sorted.bam",
+  "78M_pe.deduplicated.sorted.bam",
+  "79M_pe.deduplicated.sorted.bam",
+  "80M_pe.deduplicated.sorted.bam",
+  "81M_pe.deduplicated.sorted.bam",
+  "92M_pe.deduplicated.sorted.bam",
+  "94M_pe.deduplicated.sorted.bam",
+  "95M_pe.deduplicated.sorted.bam"
+)
+
+# Combine directory path with file names
+file_paths <- file.path(directory_path, file_names)
+
+# Assign the list to the object myfilelist
+myfilelist <- file_paths
+
+# Print the object to verify
+myfilelist
+```
+```{r}
+# Define the file names
+file_names <- c(
+  "105M_pe.deduplicated.sorted.bam",
+  "106M_pe.deduplicated.sorted.bam",
+  "107M_pe.deduplicated.sorted.bam",
+  "109M_pe.deduplicated.sorted.bam",
+  "239M_pe.deduplicated.sorted.bam",
+  "240M_pe.deduplicated.sorted.bam",
+  "241M_pe.deduplicated.sorted.bam",
+  "242M_pe.deduplicated.sorted.bam",
+  "269M_pe.deduplicated.sorted.bam",
+  "270M_pe.deduplicated.sorted.bam",
+  "271M_pe.deduplicated.sorted.bam",
+  "272M_pe.deduplicated.sorted.bam",
+  "69M_pe.deduplicated.sorted.bam",
+  "70M_pe.deduplicated.sorted.bam",
+  "71M_pe.deduplicated.sorted.bam",
+  "72M_pe.deduplicated.sorted.bam",
+  "78M_pe.deduplicated.sorted.bam",
+  "79M_pe.deduplicated.sorted.bam",
+  "80M_pe.deduplicated.sorted.bam",
+  "81M_pe.deduplicated.sorted.bam",
+  "92M_pe.deduplicated.sorted.bam",
+  "94M_pe.deduplicated.sorted.bam",
+  "95M_pe.deduplicated.sorted.bam"
+)
+
+# Extract sample IDs from file names (everything before "_pe")
+sample_ids <- gsub("_pe.*", "", file_names)
+
+# Assign to sample.id
+sample.id <- sample_ids
+
+# Print the updated sample.id
+sample.id
+```
+
+```{r}
+analysisFiles <- list(
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/105M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/106M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/107M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/109M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/239M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/240M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/241M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/242M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/269M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/270M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/271M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/272M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/69M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/70M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/71M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/72M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/78M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/79M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/80M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/81M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/92M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/94M_pe.deduplicated.sorted.bam",
+  "/home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/95M_pe.deduplicated.sorted.bam"
+) #Put all .bam files into a list for analysis.
+```
+
+```{r}
+sample.IDs <- list("105M", "106M", "107M", "109M", "239M", "240M", "241M", "242M", "269M", "270M", "271M", "272M", "69M", "70M", "71M", "72M", "78M", "79M", "80M", "81M", "92M", "94M", "95M") #Create list of sample IDs
+```
+
+treatmentSpecification <- c(rep(0, times = 5), rep(1, times = 5)) #Specify which treatment the samples were from. 1 is the treatment (high pCO2) and 0 is the control (ambient pCO2)
+```
+
+I'll use `mincov` in `processBismarkAln` to set different coverage metrics. I'll try 3x, 5x, and 10x coverage.
+
+```{r}
+processedFiles <- processBismarkAln(location = analysisFiles, sample.id = sample.IDs, assembly = "v3", read.context = "CpG", mincov = 2, treatment = treatmentSpecification) #Process files for CpG methylation. Use 2x coverage for faster processing. Coverage will be adjusted later. First 5 files were from ambient conditions, and the second from high pCO2 conditions.
+```
+
+```{bash}
+pwd
+```
+
+
+myobj_all = processBismarkAln(location = file.list_allgig,
+  sample.id = list("0501","0502","0503","3501","3502","3503","5201","5202","5203","5901","5902","5903","zr3534_10","zr3534_1","zr3534_2","zr3534_3","zr3534_4","zr3534_5","zr3534_6","zr3534_7","zr3534_8","zr3534_9","zr3644_10","zr3644_11","zr3644_12","zr3644_13","zr3644_14","zr3644_15","zr3644_16","zr3644_17","zr3644_18","zr3644_19","zr3644_1","zr3644_20","zr3644_21","zr3644_22","zr3644_23","zr3644_24","zr3644_2","zr3644_3","zr3644_4","zr3644_5","zr3644_6","zr3644_7","zr3644_8","zr3644_9","zrtg3616_1","zrtg3616_2","zrtg3616_3","zrtg3616_4","zrtg3616_5","zrtg3616_6","zrtg3616_7","zrtg3616_8"),
+  assembly = "cv",
+  read.context="CpG",
+  mincov=2,
+   treatment = c(0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3))
+
+```{bash}
+ls /home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/09-meth-quant/105M_pe.deduplicated.sorted.bam
+```
+
+```{r}
+myobj_all = processBismarkAln(location = analysisFiles,
+  sample.id = sample.IDs,
+  assembly = "cv",
+  read.context="CpG",
+  mincov=2,
+   treatment = c("HC", "HC", "HC", "HC", "AP", "AP", "AP", "AP", "BS", "BS", "BS", "BS", "EB", "EB", "EB", "EB", "SA", "SA", "SA", "SA", "SC", "SC", "SC"))
+```
+
+```{r}
+
+```
+

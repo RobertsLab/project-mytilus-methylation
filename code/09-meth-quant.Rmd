@@ -51,16 +51,6 @@ pwd
 ```
 
 
-```{bash}
-find ../output/01.2-bismark/*.bam | \
-xargs basename -s .bam | \
-xargs -I{} /home/shared/Bismark-0.24.0/bismark/deduplicate_bismark \
---bam \
---paired \
---output_dir ../output/09-meth-quant \
-../output/01.2-bismark/{}.bam
-
-```
 
 
 ```{bash}
@@ -76,16 +66,8 @@ parallel -j 8 /home/shared/Bismark-0.24.0/deduplicate_bismark \
 # extraction
 
 ```
-${bismark_dir}/bismark_methylation_extractor \
---bedGraph \
---counts \
---comprehensive \
---merge_non_CpG \
---multicore 28 \
---buffer_size 75% \
-*deduplicated.bam
+find ../output/09-meth-quant/*deduplicated.bam | xargs -n 1 -I{} /home/shared/Bismark-0.24.0/bismark_methylation_extractor --bedGraph --counts --comprehensive --merge_non_CpG --multicore 24 --buffer_size 75% --output ../output/09-meth-quant {} 
 ```
-
 
 ```
 find ../output/09-meth-quant/*deduplicated.bam | \
@@ -99,3 +81,38 @@ xargs -n 1 -I{} ${bismark_dir}/bismark_methylation_extractor \
 --output ../output/09-meth-quant \
 {}
 ```
+
+
+# cov2 cyto
+
+```{bash}
+
+```
+
+
+```{bash}
+find ../output/09-meth-quant/*deduplicated.bismark.cov.gz | \
+xargs -n 1 basename -s _pe.deduplicated.bismark.cov.gz | \
+parallel -j 48 /home/shared/Bismark-0.24.0/coverage2cytosine \
+--genome_folder ../data/ \
+-o ../output/09-meth-quant/{} \
+--merge_CpG \
+--zero_based \
+../output/09-meth-quant/{}_pe.deduplicated.bismark.cov.gz
+```
+
+
+
+```{bash}
+cd ../output/09-meth-quant/
+/home/shared/Bismark-0.24.0/bismark2report
+/home/shared/Bismark-0.24.0/bismark2summary
+```
+
+
+
+find *.bam | \
+xargs basename -s .bam | \
+xargs -I{} /home/shared/samtools-1.12/samtools \
+sort --threads 48 {}.bam \
+-o {}.sorted.bam
