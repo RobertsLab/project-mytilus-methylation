@@ -1,0 +1,11 @@
+---
+title: "12-IGV-prep"
+output: html_document
+date: "2024-12-21"
+---
+
+```{bash}
+/home/shared/samtools-1.12/samtools faidx \
+../data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa
+```
+
