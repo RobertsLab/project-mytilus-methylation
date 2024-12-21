@@ -91,7 +91,7 @@ sample.IDs <- list("105M", "106M", "107M", "109M", "239M", "240M", "241M", "242M
 ```{r}
 myobj_all = processBismarkAln(location = analysisFiles,
   sample.id = sample.IDs,
-  assembly = "cv",
+  assembly = "Mt",
   read.context="CpG",
   mincov=2,
    treatment = c("HC", "HC", "HC", "HC", "AP", "AP", "AP", "AP", "BS", "BS", "BS", "BS", "EB", "EB", "EB", "EB", "SA", "SA", "SA", "SA", "SC", "SC", "SC"))
