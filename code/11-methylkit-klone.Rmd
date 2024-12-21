@@ -207,37 +207,57 @@ myobj_23 = methRead(location = analysisFilescov, sample.id = list("105M", "106M"
 
 # Save to file
 ```{r}
-saveRDS(myobj_23, file = "myobj_23.rds")
+saveRDS(myobj_23, file = "../output/11-methylkit-klone/myobj_23.rds")
 ```
 
 # Load the saved object
 
+```{r}
+myobj_23 <- readRDS("../output/11-methylkit-klone/myobj_23.rds")
+```
 
-myobj_23 <- readRDS("myobj_23.rds")
+
 
 
 
 
 ```{r}
-filtered.myobj=filterByCoverage(myobj_23,lo.count=5,lo.perc=NULL,
+filtered.myobj=filterByCoverage(myobj_23,lo.count=10,lo.perc=NULL,
                                        hi.count=NULL,hi.perc=98)
 
 ```
 
 
 ```{r}
-meth_filter=unite(filtered.myobj, min.per.group=3L, destrand=FALSE)
+meth_filter=unite(filtered.myobj, min.per.group=5L, destrand=FALSE)
 ```
+
+````{r}
+getCorrelation(meth_filter,plot=TRUE)
+
+clusterSamples(meth_filter, dist="correlation", method="ward", plot=TRUE)
+
+```
+
+
+
 
 ```{r}
  clusterSamples(meth_filter, dist="correlation", method="ward", plot=TRUE)
  PCASamples(meth_filter)
 ```
 
+```{r}
+getCorrelation(meth_filter,plot=TRUE)
+```
+
 
 ```{r}
-myDiff=calculateDiffMeth(meth_filter,mc.cores=36)
+myDiff=calculateDiffMeth(meth_filter,mc.cores=24)
+```
 
+
+```{r}
 # get hyper methylated bases
 myDiff_a50p.hyper=getMethylDiff(myDiff,difference=50,qvalue=0.01,type="hyper")
 #
@@ -251,6 +271,42 @@ myDiff_a50p=getMethylDiff(myDiff,difference=50,qvalue=0.01)
 ```
 
 
+
+
+```{r}
+# get hyper methylated bases
+myDiff_a75p.hyper=getMethylDiff(myDiff,difference=75,qvalue=0.01,type="hyper")
+#
+# get hypo methylated bases
+myDiff_a75p.hypo=getMethylDiff(myDiff,difference=75,qvalue=0.01,type="hypo")
+#
+#
+# get all differentially methylated bases
+myDiff_a75p=getMethylDiff(myDiff,difference=75,qvalue=0.01)
+
+```
+
+```{r}
+write.table(myDiff_a50p, file = "../output/11-methylkit-klone/myDiff50p.tab")
+
+View(myDiff_a50p)
+```
+
+```{r}
+write.table(myDiff_a75p, file = "../output/11-methylkit-klone/myDiff75p.tab")
+
+View(myDiff_a75p)
+```
+
+
+
+
+
+
+
+
+
+----
 
 ```{r}
 methylBase.obj <- unite(myobj_23, 
