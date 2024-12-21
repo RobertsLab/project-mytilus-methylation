@@ -1,0 +1,340 @@
+---
+title: "11- Methylkit"
+author:Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(methylKit)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,         # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+)
+```
+
+```{r}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("methylKit")
+```
+
+
+Download sorted bams..
+
+https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/output/09-meth-quant/94M_pe.deduplicated.sorted.bam
+
+
+```{bash}
+wget -r \
+--no-directories --no-parent \
+-P ../data/ \
+-A "*_pe.deduplicated.sorted.bam" https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/output/09-meth-quant/
+```
+
+
+
+
+# list of sorted bams
+
+```{r}
+analysisFiles <- list(
+  "~/github/project-mytilus-methylation/data/105M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/106M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/107M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/109M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/239M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/240M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/241M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/242M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/269M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/270M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/271M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/272M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/69M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/70M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/71M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/72M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/78M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/79M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/80M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/81M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/92M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/94M_pe.deduplicated.sorted.bam",
+  "~/github/project-mytilus-methylation/data/95M_pe.deduplicated.sorted.bam"
+) #Put all .bam files into a list for analysis.
+```
+
+
+# setting treatment
+
+```{r}
+treatment <- list("HC", "HC", "HC", "HC", "AP", "AP", "AP", "AP", "BS", "BS", "BS", "BS", "EB", "EB", "EB", "EB", "SA", "SA", "SA", "SA", "SC", "SC", "SC")
+```
+
+```{r}
+treatment <- unlist(treatment)
+```
+
+# setting sample IDs
+
+```{r}
+sample.IDs <- list("105M", "106M", "107M", "109M", "239M", "240M", "241M", "242M", "269M", "270M", "271M", "272M", "69M", "70M", "71M", "72M", "78M", "79M", "80M", "81M", "92M", "94M", "95M") #Create list of sample IDs
+```
+
+
+```{r}
+myobj_all = processBismarkAln(location = analysisFiles,
+  sample.id = sample.IDs,
+  assembly = "Mt",
+  read.context="CpG",
+  mincov=2,
+   treatment = c("HC", "HC", "HC", "HC", "AP", "AP", "AP", "AP", "BS", "BS", "BS", "BS", "EB", "EB", "EB", "EB", "SA", "SA", "SA", "SA", "SC", "SC", "SC"))
+```
+
+or 
+
+```{r, eval = FALSE}
+myobj_23 = processBismarkAln(location = analysisFiles, sample.id = list("105M", "106M", "107M", "109M", "239M", "240M", "241M", "242M", "269M", "270M", "271M", "272M", "69M", "70M", "71M", "72M", "78M", "79M", "80M", "81M", "92M", "94M", "95M"), assembly = "Mt", read.context="CpG", mincov=2, treatment = c(0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1))
+```
+
+
+
+
+```{r, eval = FALSE}
+
+
+myobj_23 = processBismarkAln(location = analysisFiles, sample.id = list("105M", "106M", "107M", "109M", "239M", "240M", "241M", "242M", "269M", "270M", "271M", "272M", "69M", "70M", "71M", "72M", "78M", "79M", "80M", "81M", "92M", "94M", "95M"), assembly = "Mt", read.context="CpG", mincov=2, treatment = c("HC", "HC", "HC", "HC", "AP", "AP", "AP", "AP", "BS", "BS", "BS", "BS", "EB", "EB", "EB", "EB", "SA", "SA", "SA", "SA", "SC", "SC", "SC"))
+```
+
+
+```{r}
+library(doParallel)
+
+# Set up parallel backend
+cl <- makeCluster(20)
+registerDoParallel(cl)
+
+# Run the parallelized code
+myobj_all <- foreach(idx = seq_along(analysisFiles), .packages = "methylKit") %dopar% {
+  processBismarkAln(
+    location = analysisFiles[idx],
+    sample.id = sample.IDs[idx],
+    assembly = "cv",
+    read.context = "CpG",
+    mincov = 2,
+    treatment = treatment[idx]
+  )
+}
+
+# Stop the cluster
+stopCluster(cl)
+```
+
+
+
+
+#try coverage files
+
+
+```{bash}
+wget -r \
+--no-directories --no-parent \
+-P ../data/ \
+-A "*cov" https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/output/09-meth-quant/
+```
+
+
+
+
+# COVERAGE FILES 
+
+```{r}
+analysisFilescov <- list(
+  "~/github/project-mytilus-methylation/data/105M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/106M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/107M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/109M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/239M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/240M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/241M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/242M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/269M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/270M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/271M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/272M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/69M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/70M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/71M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/72M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/78M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/79M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/80M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/81M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/92M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/94M.CpG_report.merged_CpG_evidence.cov",
+  "~/github/project-mytilus-methylation/data/95M.CpG_report.merged_CpG_evidence.cov"
+) #Put all .bam files into a list for analysis.
+```
+
+
+#The following command reads coverage files - minimum 5x coverage
+
+```{r, eval = FALSE}
+myobj_23 = methRead(location = analysisFilescov, sample.id = list("105M", "106M", "107M", "109M", "239M", "240M", "241M", "242M", "269M", "270M", "271M", "272M", "69M", "70M", "71M", "72M", "78M", "79M", "80M", "81M", "92M", "94M", "95M"), assembly = "Mt", pipeline = "bismarkCoverage", context="CpG", mincov=2, treatment = c(0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1))
+```
+
+# Save to file
+```{r}
+saveRDS(myobj_23, file = "myobj_23.rds")
+```
+
+# Load the saved object
+
+
+myobj_23 <- readRDS("myobj_23.rds")
+
+
+
+
+```{r}
+filtered.myobj=filterByCoverage(myobj_23,lo.count=5,lo.perc=NULL,
+                                       hi.count=NULL,hi.perc=98)
+
+```
+
+
+```{r}
+meth_filter=unite(filtered.myobj, min.per.group=3L, destrand=FALSE)
+```
+
+```{r}
+ clusterSamples(meth_filter, dist="correlation", method="ward", plot=TRUE)
+ PCASamples(meth_filter)
+```
+
+
+```{r}
+myDiff=calculateDiffMeth(meth_filter,mc.cores=36)
+
+# get hyper methylated bases
+myDiff_a50p.hyper=getMethylDiff(myDiff,difference=50,qvalue=0.01,type="hyper")
+#
+# get hypo methylated bases
+myDiff_a50p.hypo=getMethylDiff(myDiff,difference=50,qvalue=0.01,type="hypo")
+#
+#
+# get all differentially methylated bases
+myDiff_a50p=getMethylDiff(myDiff,difference=50,qvalue=0.01)
+
+```
+
+
+
+```{r}
+methylBase.obj <- unite(myobj_23, 
+                        min.per.group = 10L, 
+                        destrand = FALSE, 
+                        mc.cores = 30, 
+                        allow.duplicated.locations = FALSE)
+```
+
+```{r}
+ clusterSamples(methylBase.obj, dist="correlation", method="ward", plot=TRUE)
+ PCASamples(methylBase.obj)
+```
+
+```{r}
+myDiff=calculateDiffMeth(methylBase.obj,mc.cores=36)
+
+# get hyper methylated bases
+myDiff_a50p.hyper=getMethylDiff(myDiff,difference=50,qvalue=0.01,type="hyper")
+#
+# get hypo methylated bases
+myDiff_a50p.hypo=getMethylDiff(myDiff,difference=50,qvalue=0.01,type="hypo")
+#
+#
+# get all differentially methylated bases
+myDiff_a50p=getMethylDiff(myDiff,difference=50,qvalue=0.01)
+
+```
+
+
+
+
+
+
+
+```{r}
+coverageStats(myobj_23)  # Summarizes CpG site coverage in your samples
+
+getCoverageStats(myobj_23, plot = TRUE, both.strands = FALSE)
+
+methylBase.obj <- unite(myobj_23, 
+                        min.per.group = 1L,  # Allow sites present in at least one sample
+                        destrand = TRUE, 
+                        mc.cores = 24)
+
+methylBase.obj
+```
+
+
+
+
+
+```{r}
+meth_filter=unite(myobj_23)
+meth_filter
+```
+
+
+```{r}
+ clusterSamples(methylBase.obj, dist="correlation", method="ward", plot=TRUE)
+ PCASamples(methylBase.obj)
+```
+
+
+
+```{r}
+sample1 <- myobj_23[[9]]  # Replace `1` with the index of the desired sample
+getCoverageStats(sample1, plot = TRUE)
+```
+
+
+```{r}
+str(filtered.myobj)
+```
+
+myobj_Pact_all_TG=methRead(Pact_all_TG.list, sample.id = list("WGBS 1","WGBS 2","WGBS 3","MBDBS 1","MBDBS 2","MBDBS 3","RRBS 1","RRBS 2","RRBS 3"), assembly = "Pact_genome", treatment = c(0,0,0,0,0,0,1,1,1), context = "CpG", pipeline = "bismarkCoverage", mincov=5)
+
+```{r}
+for (i in seq_along(myobj_23)) {
+  cat("Sample", i, "\n")
+  print(head(getData(myobj_23[[i]])))
+  cat("\n")
+}
+```
+
+
+

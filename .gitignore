@@ -15,6 +15,11 @@ data/ncbi*zip
 
 data/Bisulfite_Genome/*
 data/*fq.gz
+data/*bai
+data/*cov
+
+workspace
+
 
 code/*fastq
 output/02*
