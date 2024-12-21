@@ -43,3 +43,29 @@ echo "Conversion complete. Output saved to $OUTPUT_FILE"
 ```
 
 
+
+```
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Session genome="https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa" locus="NC_086386.1:32575935-32644087" version="8">
+    <Resources>
+        <Resource path="/Users/sr320/Desktop/my75.bedgraph" type="bedgraph"/>
+        <Resource path="https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/ncbi_dataset/data/GCF_036588685.1/genomic.gff" type="gff"/>
+    </Resources>
+    <Panel height="66" name="DataPanel" width="1133">
+        <Track attributeKey="my75.bedgraph" autoScale="false" clazz="org.broad.igv.track.DataSourceTrack" fontSize="10" id="/Users/sr320/Desktop/my75.bedgraph" name="my75.bedgraph" renderer="BAR_CHART" visible="true" windowFunction="mean">
+            <DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="86.08737" minimum="-80.09324" type="LINEAR"/>
+        </Track>
+    </Panel>
+    <Panel height="985" name="FeaturePanel" width="1133">
+        <Track attributeKey="Reference sequence" clazz="org.broad.igv.track.SequenceTrack" fontSize="10" id="Reference sequence" name="Reference sequence" sequenceTranslationStrandValue="+" shouldShowTranslation="false" visible="true"/>
+        <Track attributeKey="genomic.gff" clazz="org.broad.igv.track.FeatureTrack" colorScale="ContinuousColorScale;0.0;7545.0;255,255,255;0,0,178" displayMode="EXPANDED" fontSize="10" groupByStrand="false" id="https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/ncbi_dataset/data/GCF_036588685.1/genomic.gff" name="genomic.gff" visible="true"/>
+    </Panel>
+    <PanelLayout dividerFractions="0.11683848797250859"/>
+    <HiddenAttributes>
+        <Attribute name="DATA FILE"/>
+        <Attribute name="DATA TYPE"/>
+        <Attribute name="NAME"/>
+    </HiddenAttributes>
+</Session>
+```
+
