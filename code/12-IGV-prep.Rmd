@@ -9,3 +9,37 @@ date: "2024-12-21"
 ../data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa
 ```
 
+for f in *merged_CpG_evidence.cov
+do
+  STEM=$(basename "${f}" .CpG_report.merged_CpG_evidence.cov)
+  cat "${f}" | awk -F $'\t' 'BEGIN {OFS = FS} {if ($5+$6 >= 10) {print $1, $2, $3, $4}}' \
+  > "${STEM}"_10x.bedgraph
+done
+
+
+
+```{bash}
+for f in *merged_CpG_evidence.cov
+do
+  STEM=$(basename "${f}" .CpG_report.merged_CpG_evidence.cov)
+  cat "${f}" | awk -F $'\t' 'BEGIN {OFS = FS} {if ($5+$6 >= 5) {print $1, $2, $3, $4}}' \
+  > "${STEM}"_5x.bedgraph
+done
+```
+
+
+```{bash}
+# Input and output file names
+INPUT_FILE="../output/11-methylkit-klone/myDiff75p.tab"
+OUTPUT_FILE="../output/12-IGV/myDiff75p.bedgraph"
+
+# Write the BEDGRAPH header
+echo "track type=bedGraph name=\"MethDiff\" description=\"Methylation difference data\"" > "$OUTPUT_FILE"
+
+# Process the input file to convert it to BEDGRAPH format
+awk 'NR > 1 {print $2 "\t" $3-1 "\t" $4 "\t" $8}' "$INPUT_FILE" >> "$OUTPUT_FILE"
+
+echo "Conversion complete. Output saved to $OUTPUT_FILE"
+```
+
+
