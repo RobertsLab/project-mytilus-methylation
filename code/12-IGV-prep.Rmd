@@ -54,8 +54,8 @@ done
 
 ```{bash}
 # Input and output file names
-INPUT_FILE="../output/11-methylkit-klone/myDiff75p.tab"
-OUTPUT_FILE="../output/12-IGV/myDiff75p.bedgraph"
+INPUT_FILE="../output/11-methylkit-klone/myDiff_1055p.tab"
+OUTPUT_FILE="../output/12-IGV/myDiff1055p.bedgraph"
 
 
 # Write the BEDGRAPH header

@@ -1,0 +1,49 @@
+---
+title: "14-intersectbed"
+output: html_document
+date: "2024-12-23"
+---
+
+
+```{bash}
+head ../output/12-IGV/myDiff1055p.bedgraph
+```
+
+
+
+https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/output/12-IGV/ncRNA.gff
+```{bash}
+wget -r \
+--no-directories --no-parent \
+-P ../output/12-IGV/ \
+-A "*gff" https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/output/12-IGV/
+```
+
+```{bash}
+#!/bin/bash
+
+# Input files
+BEDGRAPH="../output/12-IGV/myDiff1055p.bedgraph"
+GFF_DIR="../output/12-IGV"
+
+# Output directory for intersect results
+OUTPUT_DIR="../output/14-intersectbed/"
+mkdir -p $OUTPUT_DIR
+
+# Loop through all GFF files in the directory
+for GFF in $GFF_DIR/*.gff; do
+    BASENAME=$(basename "$GFF" .gff)
+    OUTPUT_FILE="$OUTPUT_DIR/${BASENAME}_intersect.bed"
+    
+    echo "Intersecting $BEDGRAPH with $GFF..."
+    intersectBed -a "$BEDGRAPH" -b "$GFF" > "$OUTPUT_FILE"
+    
+    echo "Result saved to $OUTPUT_FILE"
+done
+
+echo "All intersections completed!"
+```
+```{bash}
+bedtools/intersectBed
+```
+

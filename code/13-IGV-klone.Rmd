@@ -37,6 +37,42 @@ setCustomGenome(
     annotationURL = annotation_url
 )
 ```
+```{r}
+library(igvR)
+igv <- igvR()
+setBrowserWindowTitle(igv, "hg38 explicit")
+setCustomGenome(igv,
+                id="hg38",
+                genomeName="Human (GRCh38/hg38)",
+                fastaURL="https://s3.amazonaws.com/igv.broadinstitute.org/genomes/seq/hg38/hg38.fa",
+                fastaIndexURL="https://s3.amazonaws.com/igv.broadinstitute.org/genomes/seq/hg38/hg38.fa.fai",
+                cytobandURL="https://s3.amazonaws.com/igv.broadinstitute.org/annotations/hg38/cytoBandIdeo.txt",
+                chromosomeAliasURL=NA,
+                geneAnnotationName="Refseq Genes",
+                geneAnnotationURL="https://s3.amazonaws.com/igv.org.genomes/hg38/refGene.txt.gz",
+                geneAnnotationTrackHeight=500,
+                geneAnnotationTrackColor="darkBlue",
+                initialLocus="chr5:88,621,308-89,001,037",
+                visibilityWindow=5000000)
+```
+
+
+```{r}
+library(igvR)
+igv <- igvR()
+setBrowserWindowTitle(igv, "Mytilus")
+setCustomGenome(igv,
+                id="Mytil",
+                genomeName="genome name",
+                fastaURL="https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa",
+                fastaIndexURL="https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa.fai",
+                cytobandURL="",
+                chromosomeAliasURL=NA,
+                geneAnnotationName="Refseq Genes",
+                geneAnnotationURL="https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/output/12-IGV/gene.gff",
+                visibilityWindow=5000000)
+```
+
 
 
 ```{r}
