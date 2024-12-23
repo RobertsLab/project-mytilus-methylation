@@ -282,7 +282,7 @@ myDiff_a75p.hypo=getMethylDiff(myDiff,difference=75,qvalue=0.01,type="hypo")
 #
 #
 # get all differentially methylated bases
-myDiff_a75p=getMethylDiff(myDiff,difference=75,qvalue=0.01)
+myDiff_a75p=getMethylDiff(myDiff,difference=55,qvalue=0.01)
 
 ```
 
@@ -394,3 +394,56 @@ for (i in seq_along(myobj_23)) {
 
 
 
+# 10 samples
+
+
+```{r}
+filtered.myobj=filterByCoverage(myobj_23,lo.count=5,lo.perc=NULL,
+                                       hi.count=NULL,hi.perc=98)
+
+```
+
+
+```{r}
+meth_filter=methylKit::unite(filtered.myobj, min.per.group=10L, destrand=FALSE)
+```
+
+
+```{r}
+ clusterSamples(meth_filter, dist="correlation", method="ward", plot=TRUE)
+ PCASamples(meth_filter)
+```
+
+
+```{r}
+myDiff=calculateDiffMeth(meth_filter,mc.cores=24)
+```
+
+
+```{r}
+# get hyper methylated bases
+myDiff_a50p.hyper=getMethylDiff(myDiff,difference=50,qvalue=0.01,type="hyper")
+#
+# get hypo methylated bases
+myDiff_a50p.hypo=getMethylDiff(myDiff,difference=50,qvalue=0.01,type="hypo")
+#
+#
+# get all differentially methylated bases
+myDiff_a50p=getMethylDiff(myDiff,difference=50,qvalue=0.01)
+
+```
+
+
+```{r}
+myDiff_a75p
+```
+```{r}
+# get all diffeentially methylated bases
+myDiff_1055p=getMethylDiff(myDiff,difference=55,qvalue=0.01)
+```
+
+
+```{r}
+write.table(myDiff_1055p, file = "../output/11-methylkit-klone/myDiff_1055p.tab")
+
+```

@@ -1,0 +1,80 @@
+---
+title: "13-IGV-klone"
+output: html_document
+date: "2024-12-22"
+---
+
+```{r}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("igvR")
+library(igvR)
+```
+
+```{r}
+library(igvR)
+```
+
+
+```{r}
+# Load igvR
+library(igvR)
+
+# Start an IGV session
+igv2 <- igvR()
+setBrowserWindowTitle(igv, "Mytilus Genome Session")
+
+# URLs for genome and annotation
+genome_url <- "https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa"
+annotation_url <- "https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/ncbi_dataset/data/GCF_036588685.1/genomic.gff"
+
+# Set the custom genome (annotation optional)
+setCustomGenome(
+    igv2,
+    genomeName = "Mytilus",
+    fastaURL = genome_url,
+    annotationURL = annotation_url
+)
+```
+
+
+```{r}
+# Load igvR
+
+# Start IGV with a custom port
+igv <- igvR(portRange = 15000:15010)  # Use a range of ports to avoid conflicts
+setBrowserWindowTitle(igv, "Mytilus Genome Session")
+
+# URLs for genome and annotation
+genome_url <- "https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa"
+annotation_url <- "https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/ncbi_dataset/data/GCF_036588685.1/genomic.gff"
+
+# Set the custom genome (annotation optional)
+setCustomGenome(
+    igv,
+    genomeName = "Mytilus",
+    fastaURL = genome_url,
+    annotationURL = annotation_url
+)
+```
+
+```{r}
+setCustomGenome(
+    igv,
+    genomeName = "Mytilus",
+    fastaURL = genome_url
+)
+```
+
+
+```{r}
+genome_url <- "https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa"
+annotation_url <- "https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/ncbi_dataset/data/GCF_036588685.1/genomic.gff"
+
+download.file(genome_url, destfile = "../output/13-IGV-klone/genome.fa")
+download.file(annotation_url, destfile = "../output/13-IGV-klone/annotation.gff")
+```
+
+
+
