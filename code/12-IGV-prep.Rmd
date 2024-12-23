@@ -12,10 +12,23 @@ date: "2024-12-21"
 for f in *merged_CpG_evidence.cov
 do
   STEM=$(basename "${f}" .CpG_report.merged_CpG_evidence.cov)
-  cat "${f}" | awk -F $'\t' 'BEGIN {OFS = FS} {if ($5+$6 >= 10) {print $1, $2, $3, $4}}' \
-  > "${STEM}"_10x.bedgraph
+  cat "${f}" | awk -F $'\t' 'BEGIN {OFS = FS} {if ($5+$6 >= 5) {print $1, $2, $3, $4}}' \
+  > ../12-IGV/"${STEM}"_5x.bedgraph
 done
 
+
+
+
+for f in *merged_CpG_evidence.cov
+do
+  STEM=$(basename "${f}" .CpG_report.merged_CpG_evidence.cov)
+  cat "${f}" | awk -F $'\t' 'BEGIN {OFS = FS} {if ($5+$6 >= 10) {print $1, $2, $3, $4}}' \
+  > ../12-IGV/"${STEM}"_10x.bedgraph
+done
+
+```{bash}
+head ../output/12-IGV/*bedgraph
+```
 
 
 ```{bash}
@@ -28,18 +41,177 @@ done
 ```
 
 
+
+
+```{bash}
+for f in *merged_CpG_evidence.cov
+do
+  STEM=$(basename "${f}" .CpG_report.merged_CpG_evidence.cov)
+  cat "${f}" | awk -F $'\t' 'BEGIN {OFS = FS} {if ($5+$6 >= 5) {print $1, $2, $3, $4}}' \
+  > "${STEM}"_5x.bedgraph
+done
+```
+
 ```{bash}
 # Input and output file names
 INPUT_FILE="../output/11-methylkit-klone/myDiff75p.tab"
 OUTPUT_FILE="../output/12-IGV/myDiff75p.bedgraph"
 
+
 # Write the BEDGRAPH header
 echo "track type=bedGraph name=\"MethDiff\" description=\"Methylation difference data\"" > "$OUTPUT_FILE"
 
-# Process the input file to convert it to BEDGRAPH format
-awk 'NR > 1 {print $2 "\t" $3-1 "\t" $4 "\t" $8}' "$INPUT_FILE" >> "$OUTPUT_FILE"
+# Process the input file to remove quotes and convert it to BEDGRAPH format
+awk 'NR > 1 {gsub(/"/, "", $2); print $2 "\t" $3-1 "\t" $4 "\t" $8}' "$INPUT_FILE" >> "$OUTPUT_FILE"
 
 echo "Conversion complete. Output saved to $OUTPUT_FILE"
 ```
 
+---
+
+```{r}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("igvR")
+library(igvR)
+```
+
+```{r}
+# Load igvR
+
+
+# Start an IGV session
+#igv <- igvR()
+#setBrowserWindowTitle(igv, "Mytilus Genome Session")
+
+# URLs for genome and annotation
+genome_url <- "https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa"
+annotation_url <- "https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/ncbi_dataset/data/GCF_036588685.1/genomic.gff"
+
+# Set the custom genome (annotation optional)
+setCustomGenome(
+    igv,
+    genomeName = "Mytilus",
+    fastaURL = genome_url,
+    annotationURL = annotation_url
+)
+```
+
+```{r}
+library(igvR)
+igv <- igvR()
+setBrowserWindowTitle(igv, "Merry Mytilus")
+```
+
+
+
+```{r}
+local_genome <- "../data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa"
+local_genome_index <- paste0(local_genome, ".fai")  # Optional index file
+annotation_file <- "../data/ncbi_dataset/data/GCF_036588685.1/genomic.gff3"  # Optional annotation file
+
+setCustomGenome(
+    igv,
+    genomeName = "Mytilus",
+    fastaPath = local_genome,
+    indexPath = local_genome_index,
+    annotationPath = annotation_file
+)
+```
+
+
+```{r}
+local_genome <- "file:../data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa"
+local_genome_index <- "file:../data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa.fai"
+annotation_file <- "file:../data/ncbi_dataset/data/GCF_036588685.1/genomic.gff3"
+
+
+
+setCustomGenome(
+  igv,
+  genomeName = "Mytilus",
+  fastaURL = local_genome,         # Correct parameter name for the genome file
+  indexURL = local_genome_index,  # Correct parameter name for the index file
+  annotationURL = annotation_file # Correct parameter name for the annotation file
+)
+```
+
+```{r}
+packageVersion("igvR")
+```
+
+
+
+
+# gff inspect
+
+```{bash}
+chmod a+rx ../data/ncbi_dataset
+chmod a+rx ../data/ncbi_dataset/data
+```
+
+```{bash}
+ls ../data/ncbi_dataset/data/GCF_036588685.1
+```
+```{bash}
+head ../data/ncbi_dataset/data/GCF_036588685.1/genomic.gff
+```
+
+```{bash}
+awk '{if($3 && $3 !~ /^#/) print $3}' ../data/ncbi_dataset/data/GCF_036588685.1/genomic.gff | sort | uniq
+```
+
+```{bash}
+# Input GFF file
+input_gff="../data/ncbi_dataset/data/GCF_036588685.1/genomic.gff"
+
+# Output directory
+output_dir="../output/12-IGV"
+mkdir -p "$output_dir"
+
+# List of feature types
+features=("cDNA_match" "CDS" "exon" "gene" "lnc_RNA" "mRNA" "ncRNA" "pseudogene" "RefSeq" "region" "rRNA" "snoRNA" "snRNA" "transcript" "tRNA")
+
+# Loop through each feature type and create separate GFF files
+for feature in "${features[@]}"; do
+  # Use awk to filter lines with the specific feature type
+  awk -v ft="$feature" '$3 == ft || $1 ~ /^#/ {print}' "$input_gff" > "$output_dir/${feature}.gff"
+  echo "Created: $output_dir/${feature}.gff"
+done
+
+echo "Feature-specific GFF files created in: $output_dir"
+```
+
+
+
+
+```{r}
+# Load the igvR library
+library(igvR)
+
+# Initialize IGV session with a custom port (if needed)
+igv <- igvR(port = 60152)
+
+# Load the custom genome
+genome_name <- "PNRI_Mtr1.1.1"
+genome_file <- "../data/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa" # Replace with your local path to the genome file
+fasta_index_file <- paste0(genome_file, ".fai")  # Ensure you have the index file generated
+
+if (!file.exists(fasta_index_file)) {
+  # Create the index file if it doesn't exist
+  system(paste("samtools faidx", genome_file))
+}
+
+setCustomGenome(igv, genomeName = genome_name, fastaFilePath = genome_file)
+
+# Set the locus to the specified range
+setLocus(igv, "NC_086373.1:67431584-67431738")
+
+# Load bedgraph and GFF tracks
+loadBedGraphTrack(igv, name = "my75.bedgraph", file = "/Users/sr320/Desktop/my75.bedgraph", color = "blue", trackHeight = 50)
+loadGffTrack(igv, name = "genomic.gff", file = "https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data/ncbi_dataset/data/GCF_036588685.1/genomic.gff")
+
+# Load additional bedgraph files
+```
 
