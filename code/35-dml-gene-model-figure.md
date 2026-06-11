@@ -3,6 +3,8 @@
 Steven Roberts
 11 June, 2026
 
+<a href="https://robertslab.github.io/resources/Agentic-Coding-Tools/#five-level-rubric"><img alt="AI Use L4: Substantial" src="https://img.shields.io/badge/AI%20Use-L4%20Substantial-red"></a>
+
 -   [1 Overview](#1-overview)
 -   [2 Download the NCBI GFF
     annotation](#2-download-the-ncbi-gff-annotation)
