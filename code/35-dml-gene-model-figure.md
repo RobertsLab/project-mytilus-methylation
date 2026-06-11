@@ -60,7 +60,7 @@ ls -la "$gff"
 out="../output/35-dml-gene-model-figure"
 
 awk -F'\t' '
-BEGIN{ s="LOC134725187 LOC134690221 LOC134714536 LOC134695637 LOC134707074 LOC134720671 LOC134711256 LOC134685297 LOC134712818 LOC134724475";
+BEGIN{ s="LOC134725187 LOC134690221 LOC134714536 LOC134695637 LOC134707074 LOC134720671 LOC134711256 LOC134685297 LOC134712818 LOC134724475 LOC134687110 LOC134687290";
        n=split(s,g," "); for(i=1;i<=n;i++) want[g[i]]=1 }
 /^#/{next}
 { if(match($9,/gene=[^;]+/)){ gname=substr($9,RSTART+5,RLENGTH-5); if(gname in want) print } }
@@ -70,11 +70,11 @@ echo "feature lines: $(wc -l < "$out/gene_models_raw.gff")"
 cut -f3 "$out/gene_models_raw.gff" | sort | uniq -c
 ```
 
-    ## feature lines:     1167
-    ##  547 CDS
-    ##  575 exon
-    ##   10 gene
-    ##   35 mRNA
+    ## feature lines:     1269
+    ##  596 CDS
+    ##  624 exon
+    ##   12 gene
+    ##   37 mRNA
 
 # 3 Parse gene models
 
@@ -126,39 +126,45 @@ primary[]
     ##             gene                 tx         chr     start       end strand
     ##           <char>             <char>      <char>     <int>     <int> <char>
     ##  1: LOC134685297 rna-XM_063544925.1 NC_086381.1  21116727  21261455      -
-    ##  2: LOC134690221 rna-XM_063550200.1 NC_086373.1  90602585  90632630      +
-    ##  3: LOC134695637 rna-XM_063556955.1 NC_086373.1 105380391 105513502      -
-    ##  4: LOC134707074 rna-XM_063566562.1 NC_086374.1  34630047  34756161      -
-    ##  5: LOC134711256 rna-XM_063571761.1 NC_086375.1  31935064  31941257      -
-    ##  6: LOC134712818 rna-XM_063574731.1 NC_086375.1  90867638  90891015      +
-    ##  7: LOC134714536 rna-XM_063575859.1 NC_086376.1   5626113   5639140      +
-    ##  8: LOC134720671 rna-XM_063583078.1 NC_086378.1   6588729   6697712      +
-    ##  9: LOC134724475 rna-XM_063587507.1 NC_086379.1   1585149   1617685      +
-    ## 10: LOC134725187 rna-XM_063588806.1 NC_086379.1  47959226  47965210      -
+    ##  2: LOC134687110 rna-XM_063547109.1 NC_086382.1  25951921  25959192      +
+    ##  3: LOC134687290 rna-XM_063547445.1 NC_086382.1  36708321  36799106      +
+    ##  4: LOC134690221 rna-XM_063550200.1 NC_086373.1  90602585  90632630      +
+    ##  5: LOC134695637 rna-XM_063556955.1 NC_086373.1 105380391 105513502      -
+    ##  6: LOC134707074 rna-XM_063566562.1 NC_086374.1  34630047  34756161      -
+    ##  7: LOC134711256 rna-XM_063571761.1 NC_086375.1  31935064  31941257      -
+    ##  8: LOC134712818 rna-XM_063574731.1 NC_086375.1  90867638  90891015      +
+    ##  9: LOC134714536 rna-XM_063575859.1 NC_086376.1   5626113   5639140      +
+    ## 10: LOC134720671 rna-XM_063583078.1 NC_086378.1   6588729   6697712      +
+    ## 11: LOC134724475 rna-XM_063587507.1 NC_086379.1   1585149   1617685      +
+    ## 12: LOC134725187 rna-XM_063588806.1 NC_086379.1  47959226  47965210      -
     ##                                                                         product
     ##                                                                          <char>
     ##  1:        tumor protein p53-inducible protein 11-like%2C transcript variant X4
-    ##  2:                                       GRAM domain-containing protein 4-like
-    ##  3:                                     otoferlin-like%2C transcript variant X1
-    ##  4: receptor-type tyrosine-protein phosphatase N2-like%2C transcript variant X1
-    ##  5:   cancer-related nucleoside-triphosphatase homolog%2C transcript variant X1
-    ##  6:                                                uncharacterized LOC134712818
-    ##  7:                                               coatomer subunit epsilon-like
-    ##  8:                          roundabout homolog 1-like%2C transcript variant X2
-    ##  9:                       uncharacterized LOC134724475%2C transcript variant X1
-    ## 10:                                                  membrane protein BRI3-like
+    ##  2:               alpha-ketoglutarate-dependent dioxygenase alkB homolog 3-like
+    ##  3:                       mitogen-activated protein kinase kinase kinase 5-like
+    ##  4:                                       GRAM domain-containing protein 4-like
+    ##  5:                                     otoferlin-like%2C transcript variant X1
+    ##  6: receptor-type tyrosine-protein phosphatase N2-like%2C transcript variant X1
+    ##  7:   cancer-related nucleoside-triphosphatase homolog%2C transcript variant X1
+    ##  8:                                                uncharacterized LOC134712818
+    ##  9:                                               coatomer subunit epsilon-like
+    ## 10:                          roundabout homolog 1-like%2C transcript variant X2
+    ## 11:                       uncharacterized LOC134724475%2C transcript variant X1
+    ## 12:                                                  membrane protein BRI3-like
     ##     n_exon   span
     ##      <int>  <int>
     ##  1:      7 144728
-    ##  2:     18  30045
-    ##  3:     45 133111
-    ##  4:     21 126114
-    ##  5:      6   6193
-    ##  6:     16  23377
-    ##  7:     11  13027
-    ##  8:     26 108983
-    ##  9:      9  32536
-    ## 10:      4   5984
+    ##  2:      7   7271
+    ##  3:     42  90785
+    ##  4:     18  30045
+    ##  5:     45 133111
+    ##  6:     21 126114
+    ##  7:      6   6193
+    ##  8:     16  23377
+    ##  9:     11  13027
+    ## 10:     26 108983
+    ## 11:      9  32536
+    ## 12:      4   5984
 
 ``` r
 prim_tx <- primary$tx
@@ -190,6 +196,8 @@ cat("exons per primary transcript:\n"); print(exons[, .N, by = gene])
     ##  8: LOC134724475     9
     ##  9: LOC134725187     4
     ## 10: LOC134685297     7
+    ## 11: LOC134687110     7
+    ## 12: LOC134687290    42
 
 # 4 DML set (Table 2) and coordinate verification
 
@@ -198,25 +206,29 @@ q-values, then each is checked for containment within its assigned gene
 span.
 
 ``` r
+# Corrected genic DML set: 12 DMLs, each inside a unique gene (see
+# 35a-dml-assignment-audit.R). The two intergenic loci previously assigned to
+# LOC134725187 / LOC134711256 are dropped, and the two genic loci on
+# NC_086382.1 (LOC134687110 alkB, LOC134687290 MAP3K5/ASK1) are added.
 dml <- data.table(
-  qvalue       = c(5.77e-14, 1.72e-21, 1.16e-11, 2.92e-13, 4.17e-14,
-                   1.10e-13, 7.20e-13, 8.98e-18, 6.02e-19, 1.06e-12,
-                   1.32e-13, 2.52e-16),
-  chr          = c("NC_086379.1","NC_086379.1","NC_086373.1","NC_086376.1","NC_086373.1",
-                   "NC_086374.1","NC_086378.1","NC_086375.1","NC_086375.1","NC_086381.1",
-                   "NC_086375.1","NC_086379.1"),
-  pos          = c(47961734, 64017640, 90626338, 5631156, 105503509,
-                   34742951, 6633121, 31938079, 43581688, 21212100,
-                   90876604, 1603830),
-  assigned_gene= c("LOC134725187","LOC134725187","LOC134690221","LOC134714536","LOC134695637",
-                   "LOC134707074","LOC134720671","LOC134711256","LOC134711256","LOC134685297",
-                   "LOC134712818","LOC134724475"),
-  meth_diff    = c(56.45, -63.6, 56.32, 59, -57.86,
-                   58.27, -55.24, -60.69, 58.2, -56.07,
-                   55.88, -60.82),
-  status_paper = c("Both","Both","Hyper","Hyper","Hypo",
-                   "Both","Hypo","Both","Both","Hypo",
-                   "Hyper","Hypo")
+  qvalue       = c(5.77e-14, 1.16e-11, 2.92e-13, 4.17e-14, 1.10e-13,
+                   7.20e-13, 8.98e-18, 1.06e-12, 1.32e-13, 2.52e-16,
+                   6.02e-14, 5.83e-13),
+  chr          = c("NC_086379.1","NC_086373.1","NC_086376.1","NC_086373.1","NC_086374.1",
+                   "NC_086378.1","NC_086375.1","NC_086381.1","NC_086375.1","NC_086379.1",
+                   "NC_086382.1","NC_086382.1"),
+  pos          = c(47961734, 90626338, 5631156, 105503509, 34742951,
+                   6633121, 31938079, 21212100, 90876604, 1603830,
+                   25952234, 36708761),
+  assigned_gene= c("LOC134725187","LOC134690221","LOC134714536","LOC134695637","LOC134707074",
+                   "LOC134720671","LOC134711256","LOC134685297","LOC134712818","LOC134724475",
+                   "LOC134687110","LOC134687290"),
+  meth_diff    = c(56.45, 56.32, 59, -57.86, 58.27,
+                   -55.24, -60.69, -56.07, 55.88, -60.82,
+                   -55.83, -56.50),
+  status_paper = c("Hyper","Hyper","Hyper","Hypo","Hyper",
+                   "Hypo","Hypo","Hypo","Hyper","Hypo",
+                   "Hypo","Hypo")
 )
 
 # direction from the sign of meth.diff (hyper = +, hypo = -)
@@ -236,37 +248,37 @@ dml[, .(assigned_gene, chr, pos, meth_diff, direction, status_paper,
     ##     assigned_gene         chr       pos meth_diff        direction status_paper
     ##            <char>      <char>     <num>     <num>           <fctr>       <char>
     ##  1:  LOC134685297 NC_086381.1  21212100    -56.07  Hypo-methylated         Hypo
-    ##  2:  LOC134690221 NC_086373.1  90626338     56.32 Hyper-methylated        Hyper
-    ##  3:  LOC134695637 NC_086373.1 105503509    -57.86  Hypo-methylated         Hypo
-    ##  4:  LOC134707074 NC_086374.1  34742951     58.27 Hyper-methylated         Both
-    ##  5:  LOC134711256 NC_086375.1  31938079    -60.69  Hypo-methylated         Both
-    ##  6:  LOC134711256 NC_086375.1  43581688     58.20 Hyper-methylated         Both
-    ##  7:  LOC134712818 NC_086375.1  90876604     55.88 Hyper-methylated        Hyper
-    ##  8:  LOC134714536 NC_086376.1   5631156     59.00 Hyper-methylated        Hyper
-    ##  9:  LOC134720671 NC_086378.1   6633121    -55.24  Hypo-methylated         Hypo
-    ## 10:  LOC134724475 NC_086379.1   1603830    -60.82  Hypo-methylated         Hypo
-    ## 11:  LOC134725187 NC_086379.1  47961734     56.45 Hyper-methylated         Both
-    ## 12:  LOC134725187 NC_086379.1  64017640    -63.60  Hypo-methylated         Both
+    ##  2:  LOC134687110 NC_086382.1  25952234    -55.83  Hypo-methylated         Hypo
+    ##  3:  LOC134687290 NC_086382.1  36708761    -56.50  Hypo-methylated         Hypo
+    ##  4:  LOC134690221 NC_086373.1  90626338     56.32 Hyper-methylated        Hyper
+    ##  5:  LOC134695637 NC_086373.1 105503509    -57.86  Hypo-methylated         Hypo
+    ##  6:  LOC134707074 NC_086374.1  34742951     58.27 Hyper-methylated        Hyper
+    ##  7:  LOC134711256 NC_086375.1  31938079    -60.69  Hypo-methylated         Hypo
+    ##  8:  LOC134712818 NC_086375.1  90876604     55.88 Hyper-methylated        Hyper
+    ##  9:  LOC134714536 NC_086376.1   5631156     59.00 Hyper-methylated        Hyper
+    ## 10:  LOC134720671 NC_086378.1   6633121    -55.24  Hypo-methylated         Hypo
+    ## 11:  LOC134724475 NC_086379.1   1603830    -60.82  Hypo-methylated         Hypo
+    ## 12:  LOC134725187 NC_086379.1  47961734     56.45 Hyper-methylated        Hyper
     ##       g_start     g_end in_gene_span
     ##         <int>     <int>       <lgcl>
     ##  1:  21116727  21261455         TRUE
-    ##  2:  90602585  90632630         TRUE
-    ##  3: 105380391 105513502         TRUE
-    ##  4:  34630047  34756161         TRUE
-    ##  5:  31935064  31941257         TRUE
-    ##  6:  31935064  31941257        FALSE
-    ##  7:  90867638  90891015         TRUE
-    ##  8:   5626113   5639140         TRUE
-    ##  9:   6588729   6697712         TRUE
-    ## 10:   1585149   1617687         TRUE
-    ## 11:  47959226  47965210         TRUE
-    ## 12:  47959226  47965210        FALSE
+    ##  2:  25951921  25959192         TRUE
+    ##  3:  36708321  36799106         TRUE
+    ##  4:  90602585  90632630         TRUE
+    ##  5: 105380391 105513502         TRUE
+    ##  6:  34630047  34756161         TRUE
+    ##  7:  31935064  31941257         TRUE
+    ##  8:  90867638  90891015         TRUE
+    ##  9:   5626113   5639140         TRUE
+    ## 10:   6588729   6697712         TRUE
+    ## 11:   1585149   1617687         TRUE
+    ## 12:  47959226  47965210         TRUE
 
 ``` r
 cat("DMLs inside their assigned gene span:", sum(dml$in_gene_span), "of", nrow(dml), "\n\n")
 ```
 
-    ## DMLs inside their assigned gene span: 10 of 12
+    ## DMLs inside their assigned gene span: 12 of 12
 
 ``` r
 cat("DMLs NOT inside assigned gene span:\n")
@@ -278,21 +290,18 @@ cat("DMLs NOT inside assigned gene span:\n")
 print(dml[in_gene_span == FALSE, .(assigned_gene, chr, pos, meth_diff)])
 ```
 
-    ##    assigned_gene         chr      pos meth_diff
-    ##           <char>      <char>    <num>     <num>
-    ## 1:  LOC134725187 NC_086379.1 64017640     -63.6
-    ## 2:  LOC134711256 NC_086375.1 43581688      58.2
+    ## Empty data.table (0 rows and 4 cols): assigned_gene,chr,pos,meth_diff
 
-**Note.** Ten of the twelve Table 2 loci fall cleanly inside their
-assigned gene body. The two “second” loci of the bidirectional pairs do
-**not**: `NC_086379.1:64017640` (assigned to LOC134725187, which is at
-\~47.96 Mb) and `NC_086375.1:43581688` (assigned to LOC134711256, which
-is at \~31.94 Mb) are intergenic in this RefSeq annotation, \~16 Mb and
-\~11 Mb from their assigned genes respectively. Their nearest genes are
-*protein chibby homolog 1-like* / uncharacterized LOC134725551 and
-*solute carrier family 40 member 1-like*. They are therefore plotted
-only as a verification flag in the summary table, not on the (distant)
-assigned gene models.
+**Note.** This is the **corrected** DML set (see
+`35a-dml-assignment-audit.R`). All 12 DMLs fall cleanly inside a unique
+gene body — i.e. 12 DMLs across 12 genes, none bidirectional. An earlier
+version of the manuscript Table 2 assigned two intergenic loci
+(`NC_086379.1:64017640` and `NC_086375.1:43581688`, \~16 Mb / \~11 Mb
+from their listed genes) to LOC134725187 and LOC134711256, making them
+appear bidirectional, while omitting two genuinely genic loci on
+NC\_086382.1 (LOC134687110 *alkB homolog 3-like* and LOC134687290
+*MAP3K5 / ASK1-like*). The intergenic loci are dropped here and the two
+genic loci added.
 
 # 5 Build the figure
 
@@ -369,6 +378,8 @@ build_panel <- function(gid) {
 
   lab <- sprintf("%s  \u2014  %s  (%s strand)",
                  gid, short_name(g$gene_desc), tx$strand)
+  # wrap long titles so adjacent column panels don't collide
+  lab <- paste(strwrap(lab, width = 52), collapse = "\n")
   span_kb <- (tx$end - tx$start) / 1e3
 
   p +
@@ -399,10 +410,15 @@ build_panel <- function(gid) {
 
 ``` r
 # order panels by paper functional grouping
-gene_order <- c("LOC134725187","LOC134690221","LOC134714536","LOC134695637",
-                "LOC134707074","LOC134720671",
-                "LOC134711256","LOC134685297",
-                "LOC134712818","LOC134724475")
+gene_order <- c(
+  # Membrane dynamics and vesicle trafficking
+  "LOC134725187","LOC134690221","LOC134714536","LOC134695637",
+  # Cell signaling and regulation
+  "LOC134707074","LOC134720671",
+  # Stress response, apoptosis, and nucleic acid metabolism
+  "LOC134711256","LOC134685297","LOC134687110","LOC134687290",
+  # Uncharacterized
+  "LOC134712818","LOC134724475")
 
 panels <- lapply(gene_order, build_panel)
 
@@ -418,9 +434,9 @@ fig <- wrap_plots(panels, ncol = 2) +
   theme(legend.position = "bottom")
 
 ggsave(file.path(out_dir, "dml_gene_models.png"), fig,
-       width = 10, height = 12, dpi = 300, bg = "white")
+       width = 10, height = 14.4, dpi = 300, bg = "white")
 ggsave(file.path(out_dir, "dml_gene_models.pdf"), fig,
-       width = 10, height = 12, bg = "white")
+       width = 10, height = 14.4, bg = "white")
 
 fig
 ```
@@ -460,20 +476,20 @@ fwrite(summary_out, file.path(out_dir, "dml_gene_model_summary.csv"))
 knitr::kable(summary_out)
 ```
 
-| gene\_id     | gene\_description                                  | chr          | gene\_span          | strand | primary\_tx         | exon\_count | dml\_position | qvalue | meth\_diff | direction        | status\_paper | in\_gene\_span | note                                                                                     |
-|:-------------|:---------------------------------------------------|:-------------|:--------------------|:-------|:--------------------|------------:|--------------:|-------:|-----------:|:-----------------|:--------------|:---------------|:-----------------------------------------------------------------------------------------|
-| LOC134685297 | tumor protein p53-inducible protein 11-like        | NC\_086381.1 | 21116727-21261455   | \-     | rna-XM\_063544925.1 |           7 |      21212100 |      0 |     -56.07 | Hypo-methylated  | Hypo          | TRUE           | DML within gene body                                                                     |
-| LOC134690221 | GRAM domain-containing protein 4-like              | NC\_086373.1 | 90602585-90632630   | \+     | rna-XM\_063550200.1 |          18 |      90626338 |      0 |      56.32 | Hyper-methylated | Hyper         | TRUE           | DML within gene body                                                                     |
-| LOC134695637 | otoferlin-like                                     | NC\_086373.1 | 105380391-105513502 | \-     | rna-XM\_063556955.1 |          45 |     105503509 |      0 |     -57.86 | Hypo-methylated  | Hypo          | TRUE           | DML within gene body                                                                     |
-| LOC134707074 | receptor-type tyrosine-protein phosphatase N2-like | NC\_086374.1 | 34630047-34756161   | \-     | rna-XM\_063566562.1 |          21 |      34742951 |      0 |      58.27 | Hyper-methylated | Both          | TRUE           | DML within gene body                                                                     |
-| LOC134711256 | cancer-related nucleoside-triphosphatase homolog   | NC\_086375.1 | 31935064-31941257   | \-     | rna-XM\_063571761.1 |           6 |      31938079 |      0 |     -60.69 | Hypo-methylated  | Both          | TRUE           | DML within gene body                                                                     |
-| LOC134711256 | cancer-related nucleoside-triphosphatase homolog   | NC\_086375.1 | 31935064-31941257   | \-     | rna-XM\_063571761.1 |           6 |      43581688 |      0 |      58.20 | Hyper-methylated | Both          | FALSE          | intergenic; nearest gene LOC134711544 (solute carrier family 40 member 1-like), \~1.0 kb |
-| LOC134712818 | uncharacterized LOC134712818                       | NC\_086375.1 | 90867638-90891015   | \+     | rna-XM\_063574731.1 |          16 |      90876604 |      0 |      55.88 | Hyper-methylated | Hyper         | TRUE           | DML within gene body                                                                     |
-| LOC134714536 | coatomer subunit epsilon-like                      | NC\_086376.1 | 5626113-5639140     | \+     | rna-XM\_063575859.1 |          11 |       5631156 |      0 |      59.00 | Hyper-methylated | Hyper         | TRUE           | DML within gene body                                                                     |
-| LOC134720671 | roundabout homolog 1-like                          | NC\_086378.1 | 6588729-6697712     | \+     | rna-XM\_063583078.1 |          26 |       6633121 |      0 |     -55.24 | Hypo-methylated  | Hypo          | TRUE           | DML within gene body                                                                     |
-| LOC134724475 | uncharacterized LOC134724475                       | NC\_086379.1 | 1585149-1617687     | \+     | rna-XM\_063587507.1 |           9 |       1603830 |      0 |     -60.82 | Hypo-methylated  | Hypo          | TRUE           | DML within gene body                                                                     |
-| LOC134725187 | membrane protein BRI3-like                         | NC\_086379.1 | 47959226-47965210   | \-     | rna-XM\_063588806.1 |           4 |      47961734 |      0 |      56.45 | Hyper-methylated | Both          | TRUE           | DML within gene body                                                                     |
-| LOC134725187 | membrane protein BRI3-like                         | NC\_086379.1 | 47959226-47965210   | \-     | rna-XM\_063588806.1 |           4 |      64017640 |      0 |     -63.60 | Hypo-methylated  | Both          | FALSE          | intergenic; nearest gene LOC134725550 (protein chibby homolog 1-like), \~3.7 kb          |
+| gene\_id     | gene\_description                                             | chr          | gene\_span          | strand | primary\_tx         | exon\_count | dml\_position | qvalue | meth\_diff | direction        | status\_paper | in\_gene\_span | note                 |
+|:-------------|:--------------------------------------------------------------|:-------------|:--------------------|:-------|:--------------------|------------:|--------------:|-------:|-----------:|:-----------------|:--------------|:---------------|:---------------------|
+| LOC134685297 | tumor protein p53-inducible protein 11-like                   | NC\_086381.1 | 21116727-21261455   | \-     | rna-XM\_063544925.1 |           7 |      21212100 |      0 |     -56.07 | Hypo-methylated  | Hypo          | TRUE           | DML within gene body |
+| LOC134687110 | alpha-ketoglutarate-dependent dioxygenase alkB homolog 3-like | NC\_086382.1 | 25951921-25959192   | \+     | rna-XM\_063547109.1 |           7 |      25952234 |      0 |     -55.83 | Hypo-methylated  | Hypo          | TRUE           | DML within gene body |
+| LOC134687290 | mitogen-activated protein kinase kinase kinase 5-like         | NC\_086382.1 | 36708321-36799106   | \+     | rna-XM\_063547445.1 |          42 |      36708761 |      0 |     -56.50 | Hypo-methylated  | Hypo          | TRUE           | DML within gene body |
+| LOC134690221 | GRAM domain-containing protein 4-like                         | NC\_086373.1 | 90602585-90632630   | \+     | rna-XM\_063550200.1 |          18 |      90626338 |      0 |      56.32 | Hyper-methylated | Hyper         | TRUE           | DML within gene body |
+| LOC134695637 | otoferlin-like                                                | NC\_086373.1 | 105380391-105513502 | \-     | rna-XM\_063556955.1 |          45 |     105503509 |      0 |     -57.86 | Hypo-methylated  | Hypo          | TRUE           | DML within gene body |
+| LOC134707074 | receptor-type tyrosine-protein phosphatase N2-like            | NC\_086374.1 | 34630047-34756161   | \-     | rna-XM\_063566562.1 |          21 |      34742951 |      0 |      58.27 | Hyper-methylated | Hyper         | TRUE           | DML within gene body |
+| LOC134711256 | cancer-related nucleoside-triphosphatase homolog              | NC\_086375.1 | 31935064-31941257   | \-     | rna-XM\_063571761.1 |           6 |      31938079 |      0 |     -60.69 | Hypo-methylated  | Hypo          | TRUE           | DML within gene body |
+| LOC134712818 | uncharacterized LOC134712818                                  | NC\_086375.1 | 90867638-90891015   | \+     | rna-XM\_063574731.1 |          16 |      90876604 |      0 |      55.88 | Hyper-methylated | Hyper         | TRUE           | DML within gene body |
+| LOC134714536 | coatomer subunit epsilon-like                                 | NC\_086376.1 | 5626113-5639140     | \+     | rna-XM\_063575859.1 |          11 |       5631156 |      0 |      59.00 | Hyper-methylated | Hyper         | TRUE           | DML within gene body |
+| LOC134720671 | roundabout homolog 1-like                                     | NC\_086378.1 | 6588729-6697712     | \+     | rna-XM\_063583078.1 |          26 |       6633121 |      0 |     -55.24 | Hypo-methylated  | Hypo          | TRUE           | DML within gene body |
+| LOC134724475 | uncharacterized LOC134724475                                  | NC\_086379.1 | 1585149-1617687     | \+     | rna-XM\_063587507.1 |           9 |       1603830 |      0 |     -60.82 | Hypo-methylated  | Hypo          | TRUE           | DML within gene body |
+| LOC134725187 | membrane protein BRI3-like                                    | NC\_086379.1 | 47959226-47965210   | \-     | rna-XM\_063588806.1 |           4 |      47961734 |      0 |      56.45 | Hyper-methylated | Hyper         | TRUE           | DML within gene body |
 
 # 7 Session info
 

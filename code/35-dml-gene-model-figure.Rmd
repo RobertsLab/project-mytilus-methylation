@@ -75,7 +75,7 @@ ls -la "$gff"
 out="../output/35-dml-gene-model-figure"
 
 awk -F'\t' '
-BEGIN{ s="LOC134725187 LOC134690221 LOC134714536 LOC134695637 LOC134707074 LOC134720671 LOC134711256 LOC134685297 LOC134712818 LOC134724475";
+BEGIN{ s="LOC134725187 LOC134690221 LOC134714536 LOC134695637 LOC134707074 LOC134720671 LOC134711256 LOC134685297 LOC134712818 LOC134724475 LOC134687110 LOC134687290";
        n=split(s,g," "); for(i=1;i<=n;i++) want[g[i]]=1 }
 /^#/{next}
 { if(match($9,/gene=[^;]+/)){ gname=substr($9,RSTART+5,RLENGTH-5); if(gname in want) print } }
@@ -154,25 +154,29 @@ The 12 DMLs of Table 2 are pulled from `myDiff_1055p.tab` by matching q-values,
 then each is checked for containment within its assigned gene span.
 
 ```{r dml-table}
+# Corrected genic DML set: 12 DMLs, each inside a unique gene (see
+# 35a-dml-assignment-audit.R). The two intergenic loci previously assigned to
+# LOC134725187 / LOC134711256 are dropped, and the two genic loci on
+# NC_086382.1 (LOC134687110 alkB, LOC134687290 MAP3K5/ASK1) are added.
 dml <- data.table(
-  qvalue       = c(5.77e-14, 1.72e-21, 1.16e-11, 2.92e-13, 4.17e-14,
-                   1.10e-13, 7.20e-13, 8.98e-18, 6.02e-19, 1.06e-12,
-                   1.32e-13, 2.52e-16),
-  chr          = c("NC_086379.1","NC_086379.1","NC_086373.1","NC_086376.1","NC_086373.1",
-                   "NC_086374.1","NC_086378.1","NC_086375.1","NC_086375.1","NC_086381.1",
-                   "NC_086375.1","NC_086379.1"),
-  pos          = c(47961734, 64017640, 90626338, 5631156, 105503509,
-                   34742951, 6633121, 31938079, 43581688, 21212100,
-                   90876604, 1603830),
-  assigned_gene= c("LOC134725187","LOC134725187","LOC134690221","LOC134714536","LOC134695637",
-                   "LOC134707074","LOC134720671","LOC134711256","LOC134711256","LOC134685297",
-                   "LOC134712818","LOC134724475"),
-  meth_diff    = c(56.45, -63.6, 56.32, 59, -57.86,
-                   58.27, -55.24, -60.69, 58.2, -56.07,
-                   55.88, -60.82),
-  status_paper = c("Both","Both","Hyper","Hyper","Hypo",
-                   "Both","Hypo","Both","Both","Hypo",
-                   "Hyper","Hypo")
+  qvalue       = c(5.77e-14, 1.16e-11, 2.92e-13, 4.17e-14, 1.10e-13,
+                   7.20e-13, 8.98e-18, 1.06e-12, 1.32e-13, 2.52e-16,
+                   6.02e-14, 5.83e-13),
+  chr          = c("NC_086379.1","NC_086373.1","NC_086376.1","NC_086373.1","NC_086374.1",
+                   "NC_086378.1","NC_086375.1","NC_086381.1","NC_086375.1","NC_086379.1",
+                   "NC_086382.1","NC_086382.1"),
+  pos          = c(47961734, 90626338, 5631156, 105503509, 34742951,
+                   6633121, 31938079, 21212100, 90876604, 1603830,
+                   25952234, 36708761),
+  assigned_gene= c("LOC134725187","LOC134690221","LOC134714536","LOC134695637","LOC134707074",
+                   "LOC134720671","LOC134711256","LOC134685297","LOC134712818","LOC134724475",
+                   "LOC134687110","LOC134687290"),
+  meth_diff    = c(56.45, 56.32, 59, -57.86, 58.27,
+                   -55.24, -60.69, -56.07, 55.88, -60.82,
+                   -55.83, -56.50),
+  status_paper = c("Hyper","Hyper","Hyper","Hypo","Hyper",
+                   "Hypo","Hypo","Hypo","Hyper","Hypo",
+                   "Hypo","Hypo")
 )
 
 # direction from the sign of meth.diff (hyper = +, hypo = -)
@@ -195,15 +199,15 @@ cat("DMLs NOT inside assigned gene span:\n")
 print(dml[in_gene_span == FALSE, .(assigned_gene, chr, pos, meth_diff)])
 ```
 
-**Note.** Ten of the twelve Table 2 loci fall cleanly inside their assigned gene
-body. The two "second" loci of the bidirectional pairs do **not**:
-`NC_086379.1:64017640` (assigned to LOC134725187, which is at ~47.96 Mb) and
-`NC_086375.1:43581688` (assigned to LOC134711256, which is at ~31.94 Mb) are
-intergenic in this RefSeq annotation, ~16 Mb and ~11 Mb from their assigned
-genes respectively. Their nearest genes are *protein chibby homolog 1-like* /
-uncharacterized LOC134725551 and *solute carrier family 40 member 1-like*. They
-are therefore plotted only as a verification flag in the summary table, not on
-the (distant) assigned gene models.
+**Note.** This is the **corrected** DML set (see `35a-dml-assignment-audit.R`).
+All 12 DMLs fall cleanly inside a unique gene body — i.e. 12 DMLs across 12
+genes, none bidirectional. An earlier version of the manuscript Table 2
+assigned two intergenic loci (`NC_086379.1:64017640` and
+`NC_086375.1:43581688`, ~16 Mb / ~11 Mb from their listed genes) to
+LOC134725187 and LOC134711256, making them appear bidirectional, while omitting
+two genuinely genic loci on NC_086382.1 (LOC134687110 *alkB homolog 3-like* and
+LOC134687290 *MAP3K5 / ASK1-like*). The intergenic loci are dropped here and the
+two genic loci added.
 
 # Build the figure
 
@@ -280,6 +284,8 @@ build_panel <- function(gid) {
 
   lab <- sprintf("%s  \u2014  %s  (%s strand)",
                  gid, short_name(g$gene_desc), tx$strand)
+  # wrap long titles so adjacent column panels don't collide
+  lab <- paste(strwrap(lab, width = 52), collapse = "\n")
   span_kb <- (tx$end - tx$start) / 1e3
 
   p +
@@ -308,12 +314,17 @@ build_panel <- function(gid) {
 }
 ```
 
-```{r assemble, fig.width=10, fig.height=12}
+```{r assemble, fig.width=10, fig.height=14.4}
 # order panels by paper functional grouping
-gene_order <- c("LOC134725187","LOC134690221","LOC134714536","LOC134695637",
-                "LOC134707074","LOC134720671",
-                "LOC134711256","LOC134685297",
-                "LOC134712818","LOC134724475")
+gene_order <- c(
+  # Membrane dynamics and vesicle trafficking
+  "LOC134725187","LOC134690221","LOC134714536","LOC134695637",
+  # Cell signaling and regulation
+  "LOC134707074","LOC134720671",
+  # Stress response, apoptosis, and nucleic acid metabolism
+  "LOC134711256","LOC134685297","LOC134687110","LOC134687290",
+  # Uncharacterized
+  "LOC134712818","LOC134724475")
 
 panels <- lapply(gene_order, build_panel)
 
@@ -329,9 +340,9 @@ fig <- wrap_plots(panels, ncol = 2) +
   theme(legend.position = "bottom")
 
 ggsave(file.path(out_dir, "dml_gene_models.png"), fig,
-       width = 10, height = 12, dpi = 300, bg = "white")
+       width = 10, height = 14.4, dpi = 300, bg = "white")
 ggsave(file.path(out_dir, "dml_gene_models.pdf"), fig,
-       width = 10, height = 12, bg = "white")
+       width = 10, height = 14.4, bg = "white")
 
 fig
 ```

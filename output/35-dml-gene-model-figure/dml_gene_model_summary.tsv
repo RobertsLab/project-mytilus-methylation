@@ -1,13 +1,13 @@
 gene_id	gene_description	chr	gene_span	strand	primary_tx	exon_count	dml_position	qvalue	meth_diff	direction	status_paper	in_gene_span	note
 LOC134685297	tumor protein p53-inducible protein 11-like	NC_086381.1	21116727-21261455	-	rna-XM_063544925.1	7	21212100	1.06e-12	-56.07	Hypo-methylated	Hypo	TRUE	DML within gene body
+LOC134687110	alpha-ketoglutarate-dependent dioxygenase alkB homolog 3-like	NC_086382.1	25951921-25959192	+	rna-XM_063547109.1	7	25952234	6.02e-14	-55.83	Hypo-methylated	Hypo	TRUE	DML within gene body
+LOC134687290	mitogen-activated protein kinase kinase kinase 5-like	NC_086382.1	36708321-36799106	+	rna-XM_063547445.1	42	36708761	5.83e-13	-56.5	Hypo-methylated	Hypo	TRUE	DML within gene body
 LOC134690221	GRAM domain-containing protein 4-like	NC_086373.1	90602585-90632630	+	rna-XM_063550200.1	18	90626338	1.16e-11	56.32	Hyper-methylated	Hyper	TRUE	DML within gene body
 LOC134695637	otoferlin-like	NC_086373.1	105380391-105513502	-	rna-XM_063556955.1	45	105503509	4.17e-14	-57.86	Hypo-methylated	Hypo	TRUE	DML within gene body
-LOC134707074	receptor-type tyrosine-protein phosphatase N2-like	NC_086374.1	34630047-34756161	-	rna-XM_063566562.1	21	34742951	1.1e-13	58.27	Hyper-methylated	Both	TRUE	DML within gene body
-LOC134711256	cancer-related nucleoside-triphosphatase homolog	NC_086375.1	31935064-31941257	-	rna-XM_063571761.1	6	31938079	8.98e-18	-60.69	Hypo-methylated	Both	TRUE	DML within gene body
-LOC134711256	cancer-related nucleoside-triphosphatase homolog	NC_086375.1	31935064-31941257	-	rna-XM_063571761.1	6	43581688	6.02e-19	58.2	Hyper-methylated	Both	FALSE	intergenic; nearest gene LOC134711544 (solute carrier family 40 member 1-like), ~1.0 kb
+LOC134707074	receptor-type tyrosine-protein phosphatase N2-like	NC_086374.1	34630047-34756161	-	rna-XM_063566562.1	21	34742951	1.1e-13	58.27	Hyper-methylated	Hyper	TRUE	DML within gene body
+LOC134711256	cancer-related nucleoside-triphosphatase homolog	NC_086375.1	31935064-31941257	-	rna-XM_063571761.1	6	31938079	8.98e-18	-60.69	Hypo-methylated	Hypo	TRUE	DML within gene body
 LOC134712818	uncharacterized LOC134712818	NC_086375.1	90867638-90891015	+	rna-XM_063574731.1	16	90876604	1.32e-13	55.88	Hyper-methylated	Hyper	TRUE	DML within gene body
 LOC134714536	coatomer subunit epsilon-like	NC_086376.1	5626113-5639140	+	rna-XM_063575859.1	11	5631156	2.92e-13	59	Hyper-methylated	Hyper	TRUE	DML within gene body
 LOC134720671	roundabout homolog 1-like	NC_086378.1	6588729-6697712	+	rna-XM_063583078.1	26	6633121	7.2e-13	-55.24	Hypo-methylated	Hypo	TRUE	DML within gene body
 LOC134724475	uncharacterized LOC134724475	NC_086379.1	1585149-1617687	+	rna-XM_063587507.1	9	1603830	2.52e-16	-60.82	Hypo-methylated	Hypo	TRUE	DML within gene body
-LOC134725187	membrane protein BRI3-like	NC_086379.1	47959226-47965210	-	rna-XM_063588806.1	4	47961734	5.77e-14	56.45	Hyper-methylated	Both	TRUE	DML within gene body
-LOC134725187	membrane protein BRI3-like	NC_086379.1	47959226-47965210	-	rna-XM_063588806.1	4	64017640	1.72e-21	-63.6	Hypo-methylated	Both	FALSE	intergenic; nearest gene LOC134725550 (protein chibby homolog 1-like), ~3.7 kb
+LOC134725187	membrane protein BRI3-like	NC_086379.1	47959226-47965210	-	rna-XM_063588806.1	4	47961734	5.77e-14	56.45	Hyper-methylated	Hyper	TRUE	DML within gene body
