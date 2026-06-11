@@ -1,0 +1,376 @@
+---
+title: "35- DML gene-model figure (Table 2)"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 10,
+  fig.height = 12,
+  fig.align = "center"
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview
+
+Publication-quality, multi-panel figure of the **10 annotated gene models**
+that harbor the 12 differentially methylated loci (DMLs) reported in `paper.md`
+Table 2, with each DML denoted on its gene model. Companion to
+`30-dml-dmr-methylkit.Rmd` and `31-dml-dmr-annotation.Rmd`.
+
+- DML headline set: `../output/11-methylkit-klone/myDiff_1055p.tab`
+  (methylKit, q<0.01, |meth.diff|>=55%; positions are 1-based CpG coordinates)
+- Reference: NCBI **GCF_036588685.1** (PNRI_Mtr1.1.1.hap1)
+- Annotation: downloaded NCBI GFF (this script)
+- Output dir: `../output/35-dml-gene-model-figure/`
+
+`rtracklayer`/`GenomicFeatures` are not installed in this environment, so the
+GFF is parsed directly with `data.table`/`awk`.
+
+```{bash make-output-dir}
+mkdir -p ../output/35-dml-gene-model-figure
+```
+
+# Download the NCBI GFF annotation
+
+Downloads `GCF_036588685.1_..._genomic.gff` from the NCBI FTP if not already
+present, then carves out the lines for the 10 genes of interest so the rest of
+the script stays fast and reproducible.
+
+```{bash download-gff}
+out="../output/35-dml-gene-model-figure"
+gff="$out/genomic.gff"
+
+if [ ! -s "$gff" ]; then
+  url="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/036/588/685/GCF_036588685.1_PNRI_Mtr1.1.1.hap1/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.gff.gz"
+  curl -sS -L -o "$gff.gz" "$url"
+  gunzip -f "$gff.gz"
+fi
+ls -la "$gff"
+```
+
+```{bash subset-gff}
+out="../output/35-dml-gene-model-figure"
+
+awk -F'\t' '
+BEGIN{ s="LOC134725187 LOC134690221 LOC134714536 LOC134695637 LOC134707074 LOC134720671 LOC134711256 LOC134685297 LOC134712818 LOC134724475";
+       n=split(s,g," "); for(i=1;i<=n;i++) want[g[i]]=1 }
+/^#/{next}
+{ if(match($9,/gene=[^;]+/)){ gname=substr($9,RSTART+5,RLENGTH-5); if(gname in want) print } }
+' "$out/genomic.gff" > "$out/gene_models_raw.gff"
+
+echo "feature lines: $(wc -l < "$out/gene_models_raw.gff")"
+cut -f3 "$out/gene_models_raw.gff" | sort | uniq -c
+```
+
+# Parse gene models
+
+```{r parse-gff}
+library(data.table)
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+
+out_dir <- "../output/35-dml-gene-model-figure"
+raw <- fread(file.path(out_dir, "gene_models_raw.gff"), sep = "\t", header = FALSE,
+             quote = "", col.names = c("chr","src","type","start","end",
+                                       "score","strand","frame","attr"))
+
+get_attr <- function(attr, key) {
+  out <- rep(NA_character_, length(attr))
+  m   <- regexpr(paste0(key, "=[^;]+"), attr)
+  hit <- m > 0
+  out[hit] <- sub(paste0(key, "="), "", regmatches(attr, m))
+  out
+}
+
+raw[, gene := get_attr(attr, "gene")]
+raw[, ID := get_attr(attr, "ID")]
+raw[, Parent := get_attr(attr, "Parent")]
+raw[, product := get_attr(attr, "product")]
+raw[, description := get_attr(attr, "description")]
+
+genes <- raw[type == "gene",
+             .(gene, chr, start, end, strand,
+               gene_desc = description, gene_id_full = ID)]
+
+mrna  <- raw[type == "mRNA",
+             .(gene, tx = ID, chr, start, end, strand, product)]
+
+# exon / CDS counts per transcript to help pick the primary isoform
+exon_counts <- raw[type == "exon", .N, by = .(tx = Parent)]
+setnames(exon_counts, "N", "n_exon")
+
+mrna <- merge(mrna, exon_counts, by = "tx", all.x = TRUE)
+mrna[, span := end - start]
+
+# Primary transcript = longest genomic span, tie-break by most exons, then ID
+setorder(mrna, gene, -span, -n_exon, tx)
+primary <- mrna[, .SD[1], by = gene]
+primary[]
+```
+
+```{r collect-features}
+prim_tx <- primary$tx
+
+exons <- raw[type == "exon" & Parent %in% prim_tx,
+             .(gene, tx = Parent, start, end, strand)]
+cds   <- raw[type == "CDS"  & Parent %in% prim_tx,
+             .(gene, tx = Parent, start, end, strand)]
+
+# attach gene to features via primary transcript map
+tx2gene <- setNames(primary$gene, primary$tx)
+exons[, gene := tx2gene[tx]]
+cds[,   gene := tx2gene[tx]]
+
+cat("exons per primary transcript:\n"); print(exons[, .N, by = gene])
+```
+
+# DML set (Table 2) and coordinate verification
+
+The 12 DMLs of Table 2 are pulled from `myDiff_1055p.tab` by matching q-values,
+then each is checked for containment within its assigned gene span.
+
+```{r dml-table}
+dml <- data.table(
+  qvalue       = c(5.77e-14, 1.72e-21, 1.16e-11, 2.92e-13, 4.17e-14,
+                   1.10e-13, 7.20e-13, 8.98e-18, 6.02e-19, 1.06e-12,
+                   1.32e-13, 2.52e-16),
+  chr          = c("NC_086379.1","NC_086379.1","NC_086373.1","NC_086376.1","NC_086373.1",
+                   "NC_086374.1","NC_086378.1","NC_086375.1","NC_086375.1","NC_086381.1",
+                   "NC_086375.1","NC_086379.1"),
+  pos          = c(47961734, 64017640, 90626338, 5631156, 105503509,
+                   34742951, 6633121, 31938079, 43581688, 21212100,
+                   90876604, 1603830),
+  assigned_gene= c("LOC134725187","LOC134725187","LOC134690221","LOC134714536","LOC134695637",
+                   "LOC134707074","LOC134720671","LOC134711256","LOC134711256","LOC134685297",
+                   "LOC134712818","LOC134724475"),
+  meth_diff    = c(56.45, -63.6, 56.32, 59, -57.86,
+                   58.27, -55.24, -60.69, 58.2, -56.07,
+                   55.88, -60.82),
+  status_paper = c("Both","Both","Hyper","Hyper","Hypo",
+                   "Both","Hypo","Both","Both","Hypo",
+                   "Hyper","Hypo")
+)
+
+# direction from the sign of meth.diff (hyper = +, hypo = -)
+dml[, direction := factor(ifelse(meth_diff >= 0, "Hyper-methylated", "Hypo-methylated"),
+                          levels = c("Hyper-methylated", "Hypo-methylated"))]
+
+# verify each DML against its assigned gene span
+gspan <- genes[, .(assigned_gene = gene, g_chr = chr, g_start = start,
+                   g_end = end, g_strand = strand, gene_desc)]
+dml <- merge(dml, gspan, by = "assigned_gene", all.x = TRUE, sort = FALSE)
+dml[, in_gene_span := (chr == g_chr & pos >= g_start & pos <= g_end)]
+
+dml[, .(assigned_gene, chr, pos, meth_diff, direction, status_paper,
+        g_start, g_end, in_gene_span)][order(assigned_gene, pos)]
+```
+
+```{r verify-summary}
+cat("DMLs inside their assigned gene span:", sum(dml$in_gene_span), "of", nrow(dml), "\n\n")
+cat("DMLs NOT inside assigned gene span:\n")
+print(dml[in_gene_span == FALSE, .(assigned_gene, chr, pos, meth_diff)])
+```
+
+**Note.** Ten of the twelve Table 2 loci fall cleanly inside their assigned gene
+body. The two "second" loci of the bidirectional pairs do **not**:
+`NC_086379.1:64017640` (assigned to LOC134725187, which is at ~47.96 Mb) and
+`NC_086375.1:43581688` (assigned to LOC134711256, which is at ~31.94 Mb) are
+intergenic in this RefSeq annotation, ~16 Mb and ~11 Mb from their assigned
+genes respectively. Their nearest genes are *protein chibby homolog 1-like* /
+uncharacterized LOC134725551 and *solute carrier family 40 member 1-like*. They
+are therefore plotted only as a verification flag in the summary table, not on
+the (distant) assigned gene models.
+
+# Build the figure
+
+```{r panel-builder}
+# warm = hyper, cool = hypo
+dml_cols <- c("Hyper-methylated" = "#D6604D", "Hypo-methylated" = "#2166AC")
+feat_cols <- c("CDS" = "grey25", "UTR (exon)" = "grey75")
+
+short_name <- function(desc) {
+  desc <- sub(", transcript variant.*$", "", desc)
+  desc
+}
+
+build_panel <- function(gid) {
+  g  <- genes[gene == gid]
+  tx <- primary[gene == gid]
+  ex <- exons[gene == gid]
+  cd <- cds[gene == gid]
+  dd <- dml[assigned_gene == gid & in_gene_span == TRUE]
+
+  # plot coordinates in kb (absolute genomic position)
+  x0 <- tx$start / 1e3
+  x1 <- tx$end   / 1e3
+
+  ymax_dml <- 1.15
+  # invisible layer carrying both DML levels so every panel yields an
+  # identical colour guide (patchwork then collapses it to one legend)
+  dummy <- data.frame(
+    direction = factor(c("Hyper-methylated", "Hypo-methylated"),
+                       levels = c("Hyper-methylated", "Hypo-methylated")),
+    x = x0, y = 0)
+
+  p <- ggplot() +
+    # intron line spanning the primary transcript
+    geom_segment(aes(x = x0, xend = x1, y = 0, yend = 0),
+                 linewidth = 0.4, colour = "grey40") +
+    geom_point(data = dummy, aes(x = x, y = y, colour = direction),
+               alpha = 0, shape = 18, size = 3) +
+    # exon boxes (UTR height)
+    geom_rect(data = ex,
+              aes(xmin = start/1e3, xmax = end/1e3, ymin = -0.22, ymax = 0.22,
+                  fill = "UTR (exon)"), colour = NA) +
+    # CDS boxes (full height, drawn over exons)
+    geom_rect(data = cd,
+              aes(xmin = start/1e3, xmax = end/1e3, ymin = -0.38, ymax = 0.38,
+                  fill = "CDS"), colour = NA)
+
+  # strand direction arrow above the model
+  arr_y <- 0.62
+  if (tx$strand == "+") {
+    p <- p + annotate("segment", x = x0, xend = x1, y = arr_y, yend = arr_y,
+                      colour = "grey55", linewidth = 0.3,
+                      arrow = arrow(length = unit(0.10, "cm"), type = "closed"))
+  } else {
+    p <- p + annotate("segment", x = x1, xend = x0, y = arr_y, yend = arr_y,
+                      colour = "grey55", linewidth = 0.3,
+                      arrow = arrow(length = unit(0.10, "cm"), type = "closed"))
+  }
+
+  # DML lollipops
+  if (nrow(dd) > 0) {
+    p <- p +
+      geom_segment(data = dd,
+                   aes(x = pos/1e3, xend = pos/1e3, y = 0.38, yend = ymax_dml,
+                       colour = direction), linewidth = 0.6, show.legend = FALSE) +
+      geom_point(data = dd,
+                 aes(x = pos/1e3, y = ymax_dml, colour = direction),
+                 size = 3, shape = 18, show.legend = FALSE) +
+      geom_text(data = dd,
+                aes(x = pos/1e3, y = ymax_dml + 0.22,
+                    label = sprintf("%+.1f%%", meth_diff), colour = direction),
+                size = 2.7, fontface = "bold", show.legend = FALSE)
+  }
+
+  lab <- sprintf("%s  \u2014  %s  (%s strand)",
+                 gid, short_name(g$gene_desc), tx$strand)
+  span_kb <- (tx$end - tx$start) / 1e3
+
+  p +
+    scale_fill_manual(values = feat_cols, name = "Gene structure",
+                      breaks = c("CDS","UTR (exon)")) +
+    scale_colour_manual(values = dml_cols, name = "DML methylation",
+                        drop = FALSE) +
+    guides(colour = guide_legend(
+      override.aes = list(alpha = 1, shape = 18, size = 3, linetype = 0))) +
+    scale_y_continuous(limits = c(-0.7, ymax_dml + 0.45), expand = c(0,0)) +
+    labs(title = lab,
+         x = sprintf("%s position (kb)   \u2022   transcript span %.1f kb",
+                     g$chr, span_kb)) +
+    theme_minimal(base_size = 10) +
+    theme(
+      plot.title = element_text(size = 9.2, face = "bold"),
+      axis.title.x = element_text(size = 7.5, colour = "grey30"),
+      axis.text.x = element_text(size = 7),
+      axis.title.y = element_blank(),
+      axis.text.y = element_blank(),
+      panel.grid.major.y = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.grid.major.x = element_line(colour = "grey92", linewidth = 0.3),
+      legend.position = "bottom"
+    )
+}
+```
+
+```{r assemble, fig.width=10, fig.height=12}
+# order panels by paper functional grouping
+gene_order <- c("LOC134725187","LOC134690221","LOC134714536","LOC134695637",
+                "LOC134707074","LOC134720671",
+                "LOC134711256","LOC134685297",
+                "LOC134712818","LOC134724475")
+
+panels <- lapply(gene_order, build_panel)
+
+fig <- wrap_plots(panels, ncol = 2) +
+  plot_layout(guides = "collect") +
+  plot_annotation(
+    title = "Gene models harboring differentially methylated loci (DMLs) in Mytilus trossulus mantle",
+    subtitle = "High- vs low-\u03a316 PAH sites \u00b7 NCBI GCF_036588685.1 \u00b7 exons (boxes), CDS (dark), introns (line); lollipops mark DMLs (\u0394 methylation %)",
+    caption = "DML positions from methylKit (q<0.01, |\u0394meth|\u226555%). Each panel drawn to its own bp scale.",
+    theme = theme(plot.title = element_text(face = "bold", size = 13),
+                  plot.subtitle = element_text(size = 9, colour = "grey30"))
+  ) &
+  theme(legend.position = "bottom")
+
+ggsave(file.path(out_dir, "dml_gene_models.png"), fig,
+       width = 10, height = 12, dpi = 300, bg = "white")
+ggsave(file.path(out_dir, "dml_gene_models.pdf"), fig,
+       width = 10, height = 12, bg = "white")
+
+fig
+```
+
+# Summary table
+
+```{r summary-table}
+# nearest-gene context for the two intergenic loci (computed from the GFF)
+nearest_note <- c(
+  "NC_086379.1:64017640" = "intergenic; nearest gene LOC134725550 (protein chibby homolog 1-like), ~3.7 kb",
+  "NC_086375.1:43581688" = "intergenic; nearest gene LOC134711544 (solute carrier family 40 member 1-like), ~1.0 kb"
+)
+
+n_exon_map <- exons[, .N, by = gene]
+setnames(n_exon_map, "N", "exon_count")
+
+summary_tab <- dml |>
+  merge(n_exon_map, by.x = "assigned_gene", by.y = "gene", all.x = TRUE, sort = FALSE) |>
+  merge(primary[, .(assigned_gene = gene, primary_tx = tx)], by = "assigned_gene",
+        all.x = TRUE, sort = FALSE)
+
+summary_tab[, gene_span := paste0(g_start, "-", g_end)]
+summary_tab[, locus := paste0(chr, ":", pos)]
+summary_tab[, note := ifelse(in_gene_span, "DML within gene body",
+                             nearest_note[locus])]
+
+summary_out <- summary_tab[order(assigned_gene, pos),
+  .(gene_id = assigned_gene, gene_description = gene_desc, chr,
+    gene_span, strand = g_strand, primary_tx, exon_count,
+    dml_position = pos, qvalue, meth_diff, direction,
+    status_paper, in_gene_span, note)]
+
+fwrite(summary_out, file.path(out_dir, "dml_gene_model_summary.tsv"), sep = "\t")
+fwrite(summary_out, file.path(out_dir, "dml_gene_model_summary.csv"))
+knitr::kable(summary_out)
+```
+
+# Session info
+
+```{r session-info}
+sessionInfo()
+```

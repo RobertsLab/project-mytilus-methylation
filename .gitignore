@@ -29,3 +29,4 @@ output/06-bismark-pipeline/*
 output/09*
 output/01*
 output/12*
+output/35-dml-gene-model-figure/genomic.gff
