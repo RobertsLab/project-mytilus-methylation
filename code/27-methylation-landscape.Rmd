@@ -1,0 +1,197 @@
+---
+title: "27- Methylation landscape (Goal 1)"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(methylKit)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview — Goal 1
+
+Genome-wide, treatment-independent characterization of the *M. trossulus* CpG
+methylome plus the sample-level QC baseline, using the **24-sample** object
+(`myobj_24`, incl. 93M) from `26-methylkit-object.Rmd`. Implements plan
+sections 1.1, 1.2 and 1.5 (feature distribution is `28`, CpG O/E is `29`).
+
+Output dir: `../output/27-methylation-landscape/`
+
+```{bash make-output-dir}
+mkdir -p ../output/27-methylation-landscape
+```
+
+```{r load-object}
+myobj_24 <- readRDS("../output/26-methylkit-object/myobj_24.rds")
+meta     <- read.csv("../output/26-methylkit-object/sample_metadata.csv")
+```
+
+# 1.1 Per-sample global CpG methylation summary
+
+Global **weighted** % CpG methylation = Σ methylated counts / Σ total counts.
+
+```{r per-sample-global}
+per_sample <- do.call(rbind, lapply(seq_along(myobj_24), function(i) {
+  d  <- getData(myobj_24[[i]])
+  tot <- d$coverage
+  meth <- d$numCs
+  data.frame(
+    sample          = myobj_24[[i]]@sample.id,
+    n_CpG_covered   = nrow(d),
+    mean_coverage   = mean(tot),
+    median_coverage = median(tot),
+    global_pct_meth = 100 * sum(meth) / sum(tot)
+  )
+})) |>
+  left_join(meta, by = "sample")
+
+write.csv(per_sample, "../output/27-methylation-landscape/per_sample_global_methylation.csv",
+          row.names = FALSE)
+per_sample
+```
+
+```{r global-mean-check}
+# Manuscript reports global mean ~12% (range 10.3-13%); confirm here.
+summary(per_sample$global_pct_meth)
+```
+
+# Per-sample methylation & coverage histograms
+
+```{r stats-plots}
+pdf("../output/27-methylation-landscape/methylation_stats_histograms.pdf", width = 6, height = 4)
+for (i in seq_along(myobj_24)) {
+  getMethylationStats(myobj_24[[i]], plot = TRUE, both.strands = FALSE)
+}
+dev.off()
+
+pdf("../output/27-methylation-landscape/coverage_stats_histograms.pdf", width = 6, height = 4)
+for (i in seq_along(myobj_24)) {
+  getCoverageStats(myobj_24[[i]], plot = TRUE, both.strands = FALSE)
+}
+dev.off()
+```
+
+# 1.2 Methylation-level distribution & CpG classification
+
+Bivalve methylomes are bimodal/mosaic. Classify sufficiently covered CpGs
+(>=10x) into three standard invertebrate bins.
+
+```{r classify-cpgs}
+classify <- function(obj, mincov = 10) {
+  do.call(rbind, lapply(seq_along(obj), function(i) {
+    d <- getData(obj[[i]])
+    d <- d[d$coverage >= mincov, ]
+    pm <- 100 * d$numCs / d$coverage
+    cls <- cut(pm, breaks = c(-Inf, 10, 50, Inf),
+               labels = c("unmethylated", "intermediate", "methylated"))
+    as.data.frame(table(cls)) |>
+      mutate(sample = obj[[i]]@sample.id,
+             prop   = Freq / sum(Freq))
+  }))
+}
+
+cpg_classes <- classify(myobj_24, mincov = 10)
+write.csv(cpg_classes, "../output/27-methylation-landscape/cpg_class_proportions.csv",
+          row.names = FALSE)
+
+# Genome-wide pooled proportions
+cpg_classes |> group_by(cls) |> summarise(prop = sum(Freq) / sum(cpg_classes$Freq))
+```
+
+```{r bimodality-plot}
+# Pooled per-CpG % methylation distribution (>=10x), showing bimodality
+pm_all <- unlist(lapply(seq_along(myobj_24), function(i) {
+  d <- getData(myobj_24[[i]]); d <- d[d$coverage >= 10, ]
+  100 * d$numCs / d$coverage
+}))
+
+p <- ggplot(data.frame(pct = pm_all), aes(pct)) +
+  geom_histogram(bins = 50, fill = "grey30") +
+  labs(x = "% CpG methylation (>=10x, pooled)", y = "CpG count",
+       title = "Genome-wide methylation bimodality") +
+  theme_minimal()
+ggsave("../output/27-methylation-landscape/bimodality_pooled.png", p, width = 6, height = 4)
+```
+
+# 1.5 Sample-level QC: correlation, clustering, PCA
+
+Use the united matrix at 10x (from `26-methylkit-object.Rmd`, 23-sample) plus a
+24-sample unite to position **93M**.
+
+```{r unite-24-for-qc}
+# Light filter on the 24-sample set for global structure (10x, cap 98%)
+filt_24 <- filterByCoverage(myobj_24, lo.count = 10, lo.perc = NULL,
+                            hi.count = NULL, hi.perc = 98)
+meth_24 <- unite(filt_24, min.per.group = 4L, destrand = FALSE)
+saveRDS(meth_24, "../output/27-methylation-landscape/meth_24_10x.rds")
+nrow(meth_24)
+```
+
+```{r correlation}
+png("../output/27-methylation-landscape/sample_correlation.png", width = 1200, height = 1200)
+getCorrelation(meth_24, plot = TRUE)
+dev.off()
+```
+
+```{r clustering}
+png("../output/27-methylation-landscape/sample_clustering.png", width = 1000, height = 700)
+clusterSamples(meth_24, dist = "correlation", method = "ward", plot = TRUE)
+dev.off()
+```
+
+```{r pca}
+png("../output/27-methylation-landscape/sample_pca.png", width = 800, height = 700)
+PCASamples(meth_24)
+dev.off()
+
+# PCA scores for inspecting whether samples group by site vs PAH vs artefact
+pca_obj <- PCASamples(meth_24, obj.return = TRUE)
+write.csv(as.data.frame(pca_obj$x),
+          "../output/27-methylation-landscape/pca_scores.csv")
+```
+
+# 93M outlier evaluation
+
+Formal evaluation of 93M against the QC criteria: global %CpG methylation,
+coverage, and PCA/clustering position. Document the retain/exclude decision
+with the figures above rather than as an unstated convention.
+
+```{r evaluate-93M}
+per_sample |>
+  mutate(is_93M = sample == "93M") |>
+  arrange(global_pct_meth) |>
+  select(sample, site, pah, n_CpG_covered, mean_coverage, global_pct_meth, is_93M)
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

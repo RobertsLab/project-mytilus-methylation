@@ -1,0 +1,132 @@
+---
+title: "20- Raw WGBS data acquisition & QC"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  comment = ""         # Prevents appending '##' to beginning of lines in code output
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview
+
+**First step of the self-contained `20+` pipeline.** This script downloads the
+raw paired-end (2 x 150 bp) WGBS FastQs for all **24** *Mytilus trossulus*
+mantle individuals from the `nightingales/M_trossulus` archive, verifies the
+MD5 checksums, and produces a raw-read quality report with FastQC + MultiQC.
+
+This step does not depend on any prior `output/` artifacts; it begins the
+workflow from the original sequencing reads.
+
+The 24 samples (mussel ID = `*M`) by PAH-exposure group:
+
+| Group | Site codes | Samples |
+|-------|------------|---------|
+| Low PAH (treatment 0)  | HC, AP, BS | 105M 106M 107M 109M 239M 240M 241M 242M 269M 270M 271M 272M |
+| High PAH (treatment 1) | EB, SA, SC | 69M 70M 71M 72M 78M 79M 80M 81M 92M 93M 94M 95M |
+
+`93M` is retained here (24-sample set) for landscape/QC; it is dropped from the
+23-sample differential set downstream (see `26-methylkit-object.Rmd`).
+
+Output dir: `../output/20-raw-data-qc/`
+
+```{bash make-output-dir}
+mkdir -p ../output/20-raw-data-qc
+mkdir -p ../data/raw-wgbs
+```
+
+# Download raw FastQs + checksums
+
+Source: <https://owl.fish.washington.edu/nightingales/M_trossulus/>
+(see `data/raw-wgbs/README.md`). Files are named `<number>M_[12].fastq.gz`.
+
+```{bash download-raw-reads}
+raw_reads_url="https://owl.fish.washington.edu/nightingales/M_trossulus/"
+raw_reads_dir="../data/raw-wgbs"
+
+wget \
+--directory-prefix ${raw_reads_dir} \
+--recursive \
+--no-check-certificate \
+--continue \
+--no-directories \
+--no-parent \
+--quiet \
+--level=1 \
+--accept "[0-9]M*.fastq.gz,[0-9]M*.fastq.gz.md5sum" \
+${raw_reads_url}
+
+ls -lh ${raw_reads_dir}
+```
+
+# Verify checksums
+
+```{bash verify-raw-read-checksums}
+cd ../data/raw-wgbs
+
+for file in *.md5sum
+do
+  md5sum --check "${file}"
+done
+```
+
+# Confirm all 24 samples present
+
+```{bash sample-inventory}
+cd ../data/raw-wgbs
+echo "R1 files:"; ls -1 *_1.fastq.gz | wc -l
+echo "R2 files:"; ls -1 *_2.fastq.gz | wc -l
+ls -1 *_1.fastq.gz | sed 's/_1.fastq.gz//' | sort
+```
+
+# FastQC + MultiQC on raw reads
+
+```{bash raw-fastqc-multiqc}
+raw_reads_dir="../data/raw-wgbs"
+raw_fastqc_dir="../output/20-raw-data-qc"
+threads=40
+
+############ FASTQC ############
+fastqc \
+--threads ${threads} \
+--outdir ${raw_fastqc_dir} \
+--quiet \
+${raw_reads_dir}/*.fastq.gz
+
+############ MULTIQC ############
+multiqc ${raw_fastqc_dir} -o ${raw_fastqc_dir} -n raw-multiqc
+
+# Remove per-file FastQC zips to keep the output dir tidy
+rm -f ${raw_fastqc_dir}/*_fastqc.zip
+
+ls -lh ${raw_fastqc_dir}
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

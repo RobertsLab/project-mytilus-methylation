@@ -1,0 +1,149 @@
+---
+title: "34- IGV & visualization prep"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview
+
+Final visualization step: produces per-sample methylation bedGraphs for IGV,
+DML/DMR tracks, and an IGV session XML focused on the top biomarker candidates
+(`33-biomarker-candidates.Rmd`). Genome + annotation come from
+`22-genome-prep.Rmd`.
+
+- Genome: `../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa`
+- Annotation: `../output/22-genome-prep/genomic.gff`
+- Tracks from: `../output/30-dml-dmr-methylkit/`, `../output/31-dml-dmr-annotation/`,
+  `../output/33-biomarker-candidates/`
+- Output dir: `../output/34-igv-visualization/`
+
+```{bash make-output-dir}
+mkdir -p ../output/34-igv-visualization
+```
+
+# Per-sample methylation bedGraphs (5x / 10x)
+
+```{bash per-sample-bedgraphs}
+cov_dir="../output/25-meth-extract"
+out="../output/34-igv-visualization"
+
+for f in ${cov_dir}/*.CpG_report.merged_CpG_evidence.cov
+do
+  STEM=$(basename "${f}" .CpG_report.merged_CpG_evidence.cov)
+  awk -F $'\t' 'BEGIN{OFS=FS} {if ($5+$6 >= 5)  print $1,$2,$3,$4}' "${f}" > "${out}/${STEM}_5x.bedgraph"
+  awk -F $'\t' 'BEGIN{OFS=FS} {if ($5+$6 >= 10) print $1,$2,$3,$4}' "${f}" > "${out}/${STEM}_10x.bedgraph"
+done
+
+ls -lh ${out}/*.bedgraph | head
+```
+
+# Copy DML/DMR/biomarker tracks
+
+```{bash copy-tracks}
+out="../output/34-igv-visualization"
+cp ../output/31-dml-dmr-annotation/dml_1055p.bedgraph "${out}/" 2>/dev/null
+cp ../output/31-dml-dmr-annotation/dmr_25p.bedgraph   "${out}/" 2>/dev/null
+cp ../output/33-biomarker-candidates/biomarker_shortlist.bed "${out}/" 2>/dev/null
+ls -lh ${out}
+```
+
+# Generate IGV session XML for top loci
+
+```{r igv-session}
+genome_url <- "https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa"
+gff_url    <- "https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/output/22-genome-prep/genomic.gff"
+
+shortlist <- read.csv("../output/33-biomarker-candidates/biomarker_shortlist.csv")
+top <- shortlist[1, ]
+locus <- sprintf("%s:%d-%d", top$chr, max(1, top$start - 1000), top$end + 1000)
+
+session <- sprintf('<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Session genome="%s" locus="%s" version="8">
+  <Resources>
+    <Resource path="dml_1055p.bedgraph" type="bedgraph"/>
+    <Resource path="dmr_25p.bedgraph" type="bedgraph"/>
+    <Resource path="biomarker_shortlist.bed" type="bed"/>
+    <Resource path="%s" type="gff"/>
+  </Resources>
+</Session>', genome_url, locus, gff_url)
+
+writeLines(session, "../output/34-igv-visualization/biomarker_session.xml")
+locus
+```
+
+# igvR programmatic session (optional)
+
+```{r igvr}
+if (requireNamespace("igvR", quietly = TRUE)) {
+  library(igvR)
+  igv <- igvR()
+  setBrowserWindowTitle(igv, "Mytilus PAH biomarkers")
+
+  setCustomGenome(
+    igv,
+    genomeName    = "PNRI_Mtr1.1.1",
+    fastaURL      = "../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa",
+    indexURL      = "../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa.fai",
+    annotationURL = "../output/22-genome-prep/genomic.gff"
+  )
+
+  shortlist <- read.csv("../output/33-biomarker-candidates/biomarker_shortlist.csv")
+  top <- shortlist[1, ]
+  setLocus(igv, sprintf("%s:%d-%d", top$chr, top$start - 1000, top$end + 1000))
+
+  loadBedGraphTrack(igv, name = "DML 10/55p",
+                    file = "../output/31-dml-dmr-annotation/dml_1055p.bedgraph",
+                    color = "blue", trackHeight = 50)
+}
+```
+
+# Summary figure: DML counts + direction
+
+```{r summary-figure}
+dml <- read.csv("../output/30-dml-dmr-methylkit/dml_all_with_BH.csv") |>
+  filter(qvalue_BH < 0.01, abs(meth.diff) >= 55) |>
+  mutate(direction = ifelse(meth.diff > 0, "hyper (high-PAH)", "hypo (high-PAH)"))
+
+p <- ggplot(dml, aes(direction, fill = direction)) +
+  geom_bar() +
+  labs(x = NULL, y = "DML count (q<0.01, >=55%)",
+       title = "Differentially methylated loci by direction") +
+  theme_minimal() + theme(legend.position = "none")
+ggsave("../output/34-igv-visualization/dml_direction_barplot.png", p, width = 5, height = 4)
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

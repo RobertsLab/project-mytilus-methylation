@@ -1,0 +1,165 @@
+---
+title: "29- CpG O/E mosaic structure (Goal 1)"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(Biostrings)
+library(GenomicRanges)
+library(rtracklayer)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview — Goal 1.4
+
+Computes **CpG observed/expected (CpG O/E)** per gene/CDS from the reference
+FASTA to characterize the mosaic genome architecture, then relates CpG O/E to
+observed methylation. Bivalve gene sets typically show a **bimodal** CpG O/E
+distribution; the low-O/E mode corresponds to historically germline-methylated,
+constitutively expressed, more heavily methylated gene bodies.
+
+\[ \text{CpG O/E} = \frac{N_{CpG}}{N_C \times N_G} \times \frac{L^2}{L-1} \]
+
+- Genome FASTA: `../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa`
+- Gene GFF: `../output/22-genome-prep/genomic.gff`
+- Observed methylation: `../output/26-methylkit-object/myobj_24.rds`
+- Output dir: `../output/29-cpg-oe-mosaic/`
+
+```{bash make-output-dir}
+mkdir -p ../output/29-cpg-oe-mosaic
+```
+
+# Load genome + gene coordinates
+
+```{r load-genome}
+genome <- readDNAStringSet("../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa")
+# Normalize names to first token (matches GFF seqid)
+names(genome) <- sub("\\s.*$", "", names(genome))
+
+gff   <- import("../output/22-genome-prep/genomic.gff")
+genes <- gff[gff$type == "gene"]
+genes <- genes[as.character(seqnames(genes)) %in% names(genome)]
+length(genes)
+```
+
+# CpG O/E per gene
+
+```{r cpg-oe}
+cpg_oe <- function(seq) {
+  s  <- as.character(seq)
+  L  <- nchar(s)
+  if (L < 2) return(NA_real_)
+  nC   <- lengths(gregexpr("C", s, fixed = TRUE)); nC <- ifelse(grepl("C", s), nC, 0)
+  nG   <- lengths(gregexpr("G", s, fixed = TRUE)); nG <- ifelse(grepl("G", s), nG, 0)
+  nCpG <- lengths(gregexpr("CG", s, fixed = TRUE)); nCpG <- ifelse(grepl("CG", s), nCpG, 0)
+  if (nC == 0 || nG == 0) return(NA_real_)
+  (nCpG / (nC * nG)) * (L^2 / (L - 1))
+}
+
+gene_seqs <- getSeq(genome, genes)
+oe <- vapply(seq_along(gene_seqs), function(i) cpg_oe(gene_seqs[[i]]), numeric(1))
+
+gene_oe <- tibble(
+  gene_id = genes$ID,
+  chr     = as.character(seqnames(genes)),
+  start   = start(genes),
+  end     = end(genes),
+  width   = width(genes),
+  cpg_oe  = oe
+) |> filter(!is.na(cpg_oe))
+
+write.csv(gene_oe, "../output/29-cpg-oe-mosaic/gene_cpg_oe.csv", row.names = FALSE)
+summary(gene_oe$cpg_oe)
+```
+
+# Bimodal CpG O/E distribution
+
+```{r oe-distribution}
+p <- ggplot(gene_oe, aes(cpg_oe)) +
+  geom_histogram(bins = 60, fill = "grey30") +
+  geom_vline(xintercept = median(gene_oe$cpg_oe), linetype = 2, colour = "red") +
+  labs(x = "CpG O/E (per gene)", y = "gene count",
+       title = "Per-gene CpG O/E distribution (expect bimodality)") +
+  theme_minimal()
+ggsave("../output/29-cpg-oe-mosaic/cpg_oe_distribution.png", p, width = 6, height = 4)
+```
+
+```{r oe-modes}
+# Optional 2-component mixture to formalize the two modes
+if (requireNamespace("mixtools", quietly = TRUE)) {
+  set.seed(1)
+  mix <- mixtools::normalmixEM(gene_oe$cpg_oe, k = 2)
+  saveRDS(mix, "../output/29-cpg-oe-mosaic/cpg_oe_mixture.rds")
+  data.frame(mode = 1:2, mean = mix$mu, sd = mix$sigma, lambda = mix$lambda)
+}
+```
+
+# Relate CpG O/E to observed methylation
+
+Aggregate observed per-gene methylation (mean over covered CpGs, 24-sample
+pooled >=10x) and join to CpG O/E. Expect low-O/E genes to be more methylated.
+
+```{r oe-vs-methylation}
+library(methylKit)
+myobj_24 <- readRDS("../output/26-methylkit-object/myobj_24.rds")
+
+cpg_meth <- lapply(seq_along(myobj_24), function(i) {
+  d <- getData(myobj_24[[i]]); d <- d[d$coverage >= 10, ]
+  data.frame(chr = d$chr, start = d$start, pct = 100 * d$numCs / d$coverage)
+}) |> bind_rows()
+
+cpg_gr  <- GRanges(cpg_meth$chr, IRanges(cpg_meth$start, width = 1))
+gene_gr <- GRanges(gene_oe$chr, IRanges(gene_oe$start, gene_oe$end), gene_id = gene_oe$gene_id)
+
+hits <- findOverlaps(cpg_gr, gene_gr)
+gene_meth <- tibble(gene_id = gene_gr$gene_id[subjectHits(hits)],
+                    pct     = cpg_meth$pct[queryHits(hits)]) |>
+  group_by(gene_id) |>
+  summarise(gene_mean_meth = mean(pct), n_cpg = n(), .groups = "drop")
+
+oe_meth <- inner_join(gene_oe, gene_meth, by = "gene_id")
+write.csv(oe_meth, "../output/29-cpg-oe-mosaic/cpg_oe_vs_methylation.csv", row.names = FALSE)
+
+p <- ggplot(oe_meth, aes(cpg_oe, gene_mean_meth)) +
+  geom_point(alpha = 0.2, size = 0.6) +
+  geom_smooth(method = "loess") +
+  labs(x = "CpG O/E", y = "mean gene-body % methylation",
+       title = "Low-O/E genes are the methylation-prone gene bodies") +
+  theme_minimal()
+ggsave("../output/29-cpg-oe-mosaic/oe_vs_methylation.png", p, width = 6, height = 4)
+
+cor.test(oe_meth$cpg_oe, oe_meth$gene_mean_meth, method = "spearman")
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

@@ -1,0 +1,96 @@
+---
+title: "24- Deduplication & BAM sort/index"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  comment = ""         # Prevents appending '##' to beginning of lines in code output
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview
+
+Removes PCR duplicates from the Bismark paired-end BAMs (`23-bismark-align.Rmd`)
+with `deduplicate_bismark`, then coordinate-sorts and indexes the deduplicated
+BAMs with SAMtools. The sorted/indexed BAMs feed methylation extraction
+(`25-meth-extract.Rmd`) and can also be loaded directly by methylKit
+`processBismarkAln()` as an alternative entry point.
+
+- Input: `../output/23-bismark-align/<sample>_pe.bam`
+- Output: `../output/24-dedup-sort/<sample>_pe.deduplicated.bam`,
+  `<sample>_pe.deduplicated.sorted.bam(.bai)`
+
+```{bash make-output-dir}
+mkdir -p ../output/24-dedup-sort
+```
+
+# Deduplicate (paired-end)
+
+```{bash deduplicate}
+find ../output/23-bismark-align/*_pe.bam \
+| xargs -n 1 basename -s _pe.bam \
+| parallel -j 8 /home/shared/Bismark-0.24.0/deduplicate_bismark \
+--bam \
+--paired \
+--output_dir ../output/24-dedup-sort \
+../output/23-bismark-align/{}_pe.bam
+
+ls -lh ../output/24-dedup-sort/*deduplicated.bam
+```
+
+# Deduplication report (MultiQC)
+
+```{bash dedup-report}
+cd ../output/24-dedup-sort
+/home/shared/Bismark-0.24.0/bismark2report
+multiqc . -o . -n dedup-multiqc
+```
+
+# Sort + index deduplicated BAMs
+
+```{bash sort-index}
+cd ../output/24-dedup-sort
+
+find *_pe.deduplicated.bam \
+| xargs basename -s .bam \
+| xargs -I{} /home/shared/samtools-1.12/samtools \
+sort --threads 24 {}.bam \
+-o {}.sorted.bam
+
+# Index each sorted BAM
+for bam in *_pe.deduplicated.sorted.bam
+do
+  /home/shared/samtools-1.12/samtools index "${bam}"
+done
+
+ls -lh *deduplicated.sorted.bam*
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

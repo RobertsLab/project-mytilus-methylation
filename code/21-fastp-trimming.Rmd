@@ -1,0 +1,120 @@
+---
+title: "21- fastp trimming & post-trim QC"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  comment = ""         # Prevents appending '##' to beginning of lines in code output
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview
+
+Adapter/quality trimming of the 24 raw WGBS libraries downloaded in
+`20-raw-data-qc.Rmd`, using [fastp](https://github.com/OpenGene/fastp).
+Illumina adapters are auto-detected and the **first 20 bp of each read are hard
+trimmed** from both R1 and R2 — these leading bases are the most biased in WGBS
+libraries (composition + methylation-call artefacts). Trimmed reads are then
+re-assessed with FastQC + MultiQC.
+
+- Input: `../data/raw-wgbs/<sample>_[12].fastq.gz`
+- Output: `../output/21-fastp-trimming/` (trimmed `*_R[12].fastp-trim.fq.gz`,
+  fastp HTML/JSON reports, post-trim FastQC/MultiQC)
+
+```{bash make-output-dir}
+mkdir -p ../output/21-fastp-trimming/trimmed-fastqs
+mkdir -p ../output/21-fastp-trimming/trimmed-fastqc
+```
+
+# fastp trimming (20 bp hard trim, both ends)
+
+```{bash fastp-trimming}
+raw_reads_dir="../data/raw-wgbs"
+trimmed_dir="../output/21-fastp-trimming/trimmed-fastqs"
+threads=40
+
+cd ${raw_reads_dir}
+
+for r1 in *_1.fastq.gz
+do
+  sample=$(basename "${r1}" _1.fastq.gz)
+  r2="${sample}_2.fastq.gz"
+  echo "Trimming ${sample}"
+
+  fastp \
+  --in1 "${r1}" \
+  --in2 "${r2}" \
+  --detect_adapter_for_pe \
+  --trim_front1 20 \
+  --trim_front2 20 \
+  --thread ${threads} \
+  --html "../../output/21-fastp-trimming/trimmed-fastqs/${sample}.fastp-trim.report.html" \
+  --json "../../output/21-fastp-trimming/trimmed-fastqs/${sample}.fastp-trim.report.json" \
+  --out1 "../../output/21-fastp-trimming/trimmed-fastqs/${sample}_R1.fastp-trim.fq.gz" \
+  --out2 "../../output/21-fastp-trimming/trimmed-fastqs/${sample}_R2.fastp-trim.fq.gz" \
+  2>> "../../output/21-fastp-trimming/trimmed-fastqs/fastp.stderr"
+done
+
+ls -lh ../../output/21-fastp-trimming/trimmed-fastqs/*.fq.gz
+```
+
+# Checksums for trimmed FastQs
+
+```{bash trimmed-checksums}
+cd ../output/21-fastp-trimming/trimmed-fastqs
+for fq in *.fastp-trim.fq.gz
+do
+  md5sum "${fq}" > "${fq}.md5"
+done
+```
+
+# FastQC + MultiQC on trimmed reads
+
+```{bash trimmed-fastqc-multiqc}
+trimmed_dir="../output/21-fastp-trimming/trimmed-fastqs"
+trimmed_fastqc_dir="../output/21-fastp-trimming/trimmed-fastqc"
+threads=40
+
+############ FASTQC ############
+fastqc \
+--threads ${threads} \
+--outdir ${trimmed_fastqc_dir} \
+--quiet \
+${trimmed_dir}/*.fastp-trim.fq.gz
+
+############ MULTIQC ############
+# Pull in fastp JSON reports too so MultiQC summarizes trimming
+multiqc ${trimmed_fastqc_dir} ${trimmed_dir} -o ${trimmed_fastqc_dir} -n trimmed-multiqc
+
+rm -f ${trimmed_fastqc_dir}/*_fastqc.zip
+ls -lh ${trimmed_fastqc_dir}
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

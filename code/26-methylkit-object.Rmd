@@ -1,0 +1,198 @@
+---
+title: "26- methylKit object construction & filtering"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(methylKit)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview
+
+Builds the shared methylKit objects consumed by every downstream analysis from
+the merged-CpG `cov` files produced in `25-meth-extract.Rmd`. Two sample sets
+are constructed and saved as `.rds` so later steps are resumable
+(per the plan's reproducibility notes):
+
+| Object | Set | Samples | Use |
+|--------|-----|---------|-----|
+| `myobj_24` | 24-sample | all incl. **93M** | Goal 1 landscape / QC (`27`–`29`) |
+| `myobj_23` | 23-sample | 24 minus **93M** | Goal 2 differential / biomarkers (`30`–`33`) |
+
+Treatment coding (per `plan.md`, `code/10`/`code/11`): low-PAH **HC, AP, BS = 0**;
+high-PAH **EB, SA, SC = 1**.
+
+Coverage filtering follows the plan: **10x primary** (`lo.count = 10`) with a
+**5x sensitivity** pass, and `hi.perc = 98` to cap PCR/duplication artefacts.
+
+- Input: `../output/25-meth-extract/<sample>.CpG_report.merged_CpG_evidence.cov`
+- Output: `../output/26-methylkit-object/` (`.rds` objects, filtering tables)
+
+```{bash make-output-dir}
+mkdir -p ../output/26-methylkit-object
+```
+
+```{r install-methylkit}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("methylKit")
+```
+
+# Sample sheet
+
+```{r sample-sheet}
+cov_dir <- "../output/25-meth-extract"
+
+# 24-sample set (landscape). Order groups low (0) then high (1); 93M retained.
+samples_24 <- c("105M","106M","107M","109M",   # HC  (low, 0)
+                "239M","240M","241M","242M",   # AP  (low, 0)
+                "269M","270M","271M","272M",   # BS  (low, 0)
+                "69M","70M","71M","72M",       # EB  (high, 1)
+                "78M","79M","80M","81M",       # SA  (high, 1)
+                "92M","93M","94M","95M")       # SC  (high, 1)
+
+site_24 <- c(rep("HC",4), rep("AP",4), rep("BS",4),
+             rep("EB",4), rep("SA",4), rep("SC",4))
+pah_24  <- ifelse(site_24 %in% c("HC","AP","BS"), 0L, 1L)
+
+# 23-sample set (differential): drop 93M (coverage/quality outlier)
+keep_23   <- samples_24 != "93M"
+samples_23 <- samples_24[keep_23]
+site_23    <- site_24[keep_23]
+pah_23     <- pah_24[keep_23]
+
+meta <- data.frame(sample = samples_24, site = site_24, pah = pah_24)
+write.csv(meta, "../output/26-methylkit-object/sample_metadata.csv", row.names = FALSE)
+meta
+```
+
+```{r cov-file-lists}
+cov_path <- function(s) file.path(cov_dir, paste0(s, ".CpG_report.merged_CpG_evidence.cov"))
+
+files_24 <- as.list(cov_path(samples_24))
+files_23 <- as.list(cov_path(samples_23))
+
+stopifnot(all(file.exists(unlist(files_24))))
+```
+
+# Read 24-sample set (landscape, descriptive mincov = 1)
+
+For the descriptive landscape pass we read with `mincov = 1` so low-coverage
+sites remain visible before any filtering (per plan 1.1).
+
+```{r read-24}
+myobj_24 <- methRead(
+  location   = files_24,
+  sample.id  = as.list(samples_24),
+  assembly   = "GCF_036588685.1",
+  pipeline   = "bismarkCoverage",
+  context    = "CpG",
+  mincov     = 1,
+  treatment  = pah_24
+)
+
+saveRDS(myobj_24, "../output/26-methylkit-object/myobj_24.rds")
+```
+
+# Read 23-sample set (differential, mincov = 2)
+
+```{r read-23}
+myobj_23 <- methRead(
+  location   = files_23,
+  sample.id  = as.list(samples_23),
+  assembly   = "GCF_036588685.1",
+  pipeline   = "bismarkCoverage",
+  context    = "CpG",
+  mincov     = 2,
+  treatment  = pah_23
+)
+
+saveRDS(myobj_23, "../output/26-methylkit-object/myobj_23.rds")
+```
+
+# Coverage filtering — 10x primary + 5x sensitivity
+
+```{r filter-23}
+myobj_23 <- readRDS("../output/26-methylkit-object/myobj_23.rds")
+
+# Primary: 10x minimum, cap top 2% of coverage
+filt_23_10x <- filterByCoverage(myobj_23,
+                                lo.count = 10, lo.perc = NULL,
+                                hi.count = NULL, hi.perc = 98)
+
+# Sensitivity: 5x minimum
+filt_23_5x  <- filterByCoverage(myobj_23,
+                                lo.count = 5,  lo.perc = NULL,
+                                hi.count = NULL, hi.perc = 98)
+
+saveRDS(filt_23_10x, "../output/26-methylkit-object/filt_23_10x.rds")
+saveRDS(filt_23_5x,  "../output/26-methylkit-object/filt_23_5x.rds")
+```
+
+# unite (require coverage in >=5 individuals/group)
+
+cov files are already CpG-merged, so `destrand = FALSE` is correct (destranding
+only applies to per-strand cytosine reports).
+
+```{r unite-23}
+meth_23_10x <- unite(filt_23_10x, min.per.group = 5L, destrand = FALSE)
+meth_23_5x  <- unite(filt_23_5x,  min.per.group = 5L, destrand = FALSE)
+
+saveRDS(meth_23_10x, "../output/26-methylkit-object/meth_23_10x.rds")
+saveRDS(meth_23_5x,  "../output/26-methylkit-object/meth_23_5x.rds")
+
+c(sites_10x = nrow(meth_23_10x), sites_5x = nrow(meth_23_5x))
+```
+
+# CpG-retention trade-off table (1x / 5x / 10x)
+
+Transparent reporting of how many CpGs survive each threshold (plan 1.5 / 2.x).
+
+```{r retention-table}
+retention <- function(obj, thresholds = c(1, 5, 10)) {
+  do.call(rbind, lapply(seq_along(obj), function(i) {
+    cov <- getData(obj[[i]])$coverage
+    data.frame(sample = obj[[i]]@sample.id,
+               t(sapply(thresholds, function(t) sum(cov >= t))))
+  })) |>
+    setNames(c("sample", paste0("CpG_ge_", thresholds, "x")))
+}
+
+ret <- retention(myobj_23)
+write.csv(ret, "../output/26-methylkit-object/cpg_retention_by_threshold.csv", row.names = FALSE)
+ret
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

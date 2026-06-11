@@ -1,0 +1,124 @@
+---
+title: "22- Reference genome prep (Bismark)"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  comment = ""         # Prevents appending '##' to beginning of lines in code output
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview
+
+Downloads the *M. trossulus* reference assembly **NCBI `GCF_036588685.1`**
+(`PNRI_Mtr1.1.1.hap1`) plus its GFF annotation, then runs
+`bismark_genome_preparation` to create the in-silico bisulfite-converted
+Bowtie2 indices used for alignment in `23-bismark-align.Rmd`.
+
+- Genome FASTA: `../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa`
+- Annotation GFF: `../output/22-genome-prep/genomic.gff` (used downstream for
+  feature distribution and DML/DMR annotation)
+- Bismark index: `../output/22-genome-prep/Bisulfite_Genome/`
+
+Tool paths follow the lab server convention used in `code/09-meth-quant.Rmd`
+(`/home/shared/Bismark-0.24.0/`, `/home/shared/bowtie2-2.4.4-linux-x86_64`).
+
+```{bash make-output-dir}
+mkdir -p ../output/22-genome-prep
+```
+
+# Download genome + annotation (NCBI datasets)
+
+```{bash download-genome}
+cd ../output/22-genome-prep
+
+# NCBI datasets CLI bundle (genome + GFF) for GCF_036588685.1
+datasets download genome accession GCF_036588685.1 \
+  --include genome,gff3 \
+  --filename GCF_036588685.1.zip
+
+unzip -o GCF_036588685.1.zip -d ncbi_dataset_dl
+
+# Stage the FASTA and GFF at the top of the output dir under stable names
+cp ncbi_dataset_dl/ncbi_dataset/data/GCF_036588685.1/*_genomic.fna \
+   GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa
+cp ncbi_dataset_dl/ncbi_dataset/data/GCF_036588685.1/genomic.gff \
+   genomic.gff
+
+ls -lh GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa genomic.gff
+```
+
+Alternative direct FTP fetch (if `datasets` CLI is unavailable):
+
+```{bash download-genome-ftp}
+cd ../output/22-genome-prep
+base="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/036/588/685/GCF_036588685.1_PNRI_Mtr1.1.1.hap1"
+
+wget -q "${base}/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fna.gz"
+wget -q "${base}/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.gff.gz"
+
+gunzip -f GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fna.gz
+gunzip -f GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.gff.gz
+
+mv GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fna GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa
+mv GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.gff genomic.gff
+```
+
+# Index FASTA + inspect annotation
+
+```{bash faidx}
+/home/shared/samtools-1.12/samtools faidx \
+../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa
+
+head ../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa.fai
+```
+
+```{bash gff-feature-types}
+# Enumerate feature types present (used to build per-feature GFFs later)
+awk '{if($3 && $3 !~ /^#/) print $3}' ../output/22-genome-prep/genomic.gff \
+  | sort | uniq -c
+```
+
+# Bismark genome preparation
+
+`bismark_genome_preparation` expects the genome FASTA to live alone in a
+folder; it writes the C->T and G->A converted Bowtie2 indices into a
+`Bisulfite_Genome/` subdirectory of that folder.
+
+```{bash bismark-genome-prep}
+/home/shared/Bismark-0.24.0/bismark_genome_preparation \
+--path_to_aligner /home/shared/bowtie2-2.4.4-linux-x86_64 \
+--verbose \
+../output/22-genome-prep/
+
+ls -R ../output/22-genome-prep/Bisulfite_Genome | head
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

@@ -1,0 +1,110 @@
+---
+title: "25- Methylation extraction & CpG coverage report"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  comment = ""         # Prevents appending '##' to beginning of lines in code output
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview
+
+Extracts per-cytosine methylation calls from the deduplicated BAMs
+(`24-dedup-sort.Rmd`) and generates the **merged-CpG coverage report** that is
+the canonical input to methylKit for all downstream analysis.
+
+`bismark_methylation_extractor` produces the bedGraph/`.cov`; `coverage2cytosine
+--merge_CpG --zero_based` then combines the two strands of each CpG into a
+single record, yielding `*.CpG_report.merged_CpG_evidence.cov` in Bismark `cov`
+format (`chr  start  end  %meth  count_methylated  count_unmethylated`).
+
+- Input: `../output/24-dedup-sort/<sample>_pe.deduplicated.bam`
+- Genome folder: `../output/22-genome-prep/`
+- Output: `../output/25-meth-extract/<sample>.CpG_report.merged_CpG_evidence.cov`
+
+```{bash make-output-dir}
+mkdir -p ../output/25-meth-extract
+```
+
+# Methylation extraction
+
+```{bash methylation-extractor}
+find ../output/24-dedup-sort/*_pe.deduplicated.bam \
+| xargs -n 1 -I{} /home/shared/Bismark-0.24.0/bismark_methylation_extractor \
+--bedGraph \
+--counts \
+--comprehensive \
+--merge_non_CpG \
+--multicore 24 \
+--buffer_size 75% \
+--output ../output/25-meth-extract \
+{}
+
+ls -lh ../output/25-meth-extract/*deduplicated.bismark.cov.gz
+```
+
+# coverage2cytosine — merged CpG evidence
+
+```{bash coverage2cytosine}
+find ../output/25-meth-extract/*deduplicated.bismark.cov.gz \
+| xargs -n 1 basename -s _pe.deduplicated.bismark.cov.gz \
+| parallel -j 24 /home/shared/Bismark-0.24.0/coverage2cytosine \
+--genome_folder ../output/22-genome-prep/ \
+-o ../output/25-meth-extract/{} \
+--merge_CpG \
+--zero_based \
+../output/25-meth-extract/{}_pe.deduplicated.bismark.cov.gz
+
+ls -lh ../output/25-meth-extract/*.CpG_report.merged_CpG_evidence.cov
+```
+
+# Sanity check cov format + confirm 24 samples
+
+```{bash inspect-cov}
+echo "Merged-CpG cov files:"
+ls -1 ../output/25-meth-extract/*.CpG_report.merged_CpG_evidence.cov | wc -l
+ls -1 ../output/25-meth-extract/*.CpG_report.merged_CpG_evidence.cov \
+  | xargs -n1 basename | sed 's/.CpG_report.merged_CpG_evidence.cov//' | sort
+
+echo ""
+echo "Example record (chr start end %meth count_m count_u):"
+head -n 3 ../output/25-meth-extract/105M.CpG_report.merged_CpG_evidence.cov
+```
+
+# Extraction QC report
+
+```{bash extraction-multiqc}
+cd ../output/25-meth-extract
+/home/shared/Bismark-0.24.0/bismark2report
+multiqc . -o . -n meth-extract-multiqc
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

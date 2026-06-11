@@ -1,0 +1,180 @@
+---
+title: "32- Functional & feature enrichment (Goal 2)"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview — Goal 2.6
+
+Tests whether DMLs/DMRs (`31-dml-dmr-annotation.Rmd`) are functionally or
+positionally enriched, using the proper backgrounds:
+
+- **Feature enrichment:** DML over-representation in gene bodies/exons vs the
+  genome-wide covered-CpG background from `28-genomic-feature-distribution.Rmd`
+  (Fisher/χ²).
+- **GO enrichment:** DML/DMR genes vs the background of *all annotated genes
+  carrying covered CpGs* (the only genes that could be detected). NCBI GO may be
+  sparse — supplement with orthology (eggNOG-mapper / InterProScan) as a gap.
+- **Targeted xenobiotic check:** explicitly query CYP450 / GST / sulfotransferase
+  / ABC-transporter genes (manuscript found none — confirm/extend).
+
+Output dir: `../output/32-functional-enrichment/`
+
+```{bash make-output-dir}
+mkdir -p ../output/32-functional-enrichment
+```
+
+# Feature enrichment (gene-body vs covered-CpG background)
+
+```{r feature-enrichment}
+# Background: covered CpGs per feature (step 28). Foreground: DML per feature.
+feat_bg <- read.csv("../output/28-genomic-feature-distribution/feature_methylation_summary.csv")
+dml_ctx <- read.csv("../output/31-dml-dmr-annotation/dml_context_breakdown.csv")
+
+total_bg  <- read.table("../output/28-genomic-feature-distribution/covered_cpg_10x.sorted.bed") |> nrow()
+total_dml <- nrow(dml_ctx)
+
+fisher_feature <- function(feature) {
+  bg_in  <- feat_bg$n_cpg[feat_bg$feature == feature]
+  dml_in <- sum(dml_ctx[[feature]], na.rm = TRUE)
+  mat <- matrix(c(dml_in, total_dml - dml_in,
+                  bg_in,  total_bg  - bg_in), nrow = 2)
+  ft <- fisher.test(mat)
+  tibble(feature = feature, dml_in = dml_in, bg_in = bg_in,
+         odds_ratio = unname(ft$estimate), p_value = ft$p.value)
+}
+
+feat_enrich <- map_dfr(c("exon","intron","promoter","intergenic"), fisher_feature) |>
+  mutate(p_adj = p.adjust(p_value, "BH"))
+write.csv(feat_enrich, "../output/32-functional-enrichment/feature_enrichment.csv",
+          row.names = FALSE)
+feat_enrich
+```
+
+# Build GO background: genes with covered CpGs
+
+```{r go-background}
+library(GenomicRanges); library(rtracklayer); library(methylKit)
+
+myobj_23 <- readRDS("../output/26-methylkit-object/myobj_23.rds")
+covered <- lapply(seq_along(myobj_23), function(i) {
+  d <- getData(myobj_23[[i]]); d <- d[d$coverage >= 10, ]
+  GRanges(d$chr, IRanges(d$start, width = 1))
+})
+covered_gr <- reduce(do.call(c, covered))
+
+gff   <- import("../output/22-genome-prep/genomic.gff")
+genes <- gff[gff$type == "gene"]
+bg_genes <- unique(genes$gene[overlapsAny(genes, covered_gr)])
+writeLines(bg_genes, "../output/32-functional-enrichment/background_genes.txt")
+length(bg_genes)
+```
+
+# GO / functional enrichment
+
+NCBI GO terms are pulled from the GFF `Ontology_term`/`Dbxref` where present;
+where sparse, attach orthology-based GO via eggNOG-mapper / InterProScan
+(see bash chunk). Enrichment is tested with a hypergeometric/Fisher framework
+against `background_genes.txt`.
+
+```{r go-enrichment}
+dml_anno <- read.csv("../output/31-dml-dmr-annotation/dml_annotated.csv")
+dmr_anno <- read.csv("../output/31-dml-dmr-annotation/dmr_annotated.csv")
+dm_genes <- unique(c(dml_anno$gene_loc, dmr_anno$gene_loc))
+dm_genes <- dm_genes[dm_genes %in% bg_genes]
+writeLines(dm_genes, "../output/32-functional-enrichment/dm_genes.txt")
+
+# gene -> GO mapping (term2gene / term2name) parsed from GFF or eggNOG output
+go_map_path <- "../output/32-functional-enrichment/gene2go.tsv"  # cols: gene  GO
+if (file.exists(go_map_path)) {
+  gene2go <- read.table(go_map_path, header = TRUE, sep = "\t")
+
+  if (requireNamespace("clusterProfiler", quietly = TRUE)) {
+    library(clusterProfiler)
+    ego <- enricher(
+      gene          = dm_genes,
+      universe      = bg_genes,
+      TERM2GENE     = gene2go[, c("GO", "gene")],
+      pAdjustMethod = "BH",
+      qvalueCutoff  = 0.05
+    )
+    write.csv(as.data.frame(ego), "../output/32-functional-enrichment/go_enrichment.csv",
+              row.names = FALSE)
+    head(as.data.frame(ego))
+  }
+} else {
+  message("No gene2go.tsv found - generate GO mapping (NCBI/eggNOG) first.")
+}
+```
+
+Orthology-based GO (run once; populates `gene2go.tsv`):
+
+```{bash eggnog-orthology}
+# Extract protein FASTA for annotated genes, then map to GO via eggNOG-mapper.
+# emapper.py -i proteins.faa -o mtros --itype proteins --cpu 24 \
+#   --output_dir ../output/32-functional-enrichment
+# Downstream: parse mtros.emapper.annotations -> gene2go.tsv (gene <tab> GO)
+echo "Run eggNOG-mapper / InterProScan here to build gene2go.tsv if NCBI GO is sparse."
+```
+
+# Targeted xenobiotic / biotransformation gene check
+
+```{r xenobiotic-check}
+gene_meta <- read.csv("../output/31-dml-dmr-annotation/gene_metadata.csv")
+
+xeno_patterns <- c("cytochrome P450", "CYP", "glutathione S-transferase", "GST",
+                   "sulfotransferase", "ABC transporter", "ATP-binding cassette")
+pat <- paste(xeno_patterns, collapse = "|")
+
+xeno_genes <- gene_meta |>
+  filter(str_detect(coalesce(description, ""), regex(pat, ignore_case = TRUE)) |
+         str_detect(coalesce(gene_id, ""),     regex("CYP|GST|SULT|ABC", ignore_case = TRUE)))
+
+dml_anno <- read.csv("../output/31-dml-dmr-annotation/dml_annotated.csv")
+dmr_anno <- read.csv("../output/31-dml-dmr-annotation/dmr_annotated.csv")
+dm_genes <- unique(c(dml_anno$gene_loc, dmr_anno$gene_loc))
+
+xeno_hit <- xeno_genes |> mutate(is_DM = gene_id %in% dm_genes | locus %in% dm_genes)
+write.csv(xeno_hit, "../output/32-functional-enrichment/xenobiotic_gene_check.csv",
+          row.names = FALSE)
+
+# Headline result: how many biotransformation genes are differentially methylated?
+cat("Xenobiotic/biotransformation genes overlapping DML/DMR:",
+    sum(xeno_hit$is_DM), "of", nrow(xeno_hit), "annotated\n")
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

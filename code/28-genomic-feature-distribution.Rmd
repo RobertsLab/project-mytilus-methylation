@@ -1,0 +1,182 @@
+---
+title: "28- Genomic-feature distribution (Goal 1)"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(methylKit)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview — Goal 1.3
+
+Distributes covered CpGs (and their methylation levels) across genomic features
+to demonstrate the canonical molluscan **gene-body–enriched mosaic** pattern.
+Builds feature BEDs from the `GCF_036588685.1` GFF (`22-genome-prep.Rmd`) with
+BEDTools, intersects covered CpG positions against each feature class, and
+summarizes CpG fraction + mean methylation per feature.
+
+- GFF: `../output/22-genome-prep/genomic.gff`
+- Genome index: `../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa.fai`
+- 24-sample object: `../output/26-methylkit-object/myobj_24.rds`
+- Output dir: `../output/28-genomic-feature-distribution/`
+
+```{bash make-output-dir}
+mkdir -p ../output/28-genomic-feature-distribution/features
+```
+
+# Per-feature GFFs from the annotation
+
+```{bash split-gff}
+input_gff="../output/22-genome-prep/genomic.gff"
+out_dir="../output/28-genomic-feature-distribution/features"
+
+features=("gene" "mRNA" "exon" "CDS" "lnc_RNA" "ncRNA" "tRNA" "rRNA" "pseudogene")
+
+for feature in "${features[@]}"; do
+  awk -v ft="$feature" '$3 == ft && $1 !~ /^#/ {print}' "$input_gff" \
+    > "$out_dir/${feature}.gff"
+  echo "Created $out_dir/${feature}.gff ($(wc -l < "$out_dir/${feature}.gff") records)"
+done
+```
+
+# Derived contexts (intron / promoter / intergenic)
+
+```{bash genome-file}
+# BEDTools genome file from the FASTA index (chrom <tab> length)
+cut -f1,2 ../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa.fai \
+  | sort -k1,1 > ../output/28-genomic-feature-distribution/genome.txt
+head ../output/28-genomic-feature-distribution/genome.txt
+```
+
+```{bash derived-features}
+feat="../output/28-genomic-feature-distribution/features"
+genome="../output/28-genomic-feature-distribution/genome.txt"
+
+# GFF -> sorted BED helper (cols 1,4-1,5 -> 0-based start)
+gff2bed () { awk 'BEGIN{OFS="\t"} $1!~/^#/ {print $1, $4-1, $5}' "$1" | sort -k1,1 -k2,2n; }
+
+gff2bed "$feat/gene.gff" > "$feat/gene.bed"
+gff2bed "$feat/exon.gff" > "$feat/exon.bed"
+gff2bed "$feat/mRNA.gff" > "$feat/mRNA.bed"
+
+# Introns = gene minus exon
+bedtools subtract -a "$feat/gene.bed" -b "$feat/exon.bed" > "$feat/intron.bed"
+
+# Promoters/TSS = 1 kb upstream flank of genes (strand-aware via gene GFF)
+awk 'BEGIN{OFS="\t"} $1!~/^#/ {print $1,$4-1,$5,".",".",$7}' "$feat/gene.gff" \
+  | sort -k1,1 -k2,2n > "$feat/gene_stranded.bed"
+bedtools flank -i "$feat/gene_stranded.bed" -g "$genome" -l 1000 -r 0 -s \
+  | cut -f1-3 | sort -k1,1 -k2,2n > "$feat/promoter_1kb.bed"
+
+# Intergenic = genome complement of genes
+bedtools complement -i "$feat/gene.bed" -g "$genome" > "$feat/intergenic.bed"
+
+wc -l "$feat"/{gene,exon,intron,promoter_1kb,intergenic}.bed
+```
+
+> Repeats: if a RepeatMasker `.out`/`.bed` track becomes available, add a
+> `repeat.bed` here and include it below; otherwise note as an annotation gap.
+
+# Covered CpG positions -> BED (>=10x, pooled across 24 samples)
+
+```{r covered-cpg-bed}
+myobj_24 <- readRDS("../output/26-methylkit-object/myobj_24.rds")
+
+# Pool: a CpG is "covered" if >=10x in any sample; record mean % meth across
+# samples meeting that threshold.
+cpg_tab <- lapply(seq_along(myobj_24), function(i) {
+  d <- getData(myobj_24[[i]]); d <- d[d$coverage >= 10, ]
+  data.frame(chr = d$chr, start = d$start, end = d$end,
+             pct = 100 * d$numCs / d$coverage)
+}) |> bind_rows() |>
+  group_by(chr, start, end) |>
+  summarise(pct_meth = mean(pct), .groups = "drop")
+
+bed <- cpg_tab |>
+  transmute(chr, start = start - 1, end, pct_meth) |>
+  arrange(chr, start)
+
+write.table(bed, "../output/28-genomic-feature-distribution/covered_cpg_10x.bed",
+            sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
+nrow(bed)
+```
+
+# Intersect covered CpGs against each feature
+
+```{bash intersect-features}
+feat="../output/28-genomic-feature-distribution/features"
+cpg="../output/28-genomic-feature-distribution/covered_cpg_10x.bed"
+out="../output/28-genomic-feature-distribution"
+
+sort -k1,1 -k2,2n "$cpg" > "$out/covered_cpg_10x.sorted.bed"
+
+for f in gene exon intron mRNA promoter_1kb intergenic; do
+  bedtools intersect -a "$out/covered_cpg_10x.sorted.bed" -b "$feat/${f}.bed" -u \
+    > "$out/cpg_in_${f}.bed"
+  echo "${f} $(wc -l < "$out/cpg_in_${f}.bed")"
+done
+```
+
+# Feature x methylation-level summary + barplot
+
+```{r feature-summary}
+out <- "../output/28-genomic-feature-distribution"
+features <- c("gene","exon","intron","mRNA","promoter_1kb","intergenic")
+
+total_cpg <- nrow(read.table(file.path(out, "covered_cpg_10x.sorted.bed")))
+
+feat_summary <- map_dfr(features, function(f) {
+  fp <- file.path(out, paste0("cpg_in_", f, ".bed"))
+  if (file.size(fp) == 0) return(tibble(feature = f, n_cpg = 0,
+                                         frac_cpg = 0, mean_pct_meth = NA))
+  d <- read.table(fp)
+  tibble(feature = f, n_cpg = nrow(d),
+         frac_cpg = nrow(d) / total_cpg,
+         mean_pct_meth = mean(d$V4))
+})
+
+write.csv(feat_summary, file.path(out, "feature_methylation_summary.csv"),
+          row.names = FALSE)
+
+p <- ggplot(feat_summary, aes(reorder(feature, -mean_pct_meth), mean_pct_meth)) +
+  geom_col(fill = "steelblue") +
+  labs(x = "feature", y = "mean % CpG methylation",
+       title = "Methylation by genomic feature (expect gene-body enrichment)") +
+  theme_minimal()
+ggsave(file.path(out, "feature_methylation_barplot.png"), p, width = 6, height = 4)
+feat_summary
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

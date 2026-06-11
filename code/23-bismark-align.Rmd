@@ -1,0 +1,110 @@
+---
+title: "23- Bismark alignment"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  comment = ""         # Prevents appending '##' to beginning of lines in code output
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview
+
+Aligns the trimmed paired-end WGBS reads (`21-fastp-trimming.Rmd`) to the
+bisulfite-converted `GCF_036588685.1` index built in `22-genome-prep.Rmd` with
+Bismark + Bowtie2. A relaxed `--score_min L,0,-0.6` and `--non_directional`
+mode are used (matching `code/01-bismark-init.sh` / the study pipeline). A
+checkpoint log lets the loop resume after interruption.
+
+- Trimmed reads: `../output/21-fastp-trimming/trimmed-fastqs/<sample>_R[12].fastp-trim.fq.gz`
+- Genome folder (with `Bisulfite_Genome/`): `../output/22-genome-prep/`
+- Output BAMs + reports: `../output/23-bismark-align/`
+
+```{bash make-output-dir}
+mkdir -p ../output/23-bismark-align
+```
+
+# Align all 24 samples
+
+```{bash bismark-align}
+reads_dir="../output/21-fastp-trimming/trimmed-fastqs"
+genome_folder="../output/22-genome-prep/"
+output_dir="../output/23-bismark-align"
+checkpoint_file="../output/23-bismark-align/completed_samples.log"
+score_min="L,0,-0.6"
+
+touch ${checkpoint_file}
+
+for r1 in ${reads_dir}/*_R1.fastp-trim.fq.gz; do
+  sample_name=$(basename "${r1}" _R1.fastp-trim.fq.gz)
+
+  # Skip if already completed
+  if grep -q "^${sample_name}$" ${checkpoint_file}; then
+    echo "Sample ${sample_name} already processed. Skipping..."
+    continue
+  fi
+
+  echo "Aligning ${sample_name}"
+  /home/shared/Bismark-0.24.0/bismark \
+  --path_to_bowtie2 /home/shared/bowtie2-2.4.4-linux-x86_64 \
+  -genome ${genome_folder} \
+  -p 8 \
+  -score_min ${score_min} \
+  --non_directional \
+  -1 ${reads_dir}/${sample_name}_R1.fastp-trim.fq.gz \
+  -2 ${reads_dir}/${sample_name}_R2.fastp-trim.fq.gz \
+  -o ${output_dir} \
+  --basename ${sample_name} \
+  > ${output_dir}/${sample_name}_stdout.log 2> ${output_dir}/${sample_name}_stderr.log
+
+  if [ $? -eq 0 ]; then
+    echo ${sample_name} >> ${checkpoint_file}
+    echo "Sample ${sample_name} aligned."
+  else
+    echo "Sample ${sample_name} FAILED. See ${output_dir}/${sample_name}_stderr.log"
+    break
+  fi
+done
+
+ls -lh ${output_dir}/*_pe.bam
+```
+
+# Alignment summary report
+
+```{bash bismark-summary}
+cd ../output/23-bismark-align
+/home/shared/Bismark-0.24.0/bismark2report
+/home/shared/Bismark-0.24.0/bismark2summary
+
+# Roll the per-sample Bismark reports into one MultiQC report
+multiqc . -o . -n bismark-align-multiqc
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

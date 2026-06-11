@@ -1,0 +1,165 @@
+---
+title: "33- Biomarker candidate ranking (Goal 2)"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(methylKit)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview — Goal 2.7-2.8
+
+Promotes robust loci/regions to **biomarker candidates** by applying the plan's
+multi-criteria filter, and runs the **site-as-replicate (n = 3 vs 3) sensitivity
+analysis** — the statistically honest unit of replication for a site/exposure
+effect. Produces a ranked shortlist for a targeted assay.
+
+Biomarker criteria:
+
+| Criterion | Operational definition |
+|-----------|------------------------|
+| Effect size | \|meth diff\| >= 55% (DML) / >= 25% (DMR), q < 0.01 |
+| Consistency | same direction in all 3 sites; survives site-as-covariate model |
+| Coverage robustness | >=10x in >=5 individuals/group; persists in 5x pass |
+| Biological plausibility | maps to an annotated gene / reproducible region |
+| Assayability | tractable for targeted bisulfite seq or MS-PCR |
+
+Inputs from `30`–`32`. Output dir: `../output/33-biomarker-candidates/`
+
+```{bash make-output-dir}
+mkdir -p ../output/33-biomarker-candidates
+```
+
+# Site-as-replicate sensitivity (n = 3 low vs 3 high)
+
+Collapse to site-level methylation means and test at the site level.
+
+```{r site-level}
+meth_23_10x <- readRDS("../output/26-methylkit-object/meth_23_10x.rds")
+meta <- read.csv("../output/26-methylkit-object/sample_metadata.csv")
+meta_23 <- meta[match(meth_23_10x@sample.ids, meta$sample), ]
+
+perc <- percMethylation(meth_23_10x)             # CpG x individual
+sites <- unique(meta_23$site)
+site_mean <- sapply(sites, function(s) rowMeans(perc[, meta_23$site == s, drop = FALSE], na.rm = TRUE))
+
+low_sites  <- c("HC","AP","BS"); high_sites <- c("EB","SA","SC")
+site_test <- data.frame(
+  chr = meth_23_10x$chr, start = meth_23_10x$start, end = meth_23_10x$end,
+  low_mean  = rowMeans(site_mean[, low_sites]),
+  high_mean = rowMeans(site_mean[, high_sites])
+) |>
+  mutate(meth.diff = high_mean - low_mean)
+
+# Per-CpG t-test across the 3 vs 3 site means
+site_test$p_site <- vapply(seq_len(nrow(perc)), function(i) {
+  lo <- site_mean[i, low_sites]; hi <- site_mean[i, high_sites]
+  tryCatch(t.test(hi, lo)$p.value, error = function(e) NA_real_)
+}, numeric(1))
+site_test$q_site <- p.adjust(site_test$p_site, "BH")
+
+write.csv(site_test, "../output/33-biomarker-candidates/site_level_sensitivity.csv",
+          row.names = FALSE)
+sum(site_test$q_site < 0.05 & abs(site_test$meth.diff) >= 25, na.rm = TRUE)
+```
+
+# Assemble candidate evidence table
+
+```{r assemble}
+dml_bh   <- read.csv("../output/30-dml-dmr-methylkit/dml_all_with_BH.csv")
+conc     <- read.csv("../output/30-dml-dmr-methylkit/per_site_concordance.csv")
+dml_anno <- read.csv("../output/31-dml-dmr-annotation/dml_annotated.csv")
+dml_5x   <- read.table("../output/30-dml-dmr-methylkit/dml_55p_5x.tab", header = TRUE)
+
+key <- function(d) paste(d$chr, d$start, d$end, sep = "_")
+
+cand <- dml_bh |>
+  mutate(k = key(dml_bh)) |>
+  left_join(conc |> mutate(k = key(conc)) |> select(k, concordant_all3_high), by = "k") |>
+  left_join(dml_anno |> mutate(k = key(dml_anno)) |> select(k, gene_loc, context, distance), by = "k") |>
+  left_join(site_test |> mutate(k = key(site_test)) |> select(k, q_site), by = "k") |>
+  mutate(in_5x = k %in% key(dml_5x))
+```
+
+# Apply biomarker criteria + rank
+
+```{r criteria}
+biomarkers <- cand |>
+  mutate(
+    pass_effect      = qvalue_BH < 0.01 & abs(meth.diff) >= 55,
+    pass_consistency = coalesce(concordant_all3_high, FALSE),
+    pass_robustness  = coalesce(in_5x, FALSE),
+    pass_plausible   = !is.na(gene_loc) & gene_loc != "." & distance == 0,
+    pass_site_level  = !is.na(q_site) & q_site < 0.05,
+    n_criteria       = pass_effect + pass_consistency + pass_robustness +
+                       pass_plausible + pass_site_level
+  ) |>
+  filter(pass_effect) |>
+  arrange(desc(n_criteria), desc(abs(meth.diff)), qvalue_BH)
+
+write.csv(biomarkers, "../output/33-biomarker-candidates/biomarker_candidates_full.csv",
+          row.names = FALSE)
+
+shortlist <- biomarkers |>
+  filter(pass_consistency, pass_robustness, pass_plausible) |>
+  select(chr, start, end, meth.diff, qvalue_BH, gene_loc, context,
+         concordant_all3_high, in_5x, q_site, n_criteria) |>
+  head(50)
+write.csv(shortlist, "../output/33-biomarker-candidates/biomarker_shortlist.csv",
+          row.names = FALSE)
+shortlist
+```
+
+# Targeted-assay BED for the shortlist
+
+```{r assay-bed}
+shortlist <- read.csv("../output/33-biomarker-candidates/biomarker_shortlist.csv")
+assay_bed <- shortlist |>
+  transmute(chr, start = start - 1, end, name = gene_loc, score = round(meth.diff))
+write.table(assay_bed, "../output/33-biomarker-candidates/biomarker_shortlist.bed",
+            sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
+```
+
+# Honest framing
+
+```{r framing, eval=TRUE}
+cat("With 3 sites/group, PAH exposure is confounded with site identity.\n",
+    "Shortlisted loci are ASSOCIATED with high-PAH sites, not proven PAH-causal.\n",
+    "Site-level (n=3 vs 3) significance and all-3-site concordance are the\n",
+    "strongest available guards; confirm top candidates with a mixed-effects\n",
+    "model (site as random effect) and an independent targeted assay.\n")
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

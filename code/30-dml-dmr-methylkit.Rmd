@@ -1,0 +1,241 @@
+---
+title: "30- DML & DMR (Goal 2)"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(methylKit)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview — Goal 2 (2.1-2.3, 2.5)
+
+Differential methylation between **low-PAH (0)** and **high-PAH (1)** mussels on
+the **23-sample** set (93M excluded), using the filtered/united objects from
+`26-methylkit-object.Rmd`. Implements:
+
+- Per-CpG **DML** via logistic regression with **overdispersion correction**
+  (`overdispersion = "MN"`, `test = "Chisq"`) and **site as covariate** to
+  mitigate pseudoreplication / site–exposure confounding.
+- Tiled-window **DMRs** (1 kb) with the same model.
+- Headline thresholds **q < 0.01 and |meth diff| >= 55%** (DML) / **>= 25%** (DMR),
+  plus a 25%/50% effect-size spectrum.
+- **BH-FDR** reported as headline alongside methylKit's default **SLIM**.
+- **Per-site concordance** flag (same direction in all 3 sites of a group).
+- 5x sensitivity pass.
+
+Output dir: `../output/30-dml-dmr-methylkit/`
+
+```{bash make-output-dir}
+mkdir -p ../output/30-dml-dmr-methylkit
+```
+
+# Load filtered objects + metadata
+
+```{r load}
+meth_23_10x <- readRDS("../output/26-methylkit-object/meth_23_10x.rds")
+filt_23_10x <- readRDS("../output/26-methylkit-object/filt_23_10x.rds")
+filt_23_5x  <- readRDS("../output/26-methylkit-object/filt_23_5x.rds")
+meta        <- read.csv("../output/26-methylkit-object/sample_metadata.csv")
+
+# Align metadata to the 23-sample object order, drop 93M
+meta_23 <- meta[match(meth_23_10x@sample.ids, meta$sample), ]
+covariates <- data.frame(site = factor(meta_23$site))
+covariates
+```
+
+# 2.2 Per-CpG DML — overdispersion + site covariate
+
+```{r dml}
+myDiff_cov <- calculateDiffMeth(
+  meth_23_10x,
+  covariates     = covariates,
+  overdispersion = "MN",
+  test           = "Chisq",
+  mc.cores       = 24
+)
+saveRDS(myDiff_cov, "../output/30-dml-dmr-methylkit/myDiff_dml_10x.rds")
+```
+
+```{r dml-no-covariate}
+# Comparison model WITHOUT site covariate (overdispersion only)
+myDiff_nocov <- calculateDiffMeth(
+  meth_23_10x,
+  overdispersion = "MN",
+  test           = "Chisq",
+  mc.cores       = 24
+)
+saveRDS(myDiff_nocov, "../output/30-dml-dmr-methylkit/myDiff_dml_10x_nocov.rds")
+```
+
+# BH-FDR alongside SLIM
+
+methylKit's `qvalue` column is SLIM; recompute BH from the raw p-values and use
+BH as the headline.
+
+```{r bh-fdr}
+add_bh <- function(md) {
+  d <- getData(md)
+  d$qvalue_BH <- p.adjust(d$pvalue, method = "BH")
+  d
+}
+dml_tab <- add_bh(myDiff_cov)
+write.csv(dml_tab, "../output/30-dml-dmr-methylkit/dml_all_with_BH.csv", row.names = FALSE)
+head(dml_tab)
+```
+
+# Effect-size spectrum + hyper/hypo (headline 55%)
+
+```{r dml-thresholds}
+# methylKit SLIM-based extraction at several effect sizes
+dml_25      <- getMethylDiff(myDiff_cov, difference = 25, qvalue = 0.01)
+dml_50      <- getMethylDiff(myDiff_cov, difference = 50, qvalue = 0.01)
+dml_55      <- getMethylDiff(myDiff_cov, difference = 55, qvalue = 0.01)   # headline
+dml_55_hyper <- getMethylDiff(myDiff_cov, difference = 55, qvalue = 0.01, type = "hyper")
+dml_55_hypo  <- getMethylDiff(myDiff_cov, difference = 55, qvalue = 0.01, type = "hypo")
+
+counts <- data.frame(
+  set   = c("q<0.01 & >=25%", "q<0.01 & >=50%", "q<0.01 & >=55%",
+            ">=55% hyper", ">=55% hypo"),
+  n_DML = c(nrow(dml_25), nrow(dml_50), nrow(dml_55),
+            nrow(dml_55_hyper), nrow(dml_55_hypo))
+)
+write.csv(counts, "../output/30-dml-dmr-methylkit/dml_counts_by_threshold.csv", row.names = FALSE)
+
+# Headline table (write .tab to mirror code/11 idiom for downstream bedGraph)
+write.table(getData(dml_55), "../output/30-dml-dmr-methylkit/myDiff_1055p.tab")
+counts
+```
+
+# BH-based headline set (transparency)
+
+```{r dml-bh-set}
+dml_bh_55 <- dml_tab |>
+  filter(qvalue_BH < 0.01, abs(meth.diff) >= 55)
+write.csv(dml_bh_55, "../output/30-dml-dmr-methylkit/dml_q01_55p_BH.csv", row.names = FALSE)
+nrow(dml_bh_55)
+```
+
+# 2.3 Tiled-window DMRs (1 kb)
+
+```{r dmr}
+filt_23_10x <- readRDS("../output/26-methylkit-object/filt_23_10x.rds")
+
+tiles <- tileMethylCounts(filt_23_10x, win.size = 1000, step.size = 1000, cov.bases = 5)
+meth_tiles <- unite(tiles, min.per.group = 5L, destrand = FALSE)
+
+myDiff_dmr <- calculateDiffMeth(
+  meth_tiles,
+  covariates     = covariates,
+  overdispersion = "MN",
+  test           = "Chisq",
+  mc.cores       = 24
+)
+saveRDS(myDiff_dmr, "../output/30-dml-dmr-methylkit/myDiff_dmr_1kb.rds")
+
+dmr_25 <- getMethylDiff(myDiff_dmr, difference = 25, qvalue = 0.01)
+write.table(getData(dmr_25), "../output/30-dml-dmr-methylkit/dmr_25p_1kb.tab")
+nrow(dmr_25)
+```
+
+# 2.3 (optional) dmrseq cross-check
+
+```{r dmrseq}
+if (requireNamespace("dmrseq", quietly = TRUE) &&
+    requireNamespace("bsseq", quietly = TRUE)) {
+  library(dmrseq); library(bsseq)
+
+  # Build a BSseq object from the 23 cov files (methylation + coverage matrices).
+  meta_23 <- read.csv("../output/26-methylkit-object/sample_metadata.csv") |>
+    subset(sample != "93M")
+  cov_files <- file.path("../output/25-meth-extract",
+                         paste0(meta_23$sample, ".CpG_report.merged_CpG_evidence.cov"))
+  bs <- read.bismark(files = cov_files, colData = DataFrame(row.names = meta_23$sample,
+                                                            PAH = factor(meta_23$pah)))
+  bs <- bs[rowSums(getCoverage(bs) == 0) == 0, ]
+
+  set.seed(1)  # determinism for permutation inference
+  dmrs <- dmrseq(bs = bs, testCovariate = "PAH")
+  saveRDS(dmrs, "../output/30-dml-dmr-methylkit/dmrseq_dmrs.rds")
+  as.data.frame(dmrs) |> head()
+}
+```
+
+# 2.5 Per-site concordance flag
+
+A candidate DML should change in the **same direction in all 3 sites** of the
+high group relative to the low baseline (guards against single-site/individual
+drivers).
+
+```{r per-site-concordance}
+# Per-site mean methylation at the headline DML positions
+percMeth <- percMethylation(meth_23_10x)               # CpG x sample matrix
+site_vec <- meta_23$site
+site_means <- sapply(unique(site_vec), function(s)
+  rowMeans(percMeth[, site_vec == s, drop = FALSE], na.rm = TRUE))
+
+low_sites  <- c("HC","AP","BS"); high_sites <- c("EB","SA","SC")
+low_mean   <- rowMeans(site_means[, low_sites,  drop = FALSE], na.rm = TRUE)
+
+# For each high site, sign of (high site - low baseline)
+dir_by_site <- sapply(high_sites, function(s) sign(site_means[, s] - low_mean))
+concordant  <- abs(rowSums(dir_by_site)) == length(high_sites)
+
+concordance <- data.frame(
+  chr = meth_23_10x$chr, start = meth_23_10x$start, end = meth_23_10x$end,
+  concordant_all3_high = concordant
+)
+write.csv(concordance, "../output/30-dml-dmr-methylkit/per_site_concordance.csv",
+          row.names = FALSE)
+table(concordance$concordant_all3_high)
+```
+
+# 5x sensitivity pass
+
+```{r sensitivity-5x}
+meth_23_5x <- readRDS("../output/26-methylkit-object/meth_23_5x.rds")
+meta_5x <- read.csv("../output/26-methylkit-object/sample_metadata.csv")
+meta_5x <- meta_5x[match(meth_23_5x@sample.ids, meta_5x$sample), ]
+
+myDiff_5x <- calculateDiffMeth(meth_23_5x,
+                               covariates = data.frame(site = factor(meta_5x$site)),
+                               overdispersion = "MN", test = "Chisq", mc.cores = 24)
+dml_55_5x <- getMethylDiff(myDiff_5x, difference = 55, qvalue = 0.01)
+write.table(getData(dml_55_5x), "../output/30-dml-dmr-methylkit/dml_55p_5x.tab")
+
+data.frame(threshold = c("10x", "5x"),
+           n_DML_55p = c(nrow(dml_55), nrow(dml_55_5x)))
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

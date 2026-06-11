@@ -1,0 +1,175 @@
+---
+title: "31- DML/DMR annotation (Goal 2)"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview — Goal 2.4
+
+Annotates the DMLs/DMRs from `30-dml-dmr-methylkit.Rmd` against the
+`GCF_036588685.1` GFF (`22-genome-prep.Rmd`). Converts the methylKit `.tab`
+output to bedGraph (mirroring `code/12`/`code/14`), runs `bedtools intersect`
+to recover overlapping `gene`/`mRNA`/`exon`/`CDS` features + LOC gene IDs, and
+`bedtools closest` for intergenic loci (nearest gene + distance). Records the
+genomic context per locus and maps LOC IDs to NCBI gene descriptions.
+
+- DML: `../output/30-dml-dmr-methylkit/myDiff_1055p.tab`
+- DMR: `../output/30-dml-dmr-methylkit/dmr_25p_1kb.tab`
+- GFF + per-feature GFFs: `../output/22-genome-prep/genomic.gff`,
+  `../output/28-genomic-feature-distribution/features/`
+- Output dir: `../output/31-dml-dmr-annotation/`
+
+```{bash make-output-dir}
+mkdir -p ../output/31-dml-dmr-annotation
+```
+
+# Convert DML/DMR .tab -> bedGraph
+
+```{bash tab-to-bedgraph}
+out="../output/31-dml-dmr-annotation"
+
+# DML headline set
+in_dml="../output/30-dml-dmr-methylkit/myDiff_1055p.tab"
+echo "track type=bedGraph name=\"DML_1055p\" description=\"meth diff\"" > "$out/dml_1055p.bedgraph"
+awk 'NR>1 {gsub(/"/,"",$2); print $2"\t"$3-1"\t"$4"\t"$8}' "$in_dml" >> "$out/dml_1055p.bedgraph"
+
+# DMR set
+in_dmr="../output/30-dml-dmr-methylkit/dmr_25p_1kb.tab"
+echo "track type=bedGraph name=\"DMR_25p\" description=\"meth diff\"" > "$out/dmr_25p.bedgraph"
+awk 'NR>1 {gsub(/"/,"",$2); print $2"\t"$3-1"\t"$4"\t"$8}' "$in_dmr" >> "$out/dmr_25p.bedgraph"
+
+head "$out/dml_1055p.bedgraph" "$out/dmr_25p.bedgraph"
+```
+
+# bedtools intersect against per-feature GFFs
+
+```{bash intersect}
+out="../output/31-dml-dmr-annotation"
+feat="../output/28-genomic-feature-distribution/features"
+
+for region in dml_1055p dmr_25p; do
+  # Strip the track header before intersecting
+  grep -v "^track" "$out/${region}.bedgraph" | sort -k1,1 -k2,2n > "$out/${region}.bed"
+
+  for f in gene mRNA exon CDS; do
+    bedtools intersect -a "$out/${region}.bed" -b "$feat/${f}.gff" -wa -wb \
+      > "$out/${region}_in_${f}.tsv"
+    echo "${region} x ${f}: $(wc -l < "$out/${region}_in_${f}.tsv")"
+  done
+done
+```
+
+# Nearest gene for intergenic loci (bedtools closest)
+
+```{bash closest}
+out="../output/31-dml-dmr-annotation"
+feat="../output/28-genomic-feature-distribution/features"
+
+# Sort gene GFF for closest
+awk '$1!~/^#/' "$feat/gene.gff" | sort -k1,1 -k4,4n > "$out/gene.sorted.gff"
+
+for region in dml_1055p dmr_25p; do
+  bedtools closest -a "$out/${region}.bed" -b "$out/gene.sorted.gff" -d \
+    > "$out/${region}_closest_gene.tsv"
+done
+head "$out/dml_1055p_closest_gene.tsv"
+```
+
+# Recover LOC gene IDs + descriptions
+
+```{r recover-gene-ids}
+library(rtracklayer)
+gff   <- import("../output/22-genome-prep/genomic.gff")
+genes <- gff[gff$type == "gene"]
+
+gene_meta <- tibble(
+  gene_id     = genes$gene,
+  locus       = genes$ID,
+  chr         = as.character(seqnames(genes)),
+  start       = start(genes),
+  end         = end(genes),
+  description = if ("description" %in% names(mcols(genes))) genes$description else NA_character_
+)
+write.csv(gene_meta, "../output/31-dml-dmr-annotation/gene_metadata.csv", row.names = FALSE)
+head(gene_meta)
+```
+
+```{r annotate-closest}
+# Parse closest output, pull LOC id + description, classify context
+parse_closest <- function(path) {
+  cl <- read.table(path, sep = "\t", quote = "", fill = TRUE)
+  attr_col <- ncol(cl) - 1   # GFF attribute field
+  dist_col <- ncol(cl)
+  tibble(
+    chr      = cl[[1]], start = cl[[2]], end = cl[[3]], meth.diff = cl[[4]],
+    gene_loc = sub('.*gene=([^;]+).*', '\\1', cl[[attr_col]]),
+    distance = cl[[dist_col]]
+  ) |>
+    mutate(context = ifelse(distance == 0, "genic", "intergenic"))
+}
+
+dml_anno <- parse_closest("../output/31-dml-dmr-annotation/dml_1055p_closest_gene.tsv")
+dmr_anno <- parse_closest("../output/31-dml-dmr-annotation/dmr_25p_closest_gene.tsv")
+
+write.csv(dml_anno, "../output/31-dml-dmr-annotation/dml_annotated.csv", row.names = FALSE)
+write.csv(dmr_anno, "../output/31-dml-dmr-annotation/dmr_annotated.csv", row.names = FALSE)
+
+table(dml_anno$context)
+head(dml_anno)
+```
+
+# Genomic-context breakdown (gene/exon/intron/promoter/intergenic)
+
+```{r context-breakdown}
+# Reuse the feature BEDs from step 28 to tag each DML with finer context.
+library(GenomicRanges)
+bed2gr <- function(p) { d <- read.table(p); GRanges(d$V1, IRanges(d$V2+1, d$V3)) }
+
+feat_dir <- "../output/28-genomic-feature-distribution/features"
+feats <- c(exon = "exon.bed", intron = "intron.bed",
+           promoter = "promoter_1kb.bed", intergenic = "intergenic.bed")
+
+dml_gr <- GRanges(dml_anno$chr, IRanges(dml_anno$start+1, dml_anno$end))
+ctx <- sapply(names(feats), function(f)
+  overlapsAny(dml_gr, bed2gr(file.path(feat_dir, feats[[f]]))))
+dml_context <- cbind(dml_anno, as.data.frame(ctx))
+write.csv(dml_context, "../output/31-dml-dmr-annotation/dml_context_breakdown.csv",
+          row.names = FALSE)
+colSums(ctx)
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```
