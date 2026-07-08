@@ -185,9 +185,9 @@ with the figures above rather than as an unstated convention.
 
 ```{r evaluate-93M}
 per_sample |>
-  mutate(is_93M = sample == "93M") |>
-  arrange(global_pct_meth) |>
-  select(sample, site, pah, n_CpG_covered, mean_coverage, global_pct_meth, is_93M)
+  dplyr::mutate(is_93M = sample == "93M") |>
+  dplyr::arrange(global_pct_meth) |>
+  dplyr::select(sample, site, pah, n_CpG_covered, mean_coverage, global_pct_meth, is_93M)
 ```
 
 # Session info

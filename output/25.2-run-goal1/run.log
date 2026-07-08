@@ -1,0 +1,186 @@
+[2026-07-07 05:05:37] downloading cov 105M
+[2026-07-07 05:05:56] downloading cov 106M
+[2026-07-07 05:06:17] downloading cov 107M
+[2026-07-07 05:06:37] downloading cov 109M
+[2026-07-07 05:06:57] downloading cov 239M
+[2026-07-07 05:07:17] downloading cov 240M
+[2026-07-07 05:07:37] downloading cov 241M
+[2026-07-07 05:07:57] downloading cov 242M
+[2026-07-07 05:08:17] downloading cov 269M
+[2026-07-07 05:08:37] downloading cov 270M
+[2026-07-07 05:08:57] downloading cov 271M
+[2026-07-07 05:09:19] downloading cov 272M
+[2026-07-07 05:09:39] downloading cov 69M
+[2026-07-07 05:09:56] downloading cov 70M
+[2026-07-07 05:10:13] downloading cov 71M
+[2026-07-07 05:10:34] downloading cov 72M
+[2026-07-07 05:10:52] downloading cov 78M
+[2026-07-07 05:11:07] downloading cov 79M
+[2026-07-07 05:11:22] downloading cov 80M
+[2026-07-07 05:11:38] downloading cov 81M
+[2026-07-07 05:11:53] downloading cov 92M
+[2026-07-07 05:12:09] downloading cov 94M
+[2026-07-07 05:12:24] downloading cov 95M
+[2026-07-07 05:12:38] downloading annotation GFF
+[2026-07-07 05:12:43] cov files staged: 24 (expect 24); gff lines: 1171045
+[2026-07-07 05:12:43] knitting 26-methylkit-object ...
+
+
+processing file: _run_26-methylkit-object.Rmd
+1/24                    
+2/24 [setup]            
+3/24                    
+4/24 [make-output-dir]  
+5/24                    
+6/24 [fetch-cov]        
+7/24                    
+8/24 [install-methylkit]
+9/24                    
+10/24 [sample-sheet]     
+11/24                    
+12/24 [cov-file-lists]   
+13/24                    
+14/24 [read-24]          
+15/24                    
+16/24 [read-23]          
+17/24                    
+18/24 [filter-23]        
+19/24                    
+20/24 [unite-23]         
+21/24                    
+22/24 [retention-table]  
+23/24                    
+24/24 [session-info]     
+output file: 26-methylkit-object.md
+
+[1] "26-methylkit-object.md"
+[2026-07-07 06:07:21]   -> 26-methylkit-object.md done
+[2026-07-07 06:07:21] knitting 27-methylation-landscape ...
+
+
+processing file: _run_27-methylation-landscape.Rmd
+1/28                    
+2/28 [setup]            
+3/28                    
+4/28 [make-output-dir]  
+5/28                    
+6/28 [load-object]      
+7/28                    
+8/28 [per-sample-global]
+9/28                    
+10/28 [global-mean-check]
+11/28                    
+12/28 [stats-plots]      
+13/28                    
+14/28 [classify-cpgs]    
+15/28                    
+16/28 [bimodality-plot]  
+17/28                    
+18/28 [unite-24-for-qc]  
+19/28                    
+20/28 [correlation]      
+21/28                    
+22/28 [clustering]       
+23/28                    
+24/28 [pca]              
+25/28                    
+26/28 [evaluate-93M]     
+27/28                    
+28/28 [session-info]     
+output file: 27-methylation-landscape.md
+
+[1] "27-methylation-landscape.md"
+[2026-07-07 07:04:43]   -> 27-methylation-landscape.md done
+[2026-07-07 07:04:43] knitting 28-genomic-feature-distribution ...
+
+
+processing file: _run_28-genomic-feature-distribution.Rmd
+1/20                     
+2/20 [setup]             
+3/20                     
+4/20 [make-output-dir]   
+5/20                     
+6/20 [fetch-gff]         
+7/20                     
+8/20 [split-gff]         
+9/20                     
+10/20 [genome-file]       
+11/20                     
+12/20 [derived-features]  
+13/20                     
+14/20 [covered-cpg-bed]   
+15/20                     
+16/20 [intersect-features]
+17/20                     
+18/20 [feature-summary]   
+19/20                     
+20/20 [session-info]      
+output file: 28-genomic-feature-distribution.md
+
+[1] "28-genomic-feature-distribution.md"
+[2026-07-07 07:14:26]   -> 28-genomic-feature-distribution.md done
+[2026-07-07 07:14:26] knitting 29-cpg-oe-mosaic ...
+
+
+processing file: _run_29-cpg-oe-mosaic.Rmd
+1/18                    
+2/18 [setup]            
+3/18                    
+4/18 [make-output-dir]  
+5/18                    
+6/18 [fetch-gff]        
+7/18                    
+8/18 [load-genome]      
+9/18                    
+10/18 [cpg-oe]           
+11/18                    
+12/18 [oe-distribution]  
+13/18                    
+14/18 [oe-modes]         
+15/18                    
+16/18 [oe-vs-methylation]
+17/18                    
+18/18 [session-info]     
+output file: 29-cpg-oe-mosaic.md
+
+[1] "29-cpg-oe-mosaic.md"
+[2026-07-07 07:19:39]   -> 29-cpg-oe-mosaic.md done
+[2026-07-07 07:19:39] Goal 1 landscape analysis complete.
+Outputs:
+../output/26-methylkit-object:
+cpg_retention_by_threshold.csv
+filt_23_10x.rds
+filt_23_5x.rds
+meth_23_10x.rds
+meth_23_5x.rds
+myobj_23.rds
+myobj_24.rds
+sample_metadata.csv
+
+../output/27-methylation-landscape:
+bimodality_pooled.png
+coverage_stats_histograms.pdf
+cpg_class_proportions.csv
+meth_24_10x.rds
+methylation_stats_histograms.pdf
+pca_scores.csv
+per_sample_global_methylation.csv
+sample_clustering.png
+sample_correlation.png
+sample_pca.png
+
+../output/28-genomic-feature-distribution:
+covered_cpg_10x.bed
+covered_cpg_10x.sorted.bed
+cpg_in_exon.bed
+cpg_in_gene.bed
+cpg_in_intergenic.bed
+cpg_in_intron.bed
+cpg_in_mRNA.bed
+cpg_in_promoter_1kb.bed
+feature_methylation_barplot.png
+feature_methylation_summary.csv
+features
+genome.txt
+
+../output/29-cpg-oe-mosaic:

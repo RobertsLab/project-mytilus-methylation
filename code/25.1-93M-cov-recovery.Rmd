@@ -1,0 +1,171 @@
+---
+title: "25.1- Recover 93M merged-CpG coverage file (full pipeline)"
+author: Steven Roberts
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  github_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    html_preview: true
+  html_document:
+    theme: readable
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = FALSE,     # Hide warnings
+  message = FALSE,     # Hide messages
+  comment = ""         # Prevents appending '##' to beginning of lines in code output
+)
+```
+
+------------------------------------------------------------------------
+
+# Overview
+
+Sample **93M** is the only individual missing a
+`*.CpG_report.merged_CpG_evidence.cov` file. Investigation showed **93M was
+never fully aligned**:
+
+- The gannet `data/` mirror holds 93M's trimmed FASTQs (`93M_R1/R2.fastp-trim.fq.gz`,
+  ~4.5 GB each — comparable to every other sample) but **no BAM and no cov**.
+- The repo copy `../output/04-bismark-pipeline/93M_*` is a **10,000-read test
+  run** (`Sequence pairs analysed in total: 10000`, from the `-u 10000` bismark
+  run noted in `05-bismark-cov.Rmd`). Merging that subset gives only ~17.7k CpGs
+  — a 761 KB file versus the real ~795 MB files (69M/92M). **Do not use it.**
+
+So a *complete* 93M cov requires running the production pipeline (scripts
+`22`→`25`) for this one sample, with the exact parameters used for the other 23
+so 93M is directly comparable. The executable driver is
+[`25.1-93M-cov-recovery.sh`](25.1-93M-cov-recovery.sh); the chunks below mirror
+it. Run it in the background:
+
+```{bash run-driver}
+nohup bash 25.1-93M-cov-recovery.sh \
+  > ../output/25.1-93M-cov-recovery/run.log 2>&1 &
+```
+
+Pipeline, all matching scripts `22`–`25`:
+
+| Step | Tool | Key params |
+|------|------|-----------|
+| index | `bismark_genome_preparation` | `GCF_036588685.1` |
+| align | `bismark` (Bowtie2) | `-score_min L,0,-0.6 --non_directional`, paired |
+| dedup | `deduplicate_bismark` | `--paired` |
+| extract | `bismark_methylation_extractor` | `--bedGraph --comprehensive --merge_non_CpG` |
+| merge | `coverage2cytosine` | `--merge_CpG --zero_based` |
+
+- Reads:  `../output/25.1-93M-cov-recovery/reads/93M_R[12].fastp-trim.fq.gz` (from gannet)
+- Genome: `../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa` (NCBI; gannet `.fa` returns 403)
+- Output: `../output/25-meth-extract/93M.CpG_report.merged_CpG_evidence.cov`
+
+```{bash make-dirs}
+mkdir -p ../output/22-genome-prep ../output/23-bismark-align \
+         ../output/24-dedup-sort ../output/25-meth-extract \
+         ../output/25.1-93M-cov-recovery/reads
+```
+
+# 1. Trimmed reads
+
+```{bash fetch-reads}
+g="https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data"
+d=../output/25.1-93M-cov-recovery/reads
+for p in R1 R2; do
+  [ -s "$d/93M_${p}.fastp-trim.fq.gz" ] || \
+    wget -q -O "$d/93M_${p}.fastp-trim.fq.gz" "$g/93M_${p}.fastp-trim.fq.gz"
+  gzip -t "$d/93M_${p}.fastp-trim.fq.gz"
+done
+```
+
+# 2. Reference genome + bisulfite index
+
+The FASTA is fetched from NCBI (assembly `GCF_036588685.1`; RefSeq `NC_…`
+accessions match the `.fai`). `bismark_genome_preparation` builds the
+`Bisulfite_Genome/` Bowtie2 indices.
+
+```{bash genome-prep}
+fa=../output/22-genome-prep/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fa
+ncbi="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/036/588/685/GCF_036588685.1_PNRI_Mtr1.1.1.hap1/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.fna.gz"
+if [ ! -s "$fa" ]; then wget -q -O "$fa.gz" "$ncbi"; gunzip -f "$fa.gz"; fi
+
+[ -d ../output/22-genome-prep/Bisulfite_Genome ] || \
+/home/shared/Bismark-0.24.0/bismark_genome_preparation \
+  --path_to_aligner /home/shared/bowtie2-2.4.4-linux-x86_64 \
+  --verbose ../output/22-genome-prep/
+```
+
+# 3. Bismark alignment (paired, non-directional)
+
+```{bash align}
+# Bismark 0.24 forbids --basename with --multicore; -p 12 saturates the box
+# because non-directional mode already runs 4 concurrent bowtie2 instances.
+/home/shared/Bismark-0.24.0/bismark \
+  --path_to_bowtie2 /home/shared/bowtie2-2.4.4-linux-x86_64 \
+  -genome ../output/22-genome-prep/ \
+  -p 12 \
+  -score_min L,0,-0.6 \
+  --non_directional \
+  -1 ../output/25.1-93M-cov-recovery/reads/93M_R1.fastp-trim.fq.gz \
+  -2 ../output/25.1-93M-cov-recovery/reads/93M_R2.fastp-trim.fq.gz \
+  -o ../output/23-bismark-align \
+  --basename 93M
+```
+
+# 4. Deduplicate
+
+```{bash dedup}
+/home/shared/Bismark-0.24.0/deduplicate_bismark --bam --paired \
+  --output_dir ../output/24-dedup-sort \
+  ../output/23-bismark-align/93M_pe.bam
+```
+
+# 5. Methylation extraction
+
+```{bash extract}
+/home/shared/Bismark-0.24.0/bismark_methylation_extractor \
+  --bedGraph --counts --comprehensive --merge_non_CpG \
+  --multicore 24 --buffer_size 50% \
+  --output ../output/25-meth-extract \
+  ../output/24-dedup-sort/93M_pe.deduplicated.bam
+```
+
+# 6. coverage2cytosine — merged CpG evidence
+
+```{bash merge-cpg}
+/home/shared/Bismark-0.24.0/coverage2cytosine \
+  --genome_folder ../output/22-genome-prep/ \
+  -o ../output/25-meth-extract/93M \
+  --merge_CpG --zero_based \
+  ../output/25-meth-extract/93M_pe.deduplicated.bismark.cov.gz
+
+rm -f ../output/25-meth-extract/93M.CpG_report.txt   # drop multi-GB intermediate
+```
+
+# 7. Sanity check
+
+Real samples produce ~30–40M CpGs (~795 MB). Confirm 93M is now on that scale,
+in 6-column Bismark cov format, before feeding it to `26-methylkit-object.Rmd`.
+
+```{bash inspect}
+cov=../output/25-meth-extract/93M.CpG_report.merged_CpG_evidence.cov
+ls -lh "$cov"
+echo "records: $(wc -l < "$cov")"
+head -n 3 "$cov"
+awk '{m+=$5;u+=$6} END{printf "global weighted %%CpG meth: %.2f%%  (%d CpG)\n",100*m/(m+u),NR}' "$cov"
+```
+
+# Session info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

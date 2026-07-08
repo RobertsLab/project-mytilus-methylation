@@ -56,6 +56,17 @@ constitutively expressed, more heavily methylated gene bodies.
 mkdir -p ../output/29-cpg-oe-mosaic
 ```
 
+# Fetch annotation GFF if missing
+
+```{bash fetch-gff}
+gff="../output/22-genome-prep/genomic.gff"
+if [ ! -s "$gff" ]; then
+  url="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/036/588/685/GCF_036588685.1_PNRI_Mtr1.1.1.hap1/GCF_036588685.1_PNRI_Mtr1.1.1.hap1_genomic.gff.gz"
+  wget -q -O "$gff.gz" "$url" && gunzip -f "$gff.gz"
+fi
+ls -lh "$gff"
+```
+
 # Load genome + gene coordinates
 
 ```{r load-genome}
@@ -83,7 +94,12 @@ cpg_oe <- function(seq) {
   (nCpG / (nC * nG)) * (L^2 / (L - 1))
 }
 
-gene_seqs <- getSeq(genome, genes)
+# Extract gene sequences from the DNAStringSet by coordinate. (getSeq has no
+# DNAStringSet method; subseq is the vectorized equivalent.) CpG O/E is
+# strand-symmetric — nC*nG, nCpG and L are invariant under reverse-complement —
+# so plus-strand extraction is correct regardless of gene strand.
+gi        <- match(as.character(seqnames(genes)), names(genome))
+gene_seqs <- subseq(genome[gi], start = start(genes), end = end(genes))
 oe <- vapply(seq_along(gene_seqs), function(i) cpg_oe(gene_seqs[[i]]), numeric(1))
 
 gene_oe <- tibble(

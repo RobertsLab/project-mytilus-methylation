@@ -31,3 +31,14 @@ output/01*
 output/12*
 output/35-dml-gene-model-figure/genomic.gff
 output/35-dml-gene-model-figure/genes_all.gff
+
+# --- Large files >99MB (Goal 1 landscape + 93M recovery); regenerable off-repo ---
+*.rds
+*.cov
+*.cov.gz
+*.bedGraph.gz
+*.bt2
+output/22-genome-prep/
+output/25-meth-extract/*context*.txt
+output/28-genomic-feature-distribution/*.bed
+output/28-genomic-feature-distribution/features/*.gff

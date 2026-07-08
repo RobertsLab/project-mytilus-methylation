@@ -57,13 +57,35 @@ Coverage filtering follows the plan: **10x primary** (`lo.count = 10`) with a
 - Output: `../output/26-methylkit-object/` (`.rds` objects, filtering tables)
 
 ```{bash make-output-dir}
-mkdir -p ../output/26-methylkit-object
+mkdir -p ../output/26-methylkit-object ../output/25-meth-extract
+```
+
+# Fetch the per-sample cov files
+
+The 23 published merged-CpG cov files live on gannet; **93M** is generated
+locally in `25.1-93M-cov-recovery` and already sits in `../output/25-meth-extract`.
+Pull anything not already present (~770 MB each, idempotent).
+
+```{bash fetch-cov}
+cov_dir="../output/25-meth-extract"
+gannet="https://gannet.fish.washington.edu/seashell/bu-github/project-mytilus-methylation/data"
+
+# every sample except 93M (which is built locally)
+for s in 105M 106M 107M 109M 239M 240M 241M 242M 269M 270M 271M 272M \
+         69M 70M 71M 72M 78M 79M 80M 81M 92M 94M 95M; do
+  f="$cov_dir/${s}.CpG_report.merged_CpG_evidence.cov"
+  [ -s "$f" ] || { echo "downloading ${s}"; wget -q -O "$f" "$gannet/${s}.CpG_report.merged_CpG_evidence.cov"; }
+done
+
+echo "cov files present: $(ls -1 "$cov_dir"/*.CpG_report.merged_CpG_evidence.cov | wc -l) (expect 24)"
 ```
 
 ```{r install-methylkit}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install("methylKit")
+# methylKit is expected to be preinstalled; install only if missing.
+if (!requireNamespace("methylKit", quietly = TRUE)) {
+  if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+  BiocManager::install("methylKit")
+}
 ```
 
 # Sample sheet

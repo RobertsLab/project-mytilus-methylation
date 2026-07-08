@@ -1,0 +1,7 @@
+
+Total number of alignments analysed in /home/shared/16TB_HDD_01/sr320/github/project-mytilus-methylation/output/23-bismark-align/93M_pe.bam:	46820548
+Total number duplicated alignments removed:	5872961 (12.54%)
+Duplicated alignments were found at:	4746892 different position(s)
+
+Total count of deduplicated leftover sequences: 40947587 (87.46% of total)
+
